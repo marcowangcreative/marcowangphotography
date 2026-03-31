@@ -1564,30 +1564,33 @@ footer {
   inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0 48px;
+  justify-content: flex-end;
+  align-items: flex-start;
+  text-align: left;
+  padding: 48px 6vw 8vh 6vw;
   z-index: 2;
+  pointer-events: none;
 }
 .ds-home-hero-title {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-style: italic;
+  font-size: clamp(5rem, 14vw, 14rem);
   color: #fff;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1;
-  margin-bottom: 16px;
-  text-shadow: 0 1px 30px rgba(0,0,0,0.2);
+  letter-spacing: -0.02em;
+  text-transform: none;
+  line-height: 0.85;
+  margin-bottom: 24px;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.4);
 }
 .ds-home-hero-subtitle {
   font-family: var(--sans);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 500;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.85);
+  margin-left: 0.5vw;
   line-height: 2;
 }
 
@@ -2068,7 +2071,7 @@ footer {
   /* Gallery editorial layouts — mobile */
   /* Homepage mobile */
   .ds-home-hero-content { padding: 0 20px; }
-  .ds-home-hero-title { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+  .ds-home-hero-title { font-size: clamp(4.5rem, 18vw, 8rem); line-height: 0.85; margin-bottom: 16px; }
   .ds-statement { padding: 80px 24px; }
   .ds-statement p { font-size: clamp(1.2rem, 4vw, 1.6rem); }
   .ds-highlights { padding: 0 24px 72px; gap: 72px; }
