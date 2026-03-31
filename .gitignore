@@ -8,3 +8,4 @@ ir-web/
 nh-web/
 si-web/
 .DS_Store
+.env
