@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/lead.js": {
+      "runtime": "@vercel/node@3"
+    }
+  }
+}

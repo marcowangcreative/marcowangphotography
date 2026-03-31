@@ -68,8 +68,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 <!-- Contact Form — Tave CRM Integration -->
 <div class="conv-form-section rv">
   <div class="conv-form-greeting">Tell us about your day</div>
-  <iframe name="tave-submit" id="taveFrame" style="display:none;" aria-hidden="true"></iframe>
-  <form class="tave-form" id="taveForm" action="https://marcowang.vsco.page/inline" method="POST" target="tave-submit">
+  <form class="tave-form" id="taveForm">
 
     <div class="tave-row">
       <div class="tave-field">
@@ -205,18 +204,33 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
 rvEls.forEach(el => obs.observe(el));
 
-// Tave form: submit via hidden iframe, show success message
+// Tave/VSCO CRM: submit via serverless proxy
 const taveForm = document.getElementById('taveForm');
 const taveSuccess = document.getElementById('taveSuccess');
 const submitBtn = document.getElementById('submitBtn');
-taveForm.addEventListener('submit', function() {
+taveForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
   submitBtn.textContent = 'Sending...';
   submitBtn.disabled = true;
-  setTimeout(() => {
-    taveForm.style.display = 'none';
-    taveSuccess.style.display = 'block';
-    if (typeof fbq === 'function') { fbq('track', 'Lead'); }
-  }, 1500);
+  const data = Object.fromEntries(new FormData(taveForm));
+  try {
+    const res = await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) {
+      taveForm.style.display = 'none';
+      taveSuccess.style.display = 'block';
+      if (typeof fbq === 'function') { fbq('track', 'Lead'); }
+    } else {
+      submitBtn.textContent = 'Something went wrong — try again';
+      submitBtn.disabled = false;
+    }
+  } catch (err) {
+    submitBtn.textContent = 'Something went wrong — try again';
+    submitBtn.disabled = false;
+  }
 });
 </script>
 </body>
