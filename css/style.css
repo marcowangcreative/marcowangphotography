@@ -84,6 +84,15 @@ a { color: inherit; }
   display: flex; align-items: center; justify-content: space-between;
   transition: all 0.6s var(--ease);
 }
+.site-nav::before {
+  content: '';
+  position: absolute;
+  top: -48px; left: 0; right: 0; bottom: -60px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
 .site-nav.scrolled {
   top: 48px;
   padding: 16px 48px;
@@ -91,6 +100,9 @@ a { color: inherit; }
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
+}
+.site-nav.scrolled::before {
+  opacity: 0;
 }
 .site-nav.scrolled .nav-logo { color: var(--ink); }
 .site-nav.scrolled .nav-links a { color: var(--muted); }
