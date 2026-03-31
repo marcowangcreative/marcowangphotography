@@ -1,7 +1,5 @@
 {
-  "functions": {
-    "api/lead.js": {
-      "runtime": "@vercel/node@3"
-    }
-  }
+  "rewrites": [
+    { "source": "/api/lead", "destination": "/api/lead.js" }
+  ]
 }
