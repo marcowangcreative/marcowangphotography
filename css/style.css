@@ -1625,6 +1625,51 @@ footer {
   display: block;
 }
 
+/* As Seen In */
+.as-seen-in {
+  padding: 40px 8vw 120px 8vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+}
+.asi-label {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #a0a0a0;
+  margin-bottom: 40px;
+}
+.asi-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+.asi-logo {
+  opacity: 0.6;
+  filter: grayscale(100%);
+  transition: opacity 0.4s ease, filter 0.4s ease;
+}
+.asi-logo:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+}
+.asi-nyt {
+  height: 28px;
+}
+.asi-smp {
+  font-family: 'Times New Roman', "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #111;
+}
+
 /* Statement */
 .ds-statement {
   padding: 140px 48px;
