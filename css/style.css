@@ -1535,13 +1535,7 @@ footer {
   height: 100vh; height: 100dvh;
   overflow: hidden;
 }
-.ds-home-hero::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 70%);
-  pointer-events: none;
-  z-index: 1;
-}
+/* Overlay removed for silent hero aesthetic */
 
 /* Hero slideshow images */
 .ds-home-hero .hero-slide {
@@ -1558,44 +1552,40 @@ footer {
   object-fit: cover;
 }
 
-/* Block hero text - left aligned with separated tagline */
+/* Staggered Typographical Statement (Inline) */
 .hero-staggered-container {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 18vh 8vw 0 8vw;
-  z-index: 2;
-  pointer-events: none;
+  padding: 140px 8vw;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
 }
 .hero-line-1 {
   align-self: flex-start;
   margin-bottom: -1.5vw;
-  text-shadow: 0 4px 30px rgba(0,0,0,0.6);
 }
 .hero-line-1 span {
   font-family: var(--serif);
   font-weight: 300;
   font-style: italic;
   font-size: clamp(3.5rem, 9.5vw, 8.5rem);
-  color: #fff;
+  color: #111;
   letter-spacing: -0.01em;
   line-height: 1;
 }
 .hero-line-2 {
   align-self: flex-start;
   margin-left: 1.5vw;
-  z-index: 10;
-  text-shadow: 0 4px 30px rgba(0,0,0,0.6);
 }
 .hero-line-2 span {
   font-family: var(--serif);
   font-weight: 400;
   font-style: normal;
   font-size: clamp(3.2rem, 10vw, 9rem);
-  color: #fff;
+  color: #111;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1;
@@ -1604,23 +1594,21 @@ footer {
   align-self: flex-start;
   margin-left: 3.5vw;
   margin-top: -1.5vw;
-  text-shadow: 0 4px 30px rgba(0,0,0,0.6);
 }
 .hero-line-3 span {
   font-family: var(--serif);
   font-weight: 300;
   font-style: italic;
   font-size: clamp(3.5rem, 9.5vw, 8.5rem);
-  color: #fff;
+  color: #111;
   letter-spacing: -0.01em;
   line-height: 1;
 }
 .hero-line-4 {
-  position: absolute;
-  bottom: 8vh;
-  right: 8vw;
+  align-self: flex-end;
+  margin-top: 80px;
+  margin-right: 4vw;
   text-align: right;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.6);
 }
 .hero-line-4 span {
   font-family: var(--sans);
@@ -1628,7 +1616,8 @@ footer {
   font-size: clamp(0.55rem, 1.1vw, 0.75rem);
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.9);
+  color: #111;
+  opacity: 0.7;
   display: block;
 }
 
