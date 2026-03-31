@@ -129,7 +129,7 @@ a { color: inherit; }
 .nav-logo-text {
   font-family: var(--sans);
   font-size: 0.65rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.4em;
   text-transform: uppercase;
 }
@@ -143,11 +143,11 @@ a { color: inherit; }
 .nav-links a {
   font-family: var(--sans);
   font-size: 0.6rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   text-decoration: none;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.95);
   transition: color 0.3s;
 }
 .nav-links a:hover { color: #fff; }
@@ -157,7 +157,7 @@ a { color: inherit; }
   display: none;
   font-family: var(--sans);
   font-size: 0.6rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   background: none; border: none;
