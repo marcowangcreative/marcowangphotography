@@ -1558,7 +1558,7 @@ footer {
   object-fit: cover;
 }
 
-/* Block hero text - left aligned */
+/* Block hero text - left aligned with separated tagline */
 .hero-staggered-container {
   position: absolute;
   inset: 0;
@@ -1566,7 +1566,7 @@ footer {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 0 8vw;
+  padding: 18vh 8vw 0 8vw;
   z-index: 2;
   pointer-events: none;
 }
@@ -1616,9 +1616,10 @@ footer {
   line-height: 1;
 }
 .hero-line-4 {
-  margin-top: 4vh;
-  margin-left: 2vw;
-  text-align: left;
+  position: absolute;
+  bottom: 8vh;
+  right: 8vw;
+  text-align: right;
   text-shadow: 0 2px 20px rgba(0,0,0,0.6);
 }
 .hero-line-4 span {
