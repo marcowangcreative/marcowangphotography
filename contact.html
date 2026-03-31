@@ -68,7 +68,8 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 <!-- Contact Form — Tave CRM Integration -->
 <div class="conv-form-section rv">
   <div class="conv-form-greeting">Tell us about your day</div>
-  <form class="tave-form" action="https://marcowang.vsco.page/inline" method="POST">
+  <iframe name="tave-submit" id="taveFrame" style="display:none;" aria-hidden="true"></iframe>
+  <form class="tave-form" id="taveForm" action="https://marcowang.vsco.page/inline" method="POST" target="tave-submit">
 
     <div class="tave-row">
       <div class="tave-field">
@@ -147,8 +148,12 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
       <textarea id="Message" name="Message" rows="5" placeholder="Share your plans — venue, guest count, what matters most to you..."></textarea>
     </div>
 
-    <button type="submit" class="conv-form-submit">Send Inquiry</button>
+    <button type="submit" class="conv-form-submit" id="submitBtn">Send Inquiry</button>
   </form>
+  <div class="tave-success" id="taveSuccess" style="display:none;">
+    <h3>Thank you!</h3>
+    <p>Your inquiry has been sent. I'll be in touch within 24 hours.</p>
+  </div>
 </div>
 
 <!-- Divider Image -->
@@ -199,6 +204,20 @@ const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }});
 }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
 rvEls.forEach(el => obs.observe(el));
+
+// Tave form: submit via hidden iframe, show success message
+const taveForm = document.getElementById('taveForm');
+const taveSuccess = document.getElementById('taveSuccess');
+const submitBtn = document.getElementById('submitBtn');
+taveForm.addEventListener('submit', function() {
+  submitBtn.textContent = 'Sending...';
+  submitBtn.disabled = true;
+  setTimeout(() => {
+    taveForm.style.display = 'none';
+    taveSuccess.style.display = 'block';
+    if (typeof fbq === 'function') { fbq('track', 'Lead'); }
+  }, 1500);
+});
 </script>
 </body>
 </html>

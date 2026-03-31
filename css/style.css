@@ -572,6 +572,24 @@ a { color: inherit; }
 .tave-full {
   width: 100%;
 }
+.tave-success {
+  text-align: center;
+  padding: 60px 20px;
+}
+.tave-success h3 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.tave-success p {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
 
 /* ─── FOOTER ─── */
 footer {
