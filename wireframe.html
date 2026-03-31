@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marco Wang Photography — Site Wireframe</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@300;400;500&family=Nunito:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #f4efe6;
+    --warm: #e8e0d4;
+    --sand: #d4c9b8;
+    --terracotta: #c4956a;
+    --gold: #b09e72;
+    --ink: #141211;
+    --ink-soft: #2e2a26;
+    --muted: #7d756b;
+    --grey: #a39e96;
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Raleway', sans-serif;
+    --body: 'Nunito', sans-serif;
+  }
+
+  body {
+    background: #fff;
+    font-family: var(--body);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* — Top bar — */
+  .wf-topbar {
+    background: var(--ink);
+    color: #fff;
+    text-align: center;
+    padding: 14px 24px;
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .wf-topbar span { opacity: 0.5; }
+  .wf-topbar strong { font-weight: 400; opacity: 1; margin-left: 16px; border-bottom: 1px solid rgba(255,255,255,0.3); }
+
+  /* — Wireframe section — */
+  .wf-page {
+    border-bottom: 3px solid var(--terracotta);
+    padding-bottom: 40px;
+    margin-bottom: 0;
+  }
+  .wf-page-label {
+    background: var(--terracotta);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 10px 28px;
+    display: inline-block;
+    margin: 40px 0 0 48px;
+  }
+  .wf-page-note {
+    font-family: var(--body);
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 12px 48px 24px;
+    max-width: 700px;
+    line-height: 1.65;
+  }
+
+  /* — Section blocks — */
+  .wf-section {
+    margin: 16px 48px;
+    border: 1.5px dashed var(--sand);
+    position: relative;
+    overflow: hidden;
+  }
+  .wf-section-label {
+    position: absolute;
+    top: 0; left: 0;
+    background: var(--warm);
+    font-family: var(--sans);
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 4px 12px;
+    z-index: 2;
+  }
+
+  /* — Hero mock — */
+  .wf-hero {
+    background: var(--sand);
+    height: 420px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 48px;
+    position: relative;
+  }
+  .wf-hero::before {
+    content: '[ Full-screen hero image ]';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--sans);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .wf-hero-text {
+    text-align: center;
+    z-index: 2;
+  }
+  .wf-hero-text h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 4rem;
+    color: var(--ink);
+    line-height: 0.95;
+  }
+  .wf-hero-text p {
+    font-family: var(--sans);
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  /* — Nav mock — */
+  .wf-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    background: transparent;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 5;
+  }
+  .wf-nav-logo {
+    font-family: var(--sans);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .wf-nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .wf-nav-links li {
+    font-family: var(--sans);
+    font-size: 0.55rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* — Content mocks — */
+  .wf-text-center {
+    text-align: center;
+    padding: 64px 48px;
+  }
+  .wf-text-center h2 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .wf-text-center .wf-caps {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .wf-text-center p {
+    max-width: 520px;
+    margin: 0 auto;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .wf-btn {
+    display: inline-block;
+    margin-top: 24px;
+    font-family: var(--sans);
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 3px;
+  }
+
+  /* — Image placeholders — */
+  .wf-img-row {
+    display: flex;
+    gap: 16px;
+    padding: 20px 48px;
+  }
+  .wf-img-box {
+    flex: 1;
+    background: var(--sand);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--sans);
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    min-height: 200px;
+  }
+  .wf-img-box.tall { min-height: 320px; }
+  .wf-img-box.wide { flex: 2; }
+  .wf-img-box.full { min-height: 240px; }
+
+  /* — Featured weddings — */
+  .wf-weddings-row {
+    display: flex;
+    gap: 24px;
+    padding: 24px 48px;
+  }
+  .wf-wedding-card {
+    flex: 1;
+    text-align: center;
+  }
+  .wf-wedding-card .wf-img-box { min-height: 280px; margin-bottom: 16px; }
+  .wf-wedding-card h3 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--ink);
+  }
+  .wf-wedding-card span {
+    font-family: var(--sans);
+    font-size: 0.5rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* — Press bar — */
+  .wf-press {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px 48px;
+    flex-wrap: wrap;
+  }
+  .wf-press span {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--grey);
+  }
+
+  /* — Warm section — */
+  .wf-warm {
+    background: var(--warm);
+  }
+  .wf-cream {
+    background: var(--cream);
+  }
+
+  /* — Form mock — */
+  .wf-form-mock {
+    padding: 56px 48px;
+    max-width: 750px;
+    margin: 0 auto;
+  }
+  .wf-form-mock h2 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 2rem;
+    margin-bottom: 28px;
+    color: var(--ink);
+  }
+  .wf-form-line {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.25rem;
+    line-height: 2.4;
+    color: var(--ink-soft);
+  }
+  .wf-form-line .wf-blank {
+    display: inline-block;
+    border-bottom: 1px solid var(--sand);
+    min-width: 120px;
+    margin: 0 4px;
+    color: var(--grey);
+    font-size: 0.9em;
+  }
+
+  /* — Testimonial — */
+  .wf-testimonial {
+    text-align: center;
+    padding: 64px 48px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .wf-testimonial blockquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .wf-testimonial cite {
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* — Footer — */
+  .wf-footer {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+    padding: 56px 48px 32px;
+  }
+  .wf-footer h4 {
+    font-family: var(--sans);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .wf-footer p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.85rem;
+    color: rgba(244,239,230,0.35);
+  }
+
+  /* — Grid for Real Weddings page — */
+  .wf-gallery-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+    padding: 24px 48px;
+    min-height: 500px;
+  }
+  .wf-gallery-grid .wf-img-box:first-child { grid-row: 1 / 3; }
+
+  /* — Investment tiers — */
+  .wf-tiers {
+    display: flex;
+    gap: 32px;
+    padding: 24px 48px;
+    justify-content: center;
+  }
+  .wf-tier {
+    flex: 1;
+    max-width: 280px;
+    text-align: center;
+    padding: 40px 24px;
+    border: 1px solid var(--sand);
+  }
+  .wf-tier h3 {
+    font-family: var(--sans);
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .wf-tier .wf-price {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 2rem;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .wf-tier p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* — Experience timeline — */
+  .wf-timeline {
+    display: flex;
+    gap: 0;
+    padding: 24px 48px;
+  }
+  .wf-timeline-step {
+    flex: 1;
+    text-align: center;
+    padding: 24px 16px;
+    border-right: 1px solid var(--sand);
+    position: relative;
+  }
+  .wf-timeline-step:last-child { border-right: none; }
+  .wf-timeline-step .wf-step-num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 2rem;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+  }
+  .wf-timeline-step h4 {
+    font-family: var(--sans);
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .wf-timeline-step p {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* — Divider — */
+  .wf-divider {
+    height: 1px;
+    background: var(--sand);
+    margin: 0 48px;
+  }
+
+  /* — About side-by-side — */
+  .wf-about-split {
+    display: flex;
+    gap: 48px;
+    padding: 40px 48px;
+    align-items: center;
+  }
+  .wf-about-split .wf-img-box { flex: 1; min-height: 360px; }
+  .wf-about-split .wf-about-text { flex: 1; }
+  .wf-about-split .wf-about-text h2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+  }
+  .wf-about-split .wf-about-text p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .wf-nav { padding: 16px 24px; }
+    .wf-nav-links { display: none; }
+    .wf-section { margin: 12px 20px; }
+    .wf-page-label { margin-left: 20px; }
+    .wf-page-note { padding: 12px 20px 20px; }
+    .wf-hero { height: 280px; }
+    .wf-hero-text h1 { font-size: 2.4rem; }
+    .wf-img-row, .wf-weddings-row, .wf-tiers, .wf-timeline, .wf-about-split { flex-direction: column; padding: 16px 20px; }
+    .wf-gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; padding: 16px 20px; }
+    .wf-gallery-grid .wf-img-box:first-child { grid-row: auto; }
+    .wf-text-center, .wf-testimonial, .wf-form-mock { padding: 40px 20px; }
+    .wf-press { padding: 28px 20px; }
+    .wf-timeline-step { border-right: none; border-bottom: 1px solid var(--sand); }
+  }
+</style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,"script",
+"https://connect.facebook.net/en_US/fbevents.js");
+fbq("init", "786554944176617");
+fbq("track", "PageView");
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+
+<!-- ============================== -->
+<!--  PAGE 1: HOME                  -->
+<!-- ============================== -->
+<div class="wf-page">
+  <div class="wf-page-label">Page 1 — Home</div>
+  <div class="wf-page-note">The landing page. Tells your story in one scroll: who you are, what you shoot, where you've been, and how to reach you.</div>
+
+  <!-- Booking bar -->
+  <div class="wf-topbar">
+    <span>Now booking 2026 &amp; 2027</span>
+    <strong>Inquire</strong>
+  </div>
+
+  <!-- Hero -->
+  <div class="wf-section" style="margin-top: 24px;">
+    <div class="wf-section-label">1. Hero</div>
+    <div class="wf-hero" style="position: relative;">
+      <nav class="wf-nav">
+        <div class="wf-nav-logo">Marco Wang</div>
+        <ul class="wf-nav-links">
+          <li>Real Weddings</li>
+          <li>The Experience</li>
+          <li>About</li>
+          <li>Inquire</li>
+        </ul>
+      </nav>
+      <div class="wf-hero-text">
+        <h1>Marco Wang</h1>
+        <p>Fine Art Wedding Photography</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- About teaser -->
+  <div class="wf-section">
+    <div class="wf-section-label">2. About Teaser</div>
+    <div class="wf-about-split">
+      <div class="wf-img-box tall">[ Portrait of Marco ]</div>
+      <div class="wf-about-text">
+        <h2>Where your story becomes a work of art</h2>
+        <p>Short 2-3 sentence intro about Marco's approach — editorial, personal, destination-focused. Enough to intrigue, not enough to satisfy.</p>
+        <div class="wf-btn">More About Marco</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Weddings -->
+  <div class="wf-section">
+    <div class="wf-section-label">3. Featured Weddings (3 shown)</div>
+    <div class="wf-text-center" style="padding-bottom: 16px;">
+      <h2><span class="wf-caps">Real</span> Weddings</h2>
+    </div>
+    <div class="wf-weddings-row">
+      <div class="wf-wedding-card">
+        <div class="wf-img-box tall">[ Tuscany hero ]</div>
+        <h3>Kaitlin &amp; Ryan</h3>
+        <span>Tuscany, Italy</span>
+      </div>
+      <div class="wf-wedding-card">
+        <div class="wf-img-box tall">[ Paris hero ]</div>
+        <h3>Rachael &amp; Davis</h3>
+        <span>Paris, France</span>
+      </div>
+      <div class="wf-wedding-card">
+        <div class="wf-img-box tall">[ NYC hero ]</div>
+        <h3>Kavita &amp; Amit</h3>
+        <span>New York City</span>
+      </div>
+    </div>
+    <div style="text-align: center; padding: 8px 0 32px;">
+      <div class="wf-btn">View All Weddings</div>
+    </div>
+  </div>
+
+  <!-- Pull quote / Testimonial -->
+  <div class="wf-section wf-warm">
+    <div class="wf-section-label">4. Testimonial</div>
+    <div class="wf-testimonial">
+      <blockquote>&ldquo;Client quote about working with Marco — emotional, specific, genuine.&rdquo;</blockquote>
+      <cite>Client Name — Destination</cite>
+    </div>
+  </div>
+
+  <!-- Full-bleed image -->
+  <div class="wf-section">
+    <div class="wf-section-label">5. Full-bleed Image</div>
+    <div class="wf-img-box full" style="min-height: 300px;">[ Strongest portfolio image — full width, cinematic ]</div>
+  </div>
+
+  <!-- The Experience teaser -->
+  <div class="wf-section">
+    <div class="wf-section-label">6. The Experience (teaser)</div>
+    <div class="wf-text-center">
+      <h2><span class="wf-caps">The</span> Experience</h2>
+      <p>Brief overview of what it's like working with Marco — from first inquiry to final gallery delivery. Entice them to learn more.</p>
+      <div class="wf-btn">Learn More</div>
+    </div>
+  </div>
+
+  <!-- Press -->
+  <div class="wf-section">
+    <div class="wf-section-label">7. As Featured In</div>
+    <div style="text-align: center; padding: 16px 0 0;">
+      <span style="font-family: var(--sans); font-size: 0.5rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--grey);">As Featured In</span>
+    </div>
+    <div class="wf-press">
+      <span>Vogue</span>
+      <span>Martha Stewart</span>
+      <span>Brides</span>
+      <span>Style Me Pretty</span>
+      <span>The Knot</span>
+    </div>
+  </div>
+
+  <!-- Mini contact form -->
+  <div class="wf-section wf-cream">
+    <div class="wf-section-label">8. Contact CTA</div>
+    <div class="wf-form-mock">
+      <h2>Dear Marco,</h2>
+      <div class="wf-form-line">
+        My name is <span class="wf-blank">your name</span> and I'm planning a
+        <span class="wf-blank">wedding</span> in <span class="wf-blank">location</span>
+        on <span class="wf-blank">date</span>. Please reach me at
+        <span class="wf-blank">email</span>.
+      </div>
+      <div style="margin-top: 28px;">
+        <div class="wf-btn">Let's Connect</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="wf-section">
+    <div class="wf-section-label">9. Footer</div>
+    <div class="wf-footer">
+      <h4>Marco Wang</h4>
+      <p>Fine Art Wedding Photography &middot; Texas &amp; Worldwide</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================== -->
+<!--  PAGE 2: REAL WEDDINGS         -->
+<!-- ============================== -->
+<div class="wf-page">
+  <div class="wf-page-label">Page 2 — Real Weddings</div>
+  <div class="wf-page-note">A dedicated gallery index page. Each wedding is a large clickable card linking to its full editorial. Staggered grid gives it an editorial, curated feel.</div>
+
+  <div class="wf-section">
+    <div class="wf-section-label">Header</div>
+    <div class="wf-text-center" style="padding-bottom: 24px;">
+      <h2><span class="wf-caps">Real</span> Weddings</h2>
+      <p>Four destinations, four love stories, each one uniquely told.</p>
+    </div>
+  </div>
+
+  <div class="wf-section">
+    <div class="wf-section-label">Staggered Gallery Grid</div>
+    <div class="wf-gallery-grid">
+      <div class="wf-img-box">Kaitlin &amp; Ryan<br><small>Tuscany</small></div>
+      <div class="wf-img-box">Rachael &amp; Davis<br><small>Paris</small></div>
+      <div class="wf-img-box">McKenzie &amp; Chop<br><small>Aspen</small></div>
+    </div>
+    <div style="padding: 0 48px 24px;">
+      <div class="wf-img-box" style="min-height: 260px;">Kavita &amp; Amit<br><small>New York City</small></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================== -->
+<!--  PAGE 3: THE EXPERIENCE        -->
+<!-- ============================== -->
+<div class="wf-page">
+  <div class="wf-page-label">Page 3 — The Experience</div>
+  <div class="wf-page-note">What sets Marco apart. Walk them through the journey from inquiry to delivery. This can also hold investment / pricing info.</div>
+
+  <div class="wf-section">
+    <div class="wf-section-label">Intro</div>
+    <div class="wf-text-center">
+      <h2><span class="wf-caps">The</span> Experience</h2>
+      <p>From your first inquiry to the moment you hold your finished gallery, every step is designed with intention and care.</p>
+    </div>
+  </div>
+
+  <div class="wf-section">
+    <div class="wf-section-label">Timeline / Process Steps</div>
+    <div class="wf-timeline">
+      <div class="wf-timeline-step">
+        <div class="wf-step-num">01</div>
+        <h4>Inquiry</h4>
+        <p>Tell me about your day, your vision, your people. I'll respond within 24 hours.</p>
+      </div>
+      <div class="wf-timeline-step">
+        <div class="wf-step-num">02</div>
+        <h4>Consultation</h4>
+        <p>A one-on-one call to connect, discuss your timeline, and align on creative direction.</p>
+      </div>
+      <div class="wf-timeline-step">
+        <div class="wf-step-num">03</div>
+        <h4>Your Day</h4>
+        <p>I blend in with your guests and capture what's real — the quiet glances, the big moments, and everything between.</p>
+      </div>
+      <div class="wf-timeline-step">
+        <div class="wf-step-num">04</div>
+        <h4>Gallery Delivery</h4>
+        <p>Within 6-8 weeks, your fully edited gallery arrives — a curated collection designed for heirloom prints and albums.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Investment -->
+  <div class="wf-section wf-cream">
+    <div class="wf-section-label">Investment (Optional Section)</div>
+    <div class="wf-text-center" style="padding-bottom: 24px;">
+      <h2><span class="wf-caps">Investment</span></h2>
+      <p>Collections start at $X,XXX. Each is tailored to your day.</p>
+    </div>
+    <div class="wf-tiers">
+      <div class="wf-tier">
+        <h3>Essentials</h3>
+        <div class="wf-price">$X,XXX</div>
+        <p>8 hours, one photographer, online gallery, print rights</p>
+      </div>
+      <div class="wf-tier">
+        <h3>Editorial</h3>
+        <div class="wf-price">$X,XXX</div>
+        <p>Full day, two photographers, engagement session, fine art album</p>
+      </div>
+      <div class="wf-tier">
+        <h3>Destination</h3>
+        <div class="wf-price">$XX,XXX</div>
+        <p>Multi-day, travel included, welcome dinner + wedding day, album + prints</p>
+      </div>
+    </div>
+    <div style="text-align: center; padding: 8px 0 24px;">
+      <div class="wf-btn">Inquire for Details</div>
+    </div>
+  </div>
+
+  <!-- Testimonial -->
+  <div class="wf-section">
+    <div class="wf-section-label">Client Testimonial</div>
+    <div class="wf-testimonial">
+      <blockquote>&ldquo;Another client quote — speaks to the experience of working with Marco, not just the photos.&rdquo;</blockquote>
+      <cite>Client Name — Destination</cite>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================== -->
+<!--  PAGE 4: ABOUT                 -->
+<!-- ============================== -->
+<div class="wf-page">
+  <div class="wf-page-label">Page 4 — About</div>
+  <div class="wf-page-note">Personal, warm, authentic. Photo of Marco + his story. Why photography, his approach, what drives him.</div>
+
+  <div class="wf-section">
+    <div class="wf-section-label">Portrait + Bio</div>
+    <div class="wf-about-split">
+      <div class="wf-img-box tall">[ Portrait of Marco ]</div>
+      <div class="wf-about-text">
+        <h2>The photographer behind the lens</h2>
+        <p>2-3 paragraphs: origin story, what drew him to fine art wedding photography, his philosophy on capturing emotion vs. just moments.</p>
+        <p>Mention where he's based (Texas), where he travels, and what kind of couples he works best with.</p>
+        <div class="wf-btn">Let's Work Together</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-section">
+    <div class="wf-section-label">Image Strip</div>
+    <div class="wf-img-row">
+      <div class="wf-img-box">[ Behind the scenes ]</div>
+      <div class="wf-img-box">[ On location ]</div>
+      <div class="wf-img-box">[ Detail shot ]</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================== -->
+<!--  PAGE 5: CONTACT               -->
+<!-- ============================== -->
+<div class="wf-page" style="border-bottom: none;">
+  <div class="wf-page-label">Page 5 — Contact / Inquire</div>
+  <div class="wf-page-note">The conversational mad-libs form. Feels personal, not like filling out a corporate contact form. Optional secondary section for direct contact details.</div>
+
+  <div class="wf-section wf-cream">
+    <div class="wf-section-label">Mad-Libs Contact Form</div>
+    <div class="wf-form-mock">
+      <h2>Dear Marco,</h2>
+      <div class="wf-form-line">
+        My name is <span class="wf-blank">your name</span> and I am planning a
+        <span class="wf-blank">wedding / elopement</span> in <span class="wf-blank">destination</span>
+        on <span class="wf-blank">date</span> for <span class="wf-blank">##</span> guests.
+        My wedding planner is <span class="wf-blank">name or N/A</span> and I'm
+        <span class="wf-blank">@handle</span> on Instagram.
+        Please email me your proposal at <span class="wf-blank">email</span>.
+      </div>
+      <div style="margin-top: 28px;">
+        <div class="wf-btn">Send Inquiry</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-section">
+    <div class="wf-section-label">Contact Details</div>
+    <div class="wf-about-split" style="max-width: 900px; margin: 0 auto;">
+      <div class="wf-img-box" style="min-height: 240px;">[ Warm detail image ]</div>
+      <div class="wf-about-text">
+        <h2>Let's talk about your day</h2>
+        <p>info@marcowang.com<br>Based in Texas, available worldwide.<br>Typically responds within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
