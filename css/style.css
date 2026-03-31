@@ -8,7 +8,7 @@
 
 :root {
   /* High contrast palette (Danilo & Sharon style) */
-  --cream: #ffffff;
+  --cream: #faf9f6;
   --warm: #fcfcfc;
   --sand: #e6e6e6;
   --terracotta: #1a1a1a;
@@ -96,7 +96,7 @@ a { color: inherit; }
 .site-nav.scrolled {
   top: 48px;
   padding: 16px 48px;
-  background: rgba(255,255,255,0.95);
+  background: rgba(250, 249, 246, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
@@ -1570,7 +1570,7 @@ footer {
   justify-content: center;
   align-items: center;
   padding: 140px 8vw;
-  background-color: #fff;
+  background-color: var(--cream);
   position: relative;
   overflow: hidden;
 }
@@ -1643,7 +1643,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--cream);
 }
 .asi-label {
   font-family: var(--sans);
