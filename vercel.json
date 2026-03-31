@@ -1,0 +1,5 @@
+{
+  "buildCommand": "echo 'No build command required'",
+  "outputDirectory": ".",
+  "framework": null
+}
