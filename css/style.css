@@ -2001,6 +2001,19 @@ footer {
 .ds-grid-three-across img {
   width: 100%; aspect-ratio: 2/3; object-fit: cover;
 }
+.ds-grid-vh {
+  display: grid; grid-template-columns: 4fr 9fr; gap: 15px; padding: 0 2vw;
+  margin: 120px auto; align-items: stretch;
+}
+.ds-grid-vh > *:nth-child(1) { aspect-ratio: 2/3 !important; width: 100%; height: auto; object-fit: cover; }
+.ds-grid-vh > *:nth-child(2) { aspect-ratio: 3/2 !important; width: 100%; height: auto; object-fit: cover; }
+
+.ds-grid-hv {
+  display: grid; grid-template-columns: 9fr 4fr; gap: 15px; padding: 0 2vw;
+  margin: 120px auto; align-items: stretch;
+}
+.ds-grid-hv > *:nth-child(1) { aspect-ratio: 3/2 !important; width: 100%; height: auto; object-fit: cover; }
+.ds-grid-hv > *:nth-child(2) { aspect-ratio: 2/3 !important; width: 100%; height: auto; object-fit: cover; }
 .ds-grid-trio {
   display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; padding: 0 48px;
   max-width: 1800px; margin: 0 auto; align-items: end;
@@ -2256,8 +2269,9 @@ footer {
   .ds-gallery-intro { margin-top: 32px; font-size: clamp(1rem, 3vw, 1.3rem); }
   .ds-gallery-flow { gap: 60px; padding-bottom: 60px; }
   .ds-full-img img { height: 60vh; }
-  .ds-grid-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; }
-  .ds-grid-three-across { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 60px auto; }
+  .ds-grid-trio { grid-template-columns: 1fr; gap: 15px; padding: 0 2vw; }
+  .ds-grid-three-across, .ds-grid-vh, .ds-grid-hv { grid-template-columns: 1fr; gap: 15px; padding: 0 2vw; margin: 60px auto; }
+  .ds-grid-three-across img, .ds-grid-vh > *, .ds-grid-hv > * { aspect-ratio: 4/5 !important; width: 100%; grid-column: auto; height: auto; object-fit: cover; }
   .ds-grid-afterparty { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 60px auto; }
   .ds-grid-afterparty img, .ds-grid-afterparty .ap-hero, .ds-grid-afterparty .ap-stack, .ds-grid-afterparty .ap-b1, .ds-grid-afterparty .ap-b2, .ds-grid-afterparty .ap-span, .ds-grid-afterparty .ap-span-2 { grid-column: auto; grid-row: auto; aspect-ratio: 4/5; height: auto; }
   .ds-grid-trio img:nth-child(2) { transform: none; }
