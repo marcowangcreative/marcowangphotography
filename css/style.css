@@ -13,7 +13,7 @@
   --sand: #e6e6e6;
   --terracotta: #1a1a1a;
   --gold: #7d756b;
-  --ink: #000000;
+  --ink: #1a1a1a;
   --ink-soft: #222222;
   --muted: #555555;
   --grey: #888888;
@@ -93,7 +93,8 @@ a { color: inherit; }
   pointer-events: none;
   transition: opacity 0.6s var(--ease);
 }
-.site-nav.nav-light::before {
+.site-nav.nav-light::before,
+.site-nav.nav-gallery::before {
   opacity: 0;
 }
 .site-nav.scrolled {
@@ -1001,12 +1002,27 @@ footer {
 }
 .gallery-hero-overlay {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 56px;
+  bottom: 48px;
+  left: 48px;
+  color: #fff;
   z-index: 2;
+}
+.gallery-hero-overlay h1 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 0.9;
+  margin: 0 0 16px 0;
+}
+.gallery-hero-overlay span {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  opacity: 0.85;
 }
 .gallery-hero-label {
   font-family: var(--serif);
@@ -2050,6 +2066,62 @@ footer {
 .ds-grid-three-across img {
   width: 100%; aspect-ratio: 2/3; object-fit: cover;
 }
+/* Scattered Photo Trio */
+.scattered-trio {
+  position: relative;
+  width: 100%;
+  height: 58vw;
+  max-height: 720px;
+  margin: 0 auto;
+  padding: 0 2vw;
+}
+.scattered-photo {
+  position: absolute;
+  background: #fff;
+  padding: 8px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.10), 0 2px 10px rgba(0,0,0,0.05);
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+  cursor: pointer;
+}
+.scattered-photo:hover {
+  z-index: 10 !important;
+  transform: scale(1.03) rotate(0deg) !important;
+  box-shadow: 0 14px 50px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.07);
+}
+.scattered-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.scattered-photo-1 img {
+  filter: grayscale(1);
+}
+.scattered-photo-1 {
+  width: 36%;
+  height: 92%;
+  top: 4%;
+  left: 2%;
+  transform: rotate(-2.5deg);
+  z-index: 2;
+}
+.scattered-photo-2 {
+  width: 32%;
+  height: 90%;
+  top: 2%;
+  left: 34%;
+  transform: rotate(1.2deg);
+  z-index: 3;
+}
+.scattered-photo-3 {
+  width: 34%;
+  height: 88%;
+  top: 6%;
+  right: 2%;
+  transform: rotate(-1.8deg);
+  z-index: 1;
+}
+
 .ds-grid-trio {
   display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; padding: 0 48px;
   max-width: 1800px; margin: 0 auto; align-items: end;
@@ -2318,6 +2390,10 @@ footer {
   .ds-full-img img { height: 60vh; }
   .ds-grid-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; }
   .ds-grid-three-across { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 60px auto; }
+  .scattered-trio { height: 120vw; max-height: none; }
+  .scattered-photo-1 { width: 58%; height: 48%; top: 0; left: 0%; }
+  .scattered-photo-2 { width: 60%; height: 50%; top: 26%; left: 20%; }
+  .scattered-photo-3 { width: 55%; height: 45%; bottom: 0; right: 0%; top: auto; }
   .ds-grid-lv-pair { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 30px auto; }
   .ds-grid-lv-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 30px auto; }
   .ds-grid-trio img:nth-child(2) { transform: none; }

@@ -37,7 +37,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 
 <!-- Navigation -->
 <nav class="site-nav nav-light" id="siteNav">
-  <a href="index.html" class="nav-logo"><span class="nav-logo-icon"><svg viewBox="0 0 110 100" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="butt" stroke-linejoin="miter"><polyline points="22,8 22,54 38,84 55,52"/><polyline points="88,8 88,54 72,84 55,52"/><line x1="22" y1="8" x2="55" y2="52"/><line x1="88" y1="8" x2="55" y2="52"/></svg></span><span class="nav-logo-text">Marco Wang</span></a>
+  <a href="index.html" class="nav-logo"><span class="nav-logo-text">Marco Wang</span></a>
   <div class="nav-links">
     <a href="weddings.html">Real Weddings</a>
     <a href="experience.html">The Experience</a>
@@ -159,7 +159,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 
       <div class="tave-field tave-full">
         <label for="Message">Tell us about your vision</label>
-        <textarea id="Message" name="Message" rows="5" placeholder="Share your plans — venue, guest count, what matters most to you..."></textarea>
+        <textarea id="Message" name="Message" rows="5" placeholder="Share your plans  -  venue, guest count, what matters most to you..."></textarea>
       </div>
 
       <button type="submit" class="conv-form-submit" id="submitBtn">Send Inquiry</button>
@@ -233,11 +233,11 @@ taveForm.addEventListener('submit', async function(e) {
       taveSuccess.style.display = 'block';
       if (typeof fbq === 'function') { fbq('track', 'Lead'); }
     } else {
-      submitBtn.textContent = 'Something went wrong — try again';
+      submitBtn.textContent = 'Something went wrong  -  try again';
       submitBtn.disabled = false;
     }
   } catch (err) {
-    submitBtn.textContent = 'Something went wrong — try again';
+    submitBtn.textContent = 'Something went wrong  -  try again';
     submitBtn.disabled = false;
   }
 });
