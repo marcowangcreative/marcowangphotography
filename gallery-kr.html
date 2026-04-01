@@ -120,12 +120,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <span aria-current="page">Kaitlin &amp; Ryan</span>
 </nav>
 
-<!-- Gallery Header -->
-<header class="ds-gallery-top rv">
-  <h1>Kaitlin &amp; Ryan</h1>
-  <div class="ds-gallery-top-meta">Destination Wedding in Tuscany, Italy</div>
-  <p class="ds-gallery-intro">Three days winding through ancient vineyards and cypress-lined hillsides, where friends and family gathered from across the world to celebrate under the Tuscan sun. Photographed by <strong>Marco Wang</strong>, a Houston-based destination wedding photographer.</p>
-</header>
+<!-- Gallery Header Moved -->
 
 <main class="ds-gallery-flow">
 
@@ -141,6 +136,12 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
     <img src="kr-web/supp-pp1.jpg" alt="Couple toasting" loading="lazy">
   </div>
 
+  <header class="ds-gallery-top rv" style="padding-top: 6vw; padding-bottom: 2vw;">
+    <h1>Kaitlin &amp; Ryan</h1>
+    <div class="ds-gallery-top-meta">Destination Wedding in Tuscany, Italy</div>
+    <p class="ds-gallery-intro">Three days winding through ancient vineyards and cypress-lined hillsides, where friends and family gathered from across the world to celebrate under the Tuscan sun. Photographed by <strong>Marco Wang</strong>, a Houston-based destination wedding photographer.</p>
+  </header>
+
   <!-- Pull Quote -->
   <div class="ds-pull-quote rv">
     <p>&ldquo;Poolside with friends, pasta making under the pergola, and al fresco dinners as the sun dropped behind the cypress trees.&rdquo;</p>
@@ -149,7 +150,11 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <!-- Asymmetric Pair -->
   <div class="ds-grid-offset rv">
     <div>
-      <img src="kr-web/story-pool.jpg" class="img-tall" alt="Poolside" loading="lazy">
+      <div class="ds-slider-framed" data-speed="4000">
+        <img src="kr-web/story-pool.jpg" class="framed-slide active" alt="Poolside" loading="lazy">
+        <img src="kr-web/gallery-2.jpg" class="framed-slide" alt="Alternative shot 1" loading="lazy">
+        <img src="kr-web/supp-pp2.jpg" class="framed-slide" alt="Alternative shot 2" loading="lazy">
+      </div>
     </div>
     <div style="direction:ltr;">
       <div class="ds-text-block" style="margin-bottom: 60px;">A celebration of Italian culture—from the hands-on pasta making to the incredible wine pairings picked directly from the villa's centuries-old cellar.</div>
@@ -260,6 +265,20 @@ const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }});
 }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
 rvEls.forEach(el => obs.observe(el));
+
+/* Framed Sliders Multi-Instance Logic */
+document.querySelectorAll('.ds-slider-framed').forEach(slider => {
+  const slides = slider.querySelectorAll('.framed-slide');
+  let current = 0;
+  if(slides.length > 1) {
+    let speed = parseInt(slider.getAttribute('data-speed')) || 4000;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, speed);
+  }
+});
 </script>
 </body>
 </html>

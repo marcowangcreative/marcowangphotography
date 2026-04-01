@@ -1933,6 +1933,35 @@ footer {
   font-family: var(--serif); font-style: italic; font-weight: 400;
   font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.25; color: var(--ink);
 }
+/* Framed Slider (Physical Print Aesthetic) */
+.ds-slider-framed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  background-color: #fff;
+  padding: 2.5vw;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+  overflow: hidden;
+  margin: 0 auto;
+}
+.ds-grid-offset .ds-slider-framed {
+  width: 85%; /* Match asymmetric layout when used in this specific grid */
+}
+.ds-slider-framed .framed-slide {
+  position: absolute;
+  top: 2.5vw; left: 2.5vw;
+  width: calc(100% - 5vw);
+  height: calc(100% - 5vw);
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.5s var(--ease);
+  z-index: 1;
+}
+.ds-slider-framed .framed-slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
 .ds-grid-offset {
   display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding: 0 48px;
   max-width: 1600px; margin: 0 auto; align-items: center;
