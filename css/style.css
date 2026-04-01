@@ -1995,8 +1995,8 @@ footer {
 .ds-grid-offset .img-tall { aspect-ratio: 4/5; width: 85%; object-fit: cover; }
 .ds-grid-offset .img-wide { aspect-ratio: 16/9; width: 110%; object-fit: cover; margin-left: -10%; }
 .ds-grid-three-across {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; padding: 0 48px;
-  max-width: 1800px; margin: 120px auto; align-items: stretch;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; padding: 0 2vw;
+  margin: 120px auto; align-items: stretch;
 }
 .ds-grid-three-across img {
   width: 100%; aspect-ratio: 2/3; object-fit: cover;
