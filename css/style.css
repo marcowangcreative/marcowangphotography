@@ -1939,27 +1939,19 @@ footer {
   width: 100%;
   aspect-ratio: 4/5;
   background-color: #fff;
-  padding: 1vw;
+  padding: 0.5vw;
   box-shadow: 0 10px 40px rgba(0,0,0,0.05);
   overflow: hidden;
   margin: 0 auto;
-}
-.ds-slider-framed::after {
-  content: '';
-  position: absolute;
-  top: 1vw; left: 1vw; right: 1vw; bottom: 1vw;
-  box-shadow: inset 0 0 30px rgba(0,0,0,0.15);
-  pointer-events: none;
-  z-index: 5;
 }
 .ds-grid-offset .ds-slider-framed {
   width: 85%; /* Match asymmetric layout when used in this specific grid */
 }
 .ds-slider-framed .framed-slide {
   position: absolute;
-  top: 1vw; left: 1vw;
-  width: calc(100% - 2vw);
-  height: calc(100% - 2vw);
+  top: 0.5vw; left: 0.5vw;
+  width: calc(100% - 1vw);
+  height: calc(100% - 1vw);
   object-fit: cover;
   opacity: 0;
   transition: opacity 1.5s var(--ease);
