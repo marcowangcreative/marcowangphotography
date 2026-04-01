@@ -1994,6 +1994,13 @@ footer {
 }
 .ds-grid-offset .img-tall { aspect-ratio: 4/5; width: 85%; object-fit: cover; }
 .ds-grid-offset .img-wide { aspect-ratio: 16/9; width: 110%; object-fit: cover; margin-left: -10%; }
+.ds-grid-three-across {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; padding: 0 48px;
+  max-width: 1600px; margin: 120px auto; align-items: stretch;
+}
+.ds-grid-three-across img {
+  width: 100%; aspect-ratio: 4/5; object-fit: cover;
+}
 .ds-grid-trio {
   display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; padding: 0 48px;
   max-width: 1800px; margin: 0 auto; align-items: end;
@@ -2250,6 +2257,7 @@ footer {
   .ds-gallery-flow { gap: 60px; padding-bottom: 60px; }
   .ds-full-img img { height: 60vh; }
   .ds-grid-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; }
+  .ds-grid-three-across { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 60px auto; }
   .ds-grid-afterparty { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 60px auto; }
   .ds-grid-afterparty img, .ds-grid-afterparty .ap-hero, .ds-grid-afterparty .ap-stack, .ds-grid-afterparty .ap-b1, .ds-grid-afterparty .ap-b2, .ds-grid-afterparty .ap-span, .ds-grid-afterparty .ap-span-2 { grid-column: auto; grid-row: auto; aspect-ratio: 4/5; height: auto; }
   .ds-grid-trio img:nth-child(2) { transform: none; }
