@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marco Wang - Focal Point Generator</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #faf9f6; color: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 40px; }
+    .tool-header { text-align: center; margin-bottom: 24px; max-width: 600px; }
+    .tool-header h1 { font-family: 'Georgia', serif; font-weight: 300; font-style: italic; font-size: 2.5rem; margin-bottom: 10px; }
+    .tool-header p { font-size: 0.9rem; color: #555; line-height: 1.6; }
+    
+    .workspace { display: flex; gap: 40px; background: #fff; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+    .image-container { position: relative; max-width: 600px; cursor: crosshair; }
+    .image-container img { display: block; width: 100%; height: auto; outline: 1px solid #ddd; }
+    .focal-dot { position: absolute; width: 14px; height: 14px; background: #555; border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; display: none; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    
+    .sidebar { display: flex; flex-direction: column; gap: 20px; width: 300px; }
+    .input-group { display: flex; flex-direction: column; gap: 8px; }
+    .input-group label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #888; }
+    input[type="file"] { border: 1px solid #ddd; padding: 10px; border-radius: 4px; font-size: 0.85rem; }
+    
+    .code-output { background: #f5f5f5; padding: 20px; border-radius: 6px; border: 1px solid #eaeaea; font-family: monospace; font-size: 0.85rem; word-break: break-all; color: #222; font-weight: 600; min-height: 50px; display: flex; align-items: center; justify-content: center; }
+    
+    .preview { width: 100%; aspect-ratio: 4/5; background: #f0f0f0; border: 1px solid #ddd; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    .preview-label { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.9); padding: 4px 8px; font-size: 0.7rem; font-weight: bold; border-radius: 4px; text-transform: uppercase; }
+    .preview img { width: 100%; height: 100%; object-fit: cover; }
+  </style>
+</head>
+<body>
+
+  <div class="tool-header">
+    <h1>Focal Point Tool</h1>
+    <p>Upload a local image, click exactly on the subject's face, and this tool will instantly generate the exact CSS "object-position" attribute so you can guarantee the crop anchors perfectly.</p>
+  </div>
+
+  <div class="workspace">
+    <div class="image-container" id="imgContainer">
+      <img src="" id="sourceImg" style="display:none;" alt="Upload to begin">
+      <div class="focal-dot" id="focalDot"></div>
+    </div>
+    
+    <div class="sidebar">
+      <div class="input-group">
+        <label>1. Select Image</label>
+        <input type="file" id="fileUpload" accept="image/*">
+      </div>
+      
+      <div class="input-group">
+        <label>2. Generated HTML Code</label>
+        <div class="code-output" id="codeOut">Click on the image!</div>
+      </div>
+      
+      <div class="input-group" style="margin-top: 20px;">
+        <label>3. Live Crop Preview (4:5)</label>
+        <div class="preview">
+          <div class="preview-label">CSS Object-Fit</div>
+          <img src="" id="previewImg" style="display:none;" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const fileUpload = document.getElementById('fileUpload');
+    const sourceImg = document.getElementById('sourceImg');
+    const previewImg = document.getElementById('previewImg');
+    const imgContainer = document.getElementById('imgContainer');
+    const focalDot = document.getElementById('focalDot');
+    const codeOut = document.getElementById('codeOut');
+
+    fileUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if(!file) return;
+      const url = URL.createObjectURL(file);
+      sourceImg.src = url;
+      previewImg.src = url;
+      sourceImg.style.display = 'block';
+      previewImg.style.display = 'block';
+      focalDot.style.display = 'none';
+      codeOut.innerText = "Click exactly on the subject's face!";
+      previewImg.style.objectPosition = '50% 50%';
+    });
+
+    imgContainer.addEventListener('click', (e) => {
+      if(sourceImg.style.display === 'none') return;
+      
+      const rect = sourceImg.getBoundingClientRect();
+      const xPos = e.clientX - rect.left;
+      const yPos = e.clientY - rect.top;
+      
+      const xPercent = ((xPos / rect.width) * 100).toFixed(1);
+      const yPercent = ((yPos / rect.height) * 100).toFixed(1);
+      
+      focalDot.style.display = 'block';
+      focalDot.style.left = `${xPercent}%`;
+      focalDot.style.top = `${yPercent}%`;
+      
+      const styleString = `style="object-position: ${xPercent}% ${yPercent}%;"`;
+      previewImg.style.objectPosition = `${xPercent}% ${yPercent}%`;
+      codeOut.innerText = styleString;
+    });
+  </script>
+</body>
+</html>
