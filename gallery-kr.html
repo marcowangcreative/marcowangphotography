@@ -150,10 +150,17 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <!-- Asymmetric Pair -->
   <div class="ds-grid-offset rv">
     <div>
-      <div class="ds-slider-framed" data-speed="4000">
-        <img src="kr-web/story-pool.jpg" class="framed-slide active" alt="Poolside" loading="lazy">
-        <img src="kr-web/gallery-2.jpg" class="framed-slide" alt="Alternative shot 1" loading="lazy">
-        <img src="kr-web/supp-pp2.jpg" class="framed-slide" alt="Alternative shot 2" loading="lazy">
+      <div class="ds-slider-framed lightbox-trigger" data-speed="4000">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-01.jpg" class="framed-slide active" alt="Ombroneta Villa Highlight 1" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-02.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 2" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-03.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 3" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-04.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 4" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-05.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 5" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-06.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 6" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-07.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 7" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-08.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 8" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-09.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 9" loading="lazy">
+        <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-10.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 10" loading="lazy">
       </div>
     </div>
     <div style="direction:ltr;">
@@ -249,6 +256,14 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <div class="ft-copy">&copy; 2026 Marco Wang Photography. All rights reserved.</div>
 </footer>
 
+<!-- Fullscreen Lightbox Overlay -->
+<div class="lightbox" id="galleryLightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-close" id="lbClose" aria-label="Close lightbox">&times;</button>
+  <button class="lightbox-prev" id="lbPrev" aria-label="Previous image">&#10094;</button>
+  <img src="" alt="Expanded gallery view" id="lbImg">
+  <button class="lightbox-next" id="lbNext" aria-label="Next image">&#10095;</button>
+</div>
+
 <script>
 /* Nav */
 const nav = document.getElementById('siteNav');
@@ -266,10 +281,16 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
 rvEls.forEach(el => obs.observe(el));
 
-/* Framed Sliders Multi-Instance Logic */
+/* Framed Sliders Multi-Instance Logic & Lightbox Context */
+const lb = document.getElementById('galleryLightbox');
+const lbImg = document.getElementById('lbImg');
+let activeSlides = [];
+let currentLbIndex = 0;
+
 document.querySelectorAll('.ds-slider-framed').forEach(slider => {
   const slides = slider.querySelectorAll('.framed-slide');
   let current = 0;
+  
   if(slides.length > 1) {
     let speed = parseInt(slider.getAttribute('data-speed')) || 4000;
     setInterval(() => {
@@ -278,6 +299,35 @@ document.querySelectorAll('.ds-slider-framed').forEach(slider => {
       slides[current].classList.add('active');
     }, speed);
   }
+
+  // Lightbox Trigger Binding
+  if(slider.classList.contains('lightbox-trigger')) {
+    slider.style.cursor = 'zoom-in';
+    slider.addEventListener('click', () => {
+      activeSlides = Array.from(slides).map(img => img.src);
+      currentLbIndex = current;
+      lbImg.src = activeSlides[currentLbIndex];
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+});
+
+/* Lightbox UI Controls */
+const closeLb = () => { lb.classList.remove('active'); document.body.style.overflow = ''; };
+const nextLb = () => { if(activeSlides.length) { currentLbIndex = (currentLbIndex + 1) % activeSlides.length; lbImg.src = activeSlides[currentLbIndex]; }};
+const prevLb = () => { if(activeSlides.length) { currentLbIndex = (currentLbIndex - 1 + activeSlides.length) % activeSlides.length; lbImg.src = activeSlides[currentLbIndex]; }};
+
+document.getElementById('lbClose').addEventListener('click', closeLb);
+document.getElementById('lbNext').addEventListener('click', nextLb);
+document.getElementById('lbPrev').addEventListener('click', prevLb);
+lb.addEventListener('click', (e) => { if (e.target === lb || e.target.classList.contains('lightbox')) closeLb(); });
+
+window.addEventListener('keydown', (e) => {
+  if(!lb.classList.contains('active')) return;
+  if(e.key === 'Escape') closeLb();
+  if(e.key === 'ArrowRight') nextLb();
+  if(e.key === 'ArrowLeft') prevLb();
 });
 </script>
 </body>
