@@ -2002,6 +2002,18 @@ footer {
 .ds-grid-trio img:nth-child(1) { aspect-ratio: 2/3; }
 .ds-grid-trio img:nth-child(2) { aspect-ratio: 3/4; transform: translateY(-80px); }
 .ds-grid-trio img:nth-child(3) { aspect-ratio: 4/5; }
+
+/* After Party 7-Image Monolithic Spread */
+.ds-grid-afterparty {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; padding: 0 48px;
+  max-width: 1600px; margin: 120px auto; align-items: center;
+}
+.ds-grid-afterparty img {
+  width: 100%; aspect-ratio: 2/3; object-fit: cover;
+}
+.ds-grid-afterparty img.ap-span {
+  grid-column: 1 / -1; aspect-ratio: auto; /* Massive horizontal spread */
+}
 .ds-text-block {
   font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.25em;
   text-transform: uppercase; color: var(--muted); line-height: 2;
@@ -2235,6 +2247,8 @@ footer {
   .ds-gallery-flow { gap: 60px; padding-bottom: 60px; }
   .ds-full-img img { height: 60vh; }
   .ds-grid-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; }
+  .ds-grid-afterparty { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 60px auto; }
+  .ds-grid-afterparty img.ap-span { grid-column: auto; aspect-ratio: 4/5; }
   .ds-grid-trio img:nth-child(2) { transform: none; }
   .ds-pull-quote { padding: 0 24px; }
   .ds-pull-quote p { font-size: clamp(1.5rem, 5vw, 2.5rem); }
