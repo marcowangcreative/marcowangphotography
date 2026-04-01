@@ -161,6 +161,8 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
         <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-08.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 8" loading="lazy">
         <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-09.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 9" loading="lazy">
         <img src="kr-web/tuscany-italy-destination-wedding-ombroneta-villa-photographer-10.jpg" class="framed-slide" alt="Ombroneta Villa Highlight 10" loading="lazy">
+        <button class="fs-prev" aria-label="Previous image">&#10094;</button>
+        <button class="fs-next" aria-label="Next image">&#10095;</button>
       </div>
     </div>
     <div style="direction:ltr;">
@@ -291,14 +293,17 @@ document.querySelectorAll('.ds-slider-framed').forEach(slider => {
   const slides = slider.querySelectorAll('.framed-slide');
   let current = 0;
   
-  if(slides.length > 1) {
-    let speed = parseInt(slider.getAttribute('data-speed')) || 4000;
-    setInterval(() => {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
-    }, speed);
-  }
+  const nextBtn = slider.querySelector('.fs-next');
+  const prevBtn = slider.querySelector('.fs-prev');
+
+  const updateSlide = (idx) => {
+    slides[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+  };
+
+  if(nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); updateSlide((current + 1) % slides.length); });
+  if(prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); updateSlide((current - 1 + slides.length) % slides.length); });
 
   // Lightbox Trigger Binding
   if(slider.classList.contains('lightbox-trigger')) {
