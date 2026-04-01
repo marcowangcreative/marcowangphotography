@@ -2005,7 +2005,7 @@ footer {
 
 /* After Party 7-Image Monolithic Spread */
 .ds-grid-afterparty {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; padding: 0 48px;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 0 48px;
   max-width: 1600px; margin: 120px auto; align-items: center;
 }
 .ds-grid-afterparty img {
