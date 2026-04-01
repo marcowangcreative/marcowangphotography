@@ -93,6 +93,9 @@ a { color: inherit; }
   pointer-events: none;
   transition: opacity 0.6s var(--ease);
 }
+.site-nav.nav-light::before {
+  opacity: 0;
+}
 .site-nav.scrolled {
   top: 48px;
   padding: 16px 48px;
@@ -454,6 +457,7 @@ a { color: inherit; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
+  padding-top: 120px;
 }
 .contact-split-images {
   position: relative;
