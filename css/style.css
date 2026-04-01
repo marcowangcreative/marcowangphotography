@@ -2010,20 +2010,28 @@ footer {
 .ds-grid-trio img:nth-child(2) { aspect-ratio: 3/4; transform: translateY(-80px); }
 .ds-grid-trio img:nth-child(3) { aspect-ratio: 4/5; }
 
-/* After Party 6-Image Asymmetric Masonry */
-.ds-grid-afterparty {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 0 48px;
-  max-width: 1600px; margin: 120px auto; align-items: stretch;
+/* Opening Sequence — tight spacing override */
+.ds-opening-sequence {
+  display: flex; flex-direction: column; gap: 15px; width: 100%;
 }
-.ds-grid-afterparty img {
-  width: 100%; height: 100%; object-fit: cover;
+.ds-opening-sequence .ds-full-img img { height: 100vh; }
+
+/* Landscape Pair Row */
+.ds-grid-lv-pair {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; padding: 0 2vw;
+  margin: 15px auto; align-items: stretch;
 }
-.ds-grid-afterparty .ap-hero { grid-column: span 2; grid-row: span 2; }
-.ds-grid-afterparty .ap-stack { grid-column: span 1; grid-row: span 1; aspect-ratio: 4/5; }
-.ds-grid-afterparty .ap-span { grid-column: 1 / -1; aspect-ratio: auto; }
-.ds-grid-afterparty .ap-span-2 { grid-column: span 2; aspect-ratio: auto; }
-.ds-grid-afterparty .ap-b1 { grid-column: span 2; aspect-ratio: 3/2; }
-.ds-grid-afterparty .ap-b2 { grid-column: span 1; }
+.ds-grid-lv-pair img {
+  width: 100%; aspect-ratio: 3/2; object-fit: cover;
+}
+/* Landscape Trio Row */
+.ds-grid-lv-trio {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; padding: 0 2vw;
+  margin: 15px auto; align-items: stretch;
+}
+.ds-grid-lv-trio img {
+  width: 100%; aspect-ratio: 3/2; object-fit: cover;
+}
 .ds-text-block {
   font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.25em;
   text-transform: uppercase; color: var(--muted); line-height: 2;
@@ -2258,8 +2266,8 @@ footer {
   .ds-full-img img { height: 60vh; }
   .ds-grid-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; }
   .ds-grid-three-across { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 60px auto; }
-  .ds-grid-afterparty { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 60px auto; }
-  .ds-grid-afterparty img, .ds-grid-afterparty .ap-hero, .ds-grid-afterparty .ap-stack, .ds-grid-afterparty .ap-b1, .ds-grid-afterparty .ap-b2, .ds-grid-afterparty .ap-span, .ds-grid-afterparty .ap-span-2 { grid-column: auto; grid-row: auto; aspect-ratio: 4/5; height: auto; }
+  .ds-grid-lv-pair { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 30px auto; }
+  .ds-grid-lv-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 30px auto; }
   .ds-grid-trio img:nth-child(2) { transform: none; }
   .ds-pull-quote { padding: 0 24px; }
   .ds-pull-quote p { font-size: clamp(1.5rem, 5vw, 2.5rem); }
