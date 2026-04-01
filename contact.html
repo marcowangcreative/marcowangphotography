@@ -57,121 +57,119 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <a href="contact.html">Inquire</a>
 </div>
 
-<!-- Page Header -->
-<div class="page-hero rv">
-  <div class="section-heading">
-    <span class="caps">Let's</span>
-    <span class="italic">Connect</span>
+<!-- Split Contact Section -->
+<div class="contact-split">
+
+  <!-- Left: Rolling Images -->
+  <div class="contact-split-images">
+    <div class="contact-slide active">
+      <img src="images/contact/luxury-bridal-shoes-lace-veil-wedding-details.jpg" alt="Luxury bridal shoes and lace veil wedding details" loading="eager">
+    </div>
+    <div class="contact-slide">
+      <img src="images/contact/bride-groom-ranch-wedding-texas-outdoor-celebration.jpg" alt="Bride and groom at outdoor Texas ranch wedding celebration" loading="lazy">
+    </div>
+    <div class="contact-slide">
+      <img src="images/contact/intimate-couple-embrace-black-white-wedding-portrait.jpg" alt="Intimate couple embrace in black and white wedding portrait" loading="lazy">
+    </div>
+    <div class="contact-slide">
+      <img src="images/contact/bridesmaids-champagne-french-chateau-garden-wedding.jpg" alt="Bridesmaids with champagne in French chateau garden wedding" loading="lazy">
+    </div>
   </div>
-</div>
 
-<!-- Contact Form — Tave CRM Integration -->
-<div class="conv-form-section rv">
-  <div class="conv-form-greeting">Tell us about your day</div>
-  <form class="tave-form" id="taveForm">
-
-    <div class="tave-row">
-      <div class="tave-field">
-        <label for="FirstName">First Name</label>
-        <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required>
-      </div>
-      <div class="tave-field">
-        <label for="LastName">Last Name</label>
-        <input type="text" id="LastName" name="LastName" placeholder="Last Name" required>
-      </div>
+  <!-- Right: Form -->
+  <div class="contact-split-form">
+    <div class="section-heading" style="text-align: left; margin-bottom: 16px;">
+      <span class="caps">Let's</span>
+      <span class="italic">Connect</span>
     </div>
+    <div class="conv-form-greeting">Tell us about your day</div>
 
-    <div class="tave-row">
-      <div class="tave-field">
-        <label for="Email">Email</label>
-        <input type="email" id="Email" name="Email" placeholder="your@email.com" required>
+    <form class="tave-form" id="taveForm">
+      <div class="tave-row">
+        <div class="tave-field">
+          <label for="FirstName">First Name</label>
+          <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required>
+        </div>
+        <div class="tave-field">
+          <label for="LastName">Last Name</label>
+          <input type="text" id="LastName" name="LastName" placeholder="Last Name" required>
+        </div>
       </div>
-      <div class="tave-field">
-        <label for="Phone">Phone</label>
-        <input type="tel" id="Phone" name="MobilePhone" placeholder="(555) 123-4567">
+
+      <div class="tave-row">
+        <div class="tave-field">
+          <label for="Email">Email</label>
+          <input type="email" id="Email" name="Email" placeholder="your@email.com" required>
+        </div>
+        <div class="tave-field">
+          <label for="Phone">Phone</label>
+          <input type="tel" id="Phone" name="MobilePhone" placeholder="(555) 123-4567">
+        </div>
       </div>
+
+      <div class="tave-row">
+        <div class="tave-field">
+          <label for="Date">Wedding Date</label>
+          <input type="date" id="Date" name="Date" min="2025-01-01" max="2030-12-31">
+        </div>
+        <div class="tave-field">
+          <label for="JobType">Type of Event</label>
+          <select id="JobType" name="JobType">
+            <option value="" disabled selected>Select one</option>
+            <option value="935490">Wedding</option>
+            <option value="935442">Portrait</option>
+            <option value="935469">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tave-row">
+        <div class="tave-field">
+          <label for="JobRole">Your Role</label>
+          <select id="JobRole" name="JobRole">
+            <option value="" disabled selected>Select one</option>
+            <option value="2020785">Bride</option>
+            <option value="2020788">Groom</option>
+            <option value="2020866">Wedding Planner</option>
+            <option value="2020815">Mother of the Bride</option>
+            <option value="2020821">Father of the Bride</option>
+            <option value="2020812">Mother of the Groom</option>
+            <option value="2020818">Father of the Groom</option>
+            <option value="2020878">Subject</option>
+            <option value="2445750">Sales Manager</option>
+          </select>
+        </div>
+        <div class="tave-field">
+          <label for="Source">How did you find us?</label>
+          <select id="Source" name="Source">
+            <option value="" disabled selected>Select one</option>
+            <option value="1037565">Instagram</option>
+            <option value="1037562">Google</option>
+            <option value="853116">Friend / Past Client</option>
+            <option value="853110">Planner</option>
+            <option value="853113">Photographer</option>
+            <option value="1037556">Facebook</option>
+            <option value="1037568">Blog</option>
+            <option value="1037574">Magazine</option>
+            <option value="1037559">Web</option>
+            <option value="1037571">Weddings in Houston</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tave-field tave-full">
+        <label for="Message">Tell us about your vision</label>
+        <textarea id="Message" name="Message" rows="5" placeholder="Share your plans — venue, guest count, what matters most to you..."></textarea>
+      </div>
+
+      <button type="submit" class="conv-form-submit" id="submitBtn">Send Inquiry</button>
+    </form>
+    <div class="tave-success" id="taveSuccess" style="display:none;">
+      <h3>Thank you!</h3>
+      <p>Your inquiry has been sent. I'll be in touch within 24 hours.</p>
     </div>
-
-    <div class="tave-row">
-      <div class="tave-field">
-        <label for="Date">Wedding Date</label>
-        <input type="text" id="Date" name="Date" placeholder="June 14, 2027">
-      </div>
-      <div class="tave-field">
-        <label for="JobType">Type of Event</label>
-        <select id="JobType" name="JobType">
-          <option value="" disabled selected>Select one</option>
-          <option value="935490">Wedding</option>
-          <option value="935442">Portrait</option>
-          <option value="935469">Other</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="tave-row">
-      <div class="tave-field">
-        <label for="JobRole">Your Role</label>
-        <select id="JobRole" name="JobRole">
-          <option value="" disabled selected>Select one</option>
-          <option value="2020785">Bride</option>
-          <option value="2020788">Groom</option>
-          <option value="2020866">Wedding Planner</option>
-          <option value="2020815">Mother of the Bride</option>
-          <option value="2020821">Father of the Bride</option>
-          <option value="2020812">Mother of the Groom</option>
-          <option value="2020818">Father of the Groom</option>
-          <option value="2020878">Subject</option>
-          <option value="2445750">Sales Manager</option>
-        </select>
-      </div>
-      <div class="tave-field">
-        <label for="Source">How did you find us?</label>
-        <select id="Source" name="Source">
-          <option value="" disabled selected>Select one</option>
-          <option value="1037565">Instagram</option>
-          <option value="1037562">Google</option>
-          <option value="853116">Friend / Past Client</option>
-          <option value="853110">Planner</option>
-          <option value="853113">Photographer</option>
-          <option value="1037556">Facebook</option>
-          <option value="1037568">Blog</option>
-          <option value="1037574">Magazine</option>
-          <option value="1037559">Web</option>
-          <option value="1037571">Weddings in Houston</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="tave-field tave-full">
-      <label for="Message">Tell us about your vision</label>
-      <textarea id="Message" name="Message" rows="5" placeholder="Share your plans — venue, guest count, what matters most to you..."></textarea>
-    </div>
-
-    <button type="submit" class="conv-form-submit" id="submitBtn">Send Inquiry</button>
-  </form>
-  <div class="tave-success" id="taveSuccess" style="display:none;">
-    <h3>Thank you!</h3>
-    <p>Your inquiry has been sent. I'll be in touch within 24 hours.</p>
   </div>
-</div>
 
-<!-- Divider Image -->
-<div class="contact-divider-img rv">
-  <img src="kr-web/supp-vb1.jpg" alt="Italian countryside vineyard at sunset" loading="lazy">
-</div>
-
-<!-- Contact Details -->
-<div class="contact-details rv">
-  <div class="contact-details-img">
-    <img src="rd-web/supp-bride.jpg" alt="Bride getting ready at French chateau" loading="lazy">
-  </div>
-  <div class="contact-details-text">
-    <h2>Let's talk about your day</h2>
-    <p>I'm based in Texas and available for weddings worldwide. Whether you're planning an intimate elopement or a grand celebration, I'd love to hear the details.</p>
-    <p style="margin-top: 20px;"><strong>Email:</strong> <a href="mailto:info@marcowang.com" style="border-bottom: 1px solid var(--border); text-decoration: none;">info@marcowang.com</a></p>
-    <p><strong>Instagram:</strong> <a href="https://www.instagram.com/marcowangphotography" target="_blank" rel="noopener" style="border-bottom: 1px solid var(--border); text-decoration: none;">@marcowangphotography</a></p>
-    <p style="color: var(--muted); margin-top: 16px; font-size: 0.85rem;">Typically responds within 24 hours.</p>
-  </div>
 </div>
 
 <!-- Footer -->
@@ -203,6 +201,17 @@ const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }});
 }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
 rvEls.forEach(el => obs.observe(el));
+
+// Contact image slideshow
+const contactSlides = document.querySelectorAll('.contact-slide');
+let cIdx = 0;
+if (contactSlides.length > 1) {
+  setInterval(() => {
+    contactSlides[cIdx].classList.remove('active');
+    cIdx = (cIdx + 1) % contactSlides.length;
+    contactSlides[cIdx].classList.add('active');
+  }, 4000);
+}
 
 // Tave/VSCO CRM: submit via serverless proxy
 const taveForm = document.getElementById('taveForm');
