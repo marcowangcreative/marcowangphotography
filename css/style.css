@@ -1989,8 +1989,8 @@ footer {
 .fs-next { right: 1.5vw; }
 
 .ds-grid-offset {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding: 0 48px;
-  max-width: 1600px; margin: 0 auto; align-items: center;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 80px; padding: 0 48px;
+  max-width: 1600px; margin: 0 auto; align-items: center; width: 100%;
 }
 .ds-grid-offset .img-tall { aspect-ratio: 4/5; width: 85%; object-fit: cover; }
 .ds-grid-offset .img-wide { aspect-ratio: 16/9; width: 110%; object-fit: cover; margin-left: -10%; }
