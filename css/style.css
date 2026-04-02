@@ -920,12 +920,15 @@ footer {
 }
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  padding: 72px 72px 100px;
+  grid-template-columns: 1fr 2fr;
+  gap: 48px;
+  padding: 0 72px 60px;
   max-width: 1200px;
   margin: 0 auto;
   align-items: start;
+}
+.about-grid-reverse {
+  grid-template-columns: 2fr 1fr;
 }
 .about-img img {
   width: 100%;
@@ -942,11 +945,43 @@ footer {
   font-size: 1.9rem;
   line-height: 1.35;
   margin-bottom: 24px;
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
 }
 .about-text p {
   color: var(--ink-soft);
   margin-bottom: 16px;
   line-height: 1.9;
+}
+.about-quote-block {
+  background: #e8e4df;
+  padding: clamp(40px, 5vw, 64px) clamp(48px, 6vw, 80px);
+  max-width: 900px;
+  margin: 0 auto clamp(40px, 5vw, 60px);
+  position: relative;
+  overflow: hidden;
+}
+.about-quote-block::before {
+  content: '\201C';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-family: var(--serif);
+  font-size: clamp(6rem, 10vw, 9rem);
+  line-height: 1;
+  color: rgba(0,0,0,0.06);
+  pointer-events: none;
+}
+.about-quote-block p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.8;
+  color: var(--ink);
+  margin: 0;
+  position: relative;
+  z-index: 1;
 }
 .about-images-strip {
   display: grid;
@@ -2249,7 +2284,7 @@ footer {
   .ds-asym-sub { margin-top: 120px; }
   .about-teaser { padding: 80px 48px; gap: 40px; }
   .weddings-row { gap: 20px; }
-  .about-grid { padding: 60px 48px 80px; gap: 40px; }
+  .about-grid { padding: 0 48px 60px; gap: 32px; }
   .contact-details { padding: 0 48px 80px; gap: 40px; }
   .tiers { gap: 20px; }
   .timeline-step { padding: 24px 16px; }
@@ -2310,11 +2345,12 @@ footer {
   .tiers { grid-template-columns: 1fr; max-width: 400px; }
 
   .page-hero { padding: 120px 24px 0; }
-  .about-grid {
+  .about-grid, .about-grid-reverse {
     grid-template-columns: 1fr;
-    padding: 48px 24px 72px;
-    gap: 32px;
+    padding: 0 24px 48px;
+    gap: 24px;
   }
+  .about-quote-block { margin: 0 24px 48px; padding: 32px 28px; }
   .about-images-strip { padding: 0 24px 60px; gap: 10px; }
 
   .contact-divider-img { padding: 0 24px; }
