@@ -682,7 +682,7 @@ footer {
   font-family: var(--sans);
   font-style: normal;
   font-weight: 600;
-  font-size: 0.65rem;
+  font-size: 1.2rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
 }
@@ -1026,7 +1026,7 @@ footer {
   font-size: 0.7rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  opacity: 0.85;
+  opacity: 1;
 }
 .gallery-hero-label {
   font-family: var(--serif);
@@ -2172,7 +2172,7 @@ footer {
 
 /* Opening Sequence — tight spacing override */
 .ds-opening-sequence {
-  display: flex; flex-direction: column; gap: 15px; width: 100%;
+  display: flex; flex-direction: column; gap: 15px; width: 100%; overflow: hidden;
 }
 .ds-opening-sequence .ds-full-img img { height: 100vh; }
 
@@ -2429,6 +2429,10 @@ footer {
   .ds-gallery-flow { gap: 60px; padding-bottom: 60px; }
   .ds-full-img img { height: auto !important; min-height: 30vh; }
   .ds-opening-sequence .ds-full-img img { height: 100vh !important; }
+  .hero-nyt-badge { display: none !important; }
+  .hero-nyt-badge-inline { display: flex !important; justify-content: center; }
+  .hero-nyt-badge-inline img { width: 100px !important; height: 14px !important; }
+  .gallery-hero-overlay { left: 50% !important; transform: translateX(-50%); width: 85%; text-align: center; bottom: 40px !important; }
   .ds-grid-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; }
   .ds-grid-three-across { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 0 auto; }
   .scattered-trio { height: 130vw; max-height: none; }
