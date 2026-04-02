@@ -2390,6 +2390,7 @@ footer {
   .vendor-credits p { font-size: 0.8rem; }
   .related-weddings { padding: 36px 24px 48px; }
   .related-weddings-row { grid-template-columns: 1fr; gap: 28px; }
+  .lightbox { align-items: center; }
   .lightbox-prev { left: 8px; padding: 16px; font-size: 1.6rem; }
   .lightbox-next { right: 8px; padding: 16px; font-size: 1.6rem; }
   .lightbox-close { top: 16px; right: 16px; }
@@ -2426,13 +2427,14 @@ footer {
   .ds-gallery-top h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
   .ds-gallery-intro { margin-top: 32px; font-size: clamp(1rem, 3vw, 1.3rem); }
   .ds-gallery-flow { gap: 60px; padding-bottom: 60px; }
-  .ds-full-img img { height: 60vh; }
+  .ds-full-img img { height: auto !important; min-height: 30vh; }
+  .ds-opening-sequence .ds-full-img img { height: 100vh !important; }
   .ds-grid-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; }
   .ds-grid-three-across { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 0 auto; }
-  .scattered-trio { height: 120vw; max-height: none; }
-  .scattered-photo-1 { width: 58%; height: 48%; top: 0; left: 0%; }
-  .scattered-photo-2 { width: 60%; height: 50%; top: 26%; left: 20%; }
-  .scattered-photo-3 { width: 55%; height: 45%; bottom: 0; right: 0%; top: auto; }
+  .scattered-trio { height: 130vw; max-height: none; }
+  .scattered-photo-1 { width: 50%; height: 42%; top: 0; left: 2%; transform: rotate(-2.5deg); }
+  .scattered-photo-2 { width: 56%; height: 44%; top: 24%; left: 22%; transform: rotate(1.2deg); }
+  .scattered-photo-3 { width: 50%; height: 40%; bottom: 2%; right: 2%; top: auto; transform: rotate(-1.8deg); }
   .ds-grid-lv-pair { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 0 auto; }
   .ds-grid-lv-trio { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; margin: 30px auto; }
   .ds-grid-trio img:nth-child(2) { transform: none; }
