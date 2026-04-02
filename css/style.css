@@ -954,21 +954,10 @@ footer {
   background: #e8e4df;
   padding: clamp(40px, 5vw, 64px) clamp(48px, 6vw, 80px);
   max-width: 900px;
-  margin: -40px auto clamp(40px, 5vw, 60px);
+  margin: -20px auto clamp(40px, 5vw, 60px);
   position: relative;
   overflow: hidden;
   z-index: 1;
-}
-.about-quote-block::before {
-  content: '\201C';
-  position: absolute;
-  top: -10px;
-  left: 20px;
-  font-family: var(--serif);
-  font-size: clamp(6rem, 10vw, 9rem);
-  line-height: 1;
-  color: rgba(0,0,0,0.06);
-  pointer-events: none;
 }
 .about-quote-block p {
   font-family: var(--serif);
