@@ -60,15 +60,15 @@ a { color: inherit; }
 }
 .booking-bar-text {
   font-family: var(--sans);
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   font-weight: 500;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--muted);
 }
 .booking-bar-link {
   font-family: var(--serif);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-style: italic;
   font-weight: 400;
   color: var(--ink);
@@ -2321,7 +2321,7 @@ footer {
   .tave-row { grid-template-columns: 1fr; gap: 24px; }
 
   footer { padding: 48px 24px 28px; }
-  .ft-links { flex-wrap: wrap; gap: 14px 24px; }
+  .ft-links { flex-wrap: wrap; gap: 14px 24px; justify-content: center; }
 
   .weddings-hero { padding: 120px 24px 48px; }
   .weddings-featured { margin: 0 0 72px; }
