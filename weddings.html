@@ -40,7 +40,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <a href="index.html" class="nav-logo"><span class="nav-logo-text">Marco Wang</span></a>
   <div class="nav-links">
     <a href="weddings.html">Love Stories</a>
-    <a href="experience.html">The Experience</a>
+    <!-- <a href="experience.html">The Experience</a> -->
     <a href="about.html">About</a>
     <a href="contact.html">Inquire</a>
   </div>
@@ -52,35 +52,40 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <button class="menu-close" id="menuClose">Close</button>
   <a href="index.html">Home</a>
   <a href="weddings.html">Love Stories</a>
-  <a href="experience.html">The Experience</a>
+  <!-- <a href="experience.html">The Experience</a> -->
   <a href="about.html">About</a>
   <a href="contact.html">Inquire</a>
 </div>
 
 <!-- Page Header -->
-<div class="weddings-hero rv">
-  <div class="section-heading">
-    <span class="caps">Real</span>
-    <span class="italic">Love Stories</span>
+<div class="weddings-hero rv" style="position: relative; overflow: hidden; padding: 0; min-height: 50vh; display: flex; align-items: center; justify-content: center;">
+  <img src="images/birds-bw.jpg" alt="Birds in flight" loading="eager" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
+  <div style="position: relative; z-index: 1; text-align: center;">
+    <h1 class="ls-hero-title" style="font-family: var(--serif); font-weight: 400; font-style: normal; font-size: clamp(2.5rem, 8vw, 7rem); letter-spacing: 0.15em; text-transform: uppercase; color: #fff; margin: 0; line-height: 1.1;">Love Stories</h1>
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(0.9rem, 1.8vw, 1.3rem); color: var(--ink); margin-top: 4px;">Five celebrations, five love stories, each one uniquely told.</p>
   </div>
-  <p>Five celebrations, five love stories, each one uniquely told.</p>
 </div>
 
-<!-- Featured Wedding  -  Cinematic Hero -->
-<div class="weddings-featured rv">
-  <a href="gallery-kc.html" class="wedding-card">
+<!-- Featured Weddings Label -->
+<div style="text-align: center; padding: clamp(60px, 8vw, 100px) 48px clamp(30px, 4vw, 50px);">
+  <span style="font-family: var(--sans); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted);">Featured Weddings</span>
+</div>
+
+<!-- KC Wide -->
+<div style="max-width: 1400px; margin: 0 auto; padding: 0 48px; margin-bottom: 30px;">
+  <a href="gallery-kc.html" class="wedding-card rv" style="display: block; position: relative;">
     <div class="wedding-card-overflow">
-      <img src="kc-web/houstonian-hotel-luxury-wedding-houston-reception-09.jpg" alt="Kirby and Chase Valentine's weekend wedding at The Houstonian Hotel Houston" loading="eager">
+      <img src="kc-web/houstonian-hotel-luxury-wedding-houston-reception-09.jpg" alt="Kirby and Chase Valentine's weekend wedding at The Houstonian Hotel Houston" loading="eager" style="aspect-ratio: 21/11; object-fit: cover;">
     </div>
-    <div class="wedding-card-text">
-      <div class="wedding-card-name">Kirby &amp; Chase</div>
-      <div class="wedding-card-location">The Houstonian, Houston</div>
+    <div style="position: absolute; bottom: 30px; left: 36px; z-index: 2;">
+      <div class="wedding-card-name" style="color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.4);">Kirby &amp; Chase</div>
+      <div class="wedding-card-location" style="color: rgba(255,255,255,0.8);">The Houstonian, Houston, TX</div>
     </div>
   </a>
 </div>
 
-<!-- Wedding Gallery Grid -->
-<div class="weddings-grid">
+<!-- KR & RD Grid -->
+<div class="weddings-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 1400px; margin: 0 auto; padding: 0 48px; gap: 30px;">
   <a href="gallery-kr.html" class="wedding-card rv">
     <div class="wedding-card-overflow">
       <img src="kr-web/hero-2.jpg" alt="Kaitlin and Ryan's Tuscan wedding among cypress trees" loading="lazy">
@@ -92,13 +97,22 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   </a>
   <a href="gallery-rd.html" class="wedding-card rv">
     <div class="wedding-card-overflow">
-      <img src="rd-web/hero-paris-2.jpg" alt="Rachael and Davis at Chateau de Farcheville, Paris" loading="lazy">
+      <img src="rd-web/rd-couple-floral-arch.jpg" alt="Rachael and Davis at Ch&acirc;teau de Farcheville, France" loading="lazy">
     </div>
     <div class="wedding-card-text">
       <div class="wedding-card-name">Rachael &amp; Davis</div>
       <div class="wedding-card-location">Paris, France</div>
     </div>
   </a>
+</div>
+
+<!-- Engagement Stories Label -->
+<div style="text-align: center; padding: clamp(60px, 8vw, 100px) 48px clamp(30px, 4vw, 50px);">
+  <span style="font-family: var(--sans); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted);">Engagement Stories</span>
+</div>
+
+<!-- Engagement Gallery Grid -->
+<div class="weddings-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 1400px; margin: 0 auto; padding: 0 48px; gap: 30px;">
   <a href="gallery-nyc.html" class="wedding-card rv">
     <div class="wedding-card-overflow">
       <img src="nyc-web/hero-nyc-1.jpg" alt="Kavita and Amit at Grand Central Terminal, New York City" loading="lazy">
@@ -137,7 +151,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <ul class="ft-links">
     <li><a href="https://www.instagram.com/marcowangphotography" target="_blank" rel="noopener">Instagram</a></li>
     <li><a href="weddings.html">Love Stories</a></li>
-    <li><a href="experience.html">Experience</a></li>
+    <!-- <li><a href="experience.html">Experience</a></li> -->
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>

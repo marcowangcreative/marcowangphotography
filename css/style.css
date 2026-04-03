@@ -626,8 +626,8 @@ a { color: inherit; }
 }
 .tave-field input::placeholder,
 .tave-field textarea::placeholder {
-  color: var(--grey);
-  opacity: 0.5;
+  color: var(--muted);
+  opacity: 0.8;
   font-style: italic;
 }
 .tave-field select option[disabled] {
@@ -2323,7 +2323,8 @@ footer {
   footer { padding: 48px 24px 28px; }
   .ft-links { flex-wrap: wrap; gap: 14px 24px; justify-content: center; }
 
-  .weddings-hero { padding: 120px 24px 48px; }
+  .weddings-hero { padding: 80px 24px 48px; min-height: 35vh !important; }
+  .ls-hero-title { letter-spacing: 0.08em !important; }
   .weddings-featured { margin: 0 0 72px; }
   .weddings-featured .wedding-card-text { padding: 40px 24px 28px; }
   .weddings-featured .wedding-card-name { font-size: clamp(1.8rem, 6vw, 2.4rem); }

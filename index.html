@@ -60,7 +60,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <a href="index.html" class="nav-logo"><span class="nav-logo-text">Marco Wang</span></a>
   <div class="nav-links">
     <a href="weddings.html">Love Stories</a>
-    <a href="experience.html">The Experience</a>
+    <!-- <a href="experience.html">The Experience</a> -->
     <a href="about.html">About</a>
     <a href="contact.html">Inquire</a>
   </div>
@@ -71,7 +71,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 <div class="menu-overlay" id="menuOverlay">
   <button class="menu-close" id="menuClose">Close</button>
   <a href="weddings.html">Love Stories</a>
-  <a href="experience.html">The Experience</a>
+  <!-- <a href="experience.html">The Experience</a> -->
   <a href="about.html">About</a>
   <a href="contact.html">Inquire</a>
 </div>
@@ -139,15 +139,14 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <!-- Highlight 2 -->
   <article class="ds-highlight-block rv">
     <div class="ds-hl-text">
-      <h3>Ombroneta Casali di Bibbiano <i>Villa</i>, Tuscany</h3>
-      <p>Kaitlin &amp; Ryan &bull; Italy</p>
+      <h3>Destination Tuscany at <i>Ombroneta Estate</i></h3>
+      <p>Kaitlin &amp; Ryan &bull; Tuscany, Italy</p>
       <a href="gallery-kr.html" class="ds-hl-btn">Explore More</a>
     </div>
-    <div class="ds-hl-images">
+    <div class="ds-hl-images" style="grid-template-columns: 1fr;">
       <div class="ds-img-main">
-        <a href="gallery-kr.html"><img src="kr-web/hero-2.jpg" alt="Tuscan cypress wedding" loading="lazy"></a>
+        <a href="gallery-kr.html"><img src="kr-web/MWP35226.jpg" alt="Kaitlin and Ryan petal toss recessional at Ombroneta Villa Tuscany" loading="lazy" style="height: 350px; width: 100%; aspect-ratio: auto; object-fit: cover;"></a>
       </div>
-      <img src="kr-web/gallery-3.jpg" class="ds-img-supp" alt="Villa Pizzo Details" loading="lazy">
     </div>
   </article>
 
@@ -186,7 +185,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 <!-- Portfolio Grid -->
 <section class="portfolio-grid-section">
   <div class="portfolio-grid-header rv">
-    <span class="caps">MW &ldquo;Pinterest&rdquo;</span>
+    <span class="caps">MWPinterest</span>
     <span class="italic" style="font-size: clamp(0.7rem, 1.2vw, 0.85rem); font-style: normal; font-family: var(--sans); font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 8px;">Some of our favorites for your inspiration</span>
   </div>
 
@@ -237,10 +236,95 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   </div>
 </section>
 
-<!-- Testimonial -->
-<section class="testimonial rv">
-  <blockquote>&ldquo;Macro made us feel completely at ease from the very first call. On our wedding day, he was invisible when he needed to be and right there for every moment that mattered. The images still take our breath away.&rdquo;</blockquote>
-  <cite>Kaitlin &amp; Ryan  -  Tuscany</cite>
+<!-- Inline Inquiry Form -->
+<section class="conv-form-section rv" style="padding: clamp(40px, 5vw, 60px) 48px clamp(80px, 10vw, 140px); background: var(--warm);">
+  <div style="max-width: 680px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 64px;">
+      <div style="font-family: var(--serif); font-weight: 300; font-style: italic; font-size: clamp(1.6rem, 4vw, 2.8rem); color: var(--ink); line-height: 1; letter-spacing: -0.01em;">Let&rsquo;s Tell</div>
+      <div style="font-family: var(--serif); font-weight: 400; font-style: normal; font-size: clamp(1.8rem, 5vw, 3.5rem); color: var(--ink); line-height: 1; letter-spacing: 0.08em; text-transform: uppercase;">Your Story</div>
+    </div>
+
+    <form class="tave-form" id="homeForm">
+      <div class="tave-row">
+        <div class="tave-field">
+          <input type="text" id="hFirstName" name="FirstName" placeholder="First Name" required>
+        </div>
+        <div class="tave-field">
+          <input type="text" id="hLastName" name="LastName" placeholder="Last Name" required>
+        </div>
+      </div>
+
+      <div class="tave-row">
+        <div class="tave-field">
+          <input type="email" id="hEmail" name="Email" placeholder="Email" required>
+        </div>
+        <div class="tave-field">
+          <input type="tel" id="hPhone" name="MobilePhone" placeholder="Phone">
+        </div>
+      </div>
+
+      <div class="tave-row">
+        <div class="tave-field">
+          <label for="hDate">Wedding Date</label>
+          <input type="date" id="hDate" name="Date" min="2025-01-01" max="2030-12-31">
+        </div>
+        <div class="tave-field">
+          <label for="hJobType">Type of Event</label>
+          <select id="hJobType" name="JobType">
+            <option value="" disabled selected>Select one</option>
+            <option value="935490">Wedding</option>
+            <option value="935442">Portrait</option>
+            <option value="935469">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tave-row">
+        <div class="tave-field">
+          <label for="hJobRole">Your Role</label>
+          <select id="hJobRole" name="JobRole">
+            <option value="" disabled selected>Select one</option>
+            <option value="2020785">Bride</option>
+            <option value="2020788">Groom</option>
+            <option value="2020866">Wedding Planner</option>
+            <option value="2020815">Mother of the Bride</option>
+            <option value="2020821">Father of the Bride</option>
+            <option value="2020812">Mother of the Groom</option>
+            <option value="2020818">Father of the Groom</option>
+            <option value="2020878">Subject</option>
+            <option value="2445750">Sales Manager</option>
+          </select>
+        </div>
+        <div class="tave-field">
+          <label for="hSource">How did you find us?</label>
+          <select id="hSource" name="Source">
+            <option value="" disabled selected>Select one</option>
+            <option value="1037565">Instagram</option>
+            <option value="1037562">Google</option>
+            <option value="853116">Friend / Past Client</option>
+            <option value="853110">Planner</option>
+            <option value="853113">Photographer</option>
+            <option value="1037556">Facebook</option>
+            <option value="1037568">Blog</option>
+            <option value="1037574">Magazine</option>
+            <option value="1037559">Web</option>
+            <option value="1037571">Weddings in Houston</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tave-field tave-full">
+        <label for="hMessage">Tell us about your vision</label>
+        <textarea id="hMessage" name="Message" rows="5" placeholder="Share your plans  -  venue, guest count, what matters most to you..."></textarea>
+      </div>
+
+      <button type="submit" class="conv-form-submit" id="homeSubmitBtn">Send Inquiry</button>
+    </form>
+    <div class="tave-success" id="homeSuccess" style="display:none;">
+      <h3>Thank you!</h3>
+      <p>Your inquiry has been sent. I&rsquo;ll be in touch within 24 hours.</p>
+    </div>
+  </div>
 </section>
 
 <!-- Footer -->
@@ -251,7 +335,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <ul class="ft-links">
     <li><a href="https://www.instagram.com/marcowangphotography" target="_blank" rel="noopener">Instagram</a></li>
     <li><a href="weddings.html">Love Stories</a></li>
-    <li><a href="experience.html">Experience</a></li>
+    <!-- <li><a href="experience.html">Experience</a></li> -->
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -329,6 +413,35 @@ document.querySelectorAll('.portfolio-verticals img, .portfolio-horizontals img'
     btn.href = 'https://www.pinterest.com/pin/create/button/?url=' + encodeURIComponent(window.location.href) + '&media=' + encodeURIComponent(src) + '&description=' + encodeURIComponent('Marco Wang Photography - Houston Wedding Photographer');
   });
   if (img.complete) img.dispatchEvent(new Event('load'));
+});
+
+// Home inquiry form submission
+const homeForm = document.getElementById('homeForm');
+const homeSuccess = document.getElementById('homeSuccess');
+const homeSubmitBtn = document.getElementById('homeSubmitBtn');
+homeForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  homeSubmitBtn.textContent = 'Sending...';
+  homeSubmitBtn.disabled = true;
+  const data = Object.fromEntries(new FormData(homeForm));
+  try {
+    const res = await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) {
+      homeForm.style.display = 'none';
+      homeSuccess.style.display = 'block';
+      if (typeof fbq === 'function') { fbq('track', 'Lead'); }
+    } else {
+      homeSubmitBtn.textContent = 'Something went wrong - try again';
+      homeSubmitBtn.disabled = false;
+    }
+  } catch (err) {
+    homeSubmitBtn.textContent = 'Something went wrong - try again';
+    homeSubmitBtn.disabled = false;
+  }
 });
 </script>
 
