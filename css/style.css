@@ -1767,6 +1767,12 @@ footer {
 .asi-nyt {
   height: 28px;
 }
+.asi-iw {
+  height: 38px;
+}
+.asi-ml {
+  height: 38px;
+}
 .asi-smp {
   font-family: 'Times New Roman', "Cormorant Garamond", serif;
   font-weight: 400;
@@ -2232,9 +2238,9 @@ footer {
 .ds-asym-main img { aspect-ratio: 4/5; }
 .ds-asym-sub img { aspect-ratio: 3/4; }
 .ds-masonry-2 {
-  column-count: 2; column-gap: 40px; padding: 0 48px; max-width: 1400px; margin: 0 auto;
+  column-count: 2; column-gap: 15px; padding: 0 2vw; margin: 0 auto;
 }
-.ds-masonry-2 img { width: 100%; margin-bottom: 40px; break-inside: avoid; }
+.ds-masonry-2 img { width: 100%; margin-bottom: 15px; break-inside: avoid; }
 
 /* Nav on gallery pages (light header, no dark hero) */
 .site-nav.nav-gallery .nav-logo { color: var(--ink); }

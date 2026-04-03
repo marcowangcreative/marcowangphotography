@@ -1,0 +1,7 @@
+<svg width="220" height="40" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;display=swap');
+  </style>
+  <text x="110" y="12" font-family="'Playfair Display', 'Didot', 'Bodoni MT', Georgia, serif" font-size="10" font-weight="400" letter-spacing="2.5" text-anchor="middle" fill="#000">MODERN<tspan font-weight="900">LUXURY</tspan></text>
+  <text x="110" y="36" font-family="'Playfair Display', 'Didot', 'Bodoni MT', Georgia, serif" font-size="24" font-weight="900" letter-spacing="2" text-anchor="middle" fill="#000">WEDDINGS</text>
+</svg>
