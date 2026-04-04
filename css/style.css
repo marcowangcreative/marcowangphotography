@@ -355,10 +355,26 @@ a { color: inherit; }
   width: 100%;
   aspect-ratio: 3/4;
   object-fit: cover;
+  object-position: center center;
   transition: transform 0.8s var(--ease);
 }
 .wedding-card:hover img { transform: scale(1.03); }
-.wedding-card-overflow { overflow: hidden; }
+.wedding-card-overflow { overflow: hidden; position: relative; }
+.card-swap .card-img-default,
+.card-swap .card-img-hover {
+  transition: opacity 0.5s ease;
+}
+.card-swap .card-img-hover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+.card-swap .wedding-card-overflow:hover .card-img-default { opacity: 0; }
+.card-swap .wedding-card-overflow:hover .card-img-hover { opacity: 1; }
+.card-swap .wedding-card-overflow:hover img { transform: none !important; }
 .wedding-card-text { padding: 20px 4px 0; }
 .wedding-card-name {
   font-family: var(--serif);

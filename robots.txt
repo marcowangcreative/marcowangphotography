@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /storyboard.html
+Disallow: /wireframe.html
+
+Sitemap: https://www.marcowang.com/sitemap.xml
