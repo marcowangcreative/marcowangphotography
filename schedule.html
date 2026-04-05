@@ -61,10 +61,17 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <p style="font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 48px;">Select a date &amp; time below</p>
 
   <!-- Calendly inline widget begin -->
-  <div style="min-width:320px; height:700px; overflow:hidden;">
-    <div class="calendly-inline-widget" data-url="https://calendly.com/marco-mwp/1-hour-portrait-session?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:700px;"></div>
-  </div>
+  <div class="calendly-inline-widget" data-url="https://calendly.com/marco-mwp/1-hour-portrait-session?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:1100px;"></div>
   <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script>
+  // Lock Calendly iframe height to prevent page jumping
+  window.addEventListener('message', function(e) {
+    if (e.data.event && e.data.event === 'calendly.page_height') {
+      var iframe = document.querySelector('.calendly-inline-widget iframe');
+      if (iframe) iframe.style.height = '1100px';
+    }
+  });
+  </script>
   <!-- Calendly inline widget end -->
 </section>
 
