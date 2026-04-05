@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schedule a Session | Marco Wang Photography</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,"script",
+"https://connect.facebook.net/en_US/fbevents.js");
+fbq("init", "786554944176617");
+fbq("track", "PageView");
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+
+<!-- Booking Bar -->
+<div class="booking-bar">
+  <span class="booking-bar-text">Now accepting bookings for 2026 &amp; 2027</span>
+  <a href="contact.html" class="booking-bar-link">Check your date</a>
+</div>
+
+<!-- Navigation -->
+<nav class="site-nav nav-light" id="siteNav">
+  <a href="index.html" class="nav-logo"><span class="nav-logo-text">Marco Wang</span></a>
+  <div class="nav-links">
+    <a href="weddings.html">Love Stories</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Inquire</a>
+  </div>
+  <button class="menu-btn" id="menuBtn">Menu</button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="menu-overlay" id="menuOverlay">
+  <button class="menu-close" id="menuClose">Close</button>
+  <a href="index.html">Home</a>
+  <a href="weddings.html">Love Stories</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Inquire</a>
+</div>
+
+<!-- Schedule Section -->
+<section style="padding: 120px 24px 0; max-width: 900px; margin: 0 auto; text-align: center;">
+  <h1 style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(2rem, 4vw, 3rem); color: var(--ink); margin-bottom: 8px;">Schedule Your Session</h1>
+  <p style="font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 48px;">Select a date &amp; time below</p>
+
+  <!-- Calendly inline widget begin -->
+  <div class="calendly-inline-widget" data-url="https://calendly.com/marco-mwp/1-hour-portrait-session?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:700px;"></div>
+  <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <!-- Calendly inline widget end -->
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="ft-logo"><span class="ft-logo-name">Marco Wang</span></div>
+  <div class="ft-tagline">Fine Art Wedding Photography  -  Houston, Texas &amp; Worldwide Destinations</div>
+  <div class="ft-location">Houston, TX &amp; International</div>
+  <ul class="ft-links">
+    <li><a href="https://www.instagram.com/marcowangphotography" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="weddings.html">Love Stories</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="ft-copy">&copy; 2026 Marco Wang Photography. All rights reserved.</div>
+  <div style="margin-top: 8px; display: flex; gap: 16px; justify-content: center; font-family: var(--sans); font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;">
+    <a href="terms.html" style="color: var(--muted); text-decoration: none;">Terms &amp; Conditions</a>
+    <a href="privacy.html" style="color: var(--muted); text-decoration: none;">Privacy Policy</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('siteNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 100);
+}, { passive: true });
+document.getElementById('menuBtn').addEventListener('click', () => document.getElementById('menuOverlay').classList.add('open'));
+document.getElementById('menuClose').addEventListener('click', () => document.getElementById('menuOverlay').classList.remove('open'));
+document.querySelectorAll('.menu-overlay a').forEach(a => a.addEventListener('click', () => document.getElementById('menuOverlay').classList.remove('open')));
+</script>
+</body>
+</html>
