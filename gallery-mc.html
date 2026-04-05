@@ -88,7 +88,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
     <a href="about.html">About</a>
     <a href="contact.html">Inquire</a>
   </div>
-  <button class="menu-btn" id="menuBtn" style="color:var(--ink)">Menu</button>
+  <button class="menu-btn" id="menuBtn">Menu</button>
 </nav>
 
 <div class="menu-overlay" id="menuOverlay">
@@ -100,19 +100,33 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <a href="contact.html">Inquire</a>
 </div>
 
-<!-- D&S Header -->
-<header class="ds-gallery-top rv">
-  <h1>McKenzie &amp; Chop</h1>
-  <div class="ds-gallery-top-meta">Aspen, Colorado</div>
-  <p class="ds-gallery-intro">Golden aspens blazing against rugged mountain peaks, a couple completely at ease  -  the kind of afternoon where the light, the landscape, and the love all conspired into something unforgettable.</p>
-</header>
-
 <main class="ds-gallery-flow">
 
-  <!-- Massive Cinematic Hero -->
-  <div class="ds-full-img rv">
-    <img src="mc-web/hero-aspen-1.jpg" alt="McKenzie and Chop in Aspen" loading="eager">
+  <!-- Opening Sequence -->
+  <div class="ds-opening-sequence rv">
+    <div class="ds-full-img" style="position: relative; overflow: hidden;">
+      <img src="mc-web/hero-aspen-1.jpg" alt="McKenzie and Chop fall engagement session in Aspen Colorado - Houston photographer Marco Wang" loading="eager">
+      <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, transparent 25%, transparent 60%, rgba(0,0,0,0.35) 100%); z-index: 1; pointer-events: none;"></div>
+      <div class="gallery-hero-overlay" style="bottom: 80px; left: 48px; z-index: 2;">
+        <span style="display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(1.4rem, 3.5vw, 3.2rem); line-height: 1; letter-spacing: 0; color: #fff; margin-bottom: 4px; text-transform: none;">Golden Hour in the Aspens</span>
+        <h1 style="font-style: normal; font-weight: 300; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; letter-spacing: 0; text-transform: uppercase; margin: 0;">Aspen, Colorado</h1>
+        <span style="display: block; font-family: var(--sans); font-weight: 600; letter-spacing: 0.15em; font-size: 0.55rem; opacity: 1; margin-top: 8px; text-transform: uppercase;">McKenzie &amp; Chop &middot; Elk Mountains, Aspen</span>
+      </div>
+    </div>
+    <div class="scattered-trio" style="margin-top: -9vw; margin-left: auto; margin-right: auto; height: 52vw; max-height: 680px; position: relative; z-index: 2;">
+      <div class="scattered-photo" style="width: 28%; height: 80%; top: 10%; left: 4%; transform: rotate(-3deg); z-index: 1;">
+        <img src="mc-web/supp-embrace.jpg" alt="McKenzie and Chop embracing among golden aspens" loading="eager">
+      </div>
+      <div class="scattered-photo" style="width: 36%; height: 95%; bottom: 0%; left: 32%; transform: rotate(1.5deg); z-index: 3;">
+        <img src="mc-web/supp-aspens.jpg" alt="Couple portrait with fall aspen foliage" loading="eager">
+      </div>
+      <div class="scattered-photo" style="width: 25%; height: 72%; top: 15%; right: 5%; transform: rotate(2.5deg); z-index: 2;">
+        <img src="mc-web/supp-road.jpg" alt="Couple on mountain road at golden hour" loading="eager">
+      </div>
+    </div>
   </div>
+
+  <h2 class="sr-only">Aspen Colorado Engagement Session</h2>
 
   <div class="ds-grid-offset rv">
     <div>
@@ -162,17 +176,16 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 
 </main>
 
-<div class="vendor-credits rv" style="padding: 100px 48px; text-align:center; border-top:1px solid var(--border); font-family:var(--sans); font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--ink); line-height:2.5;">
-  <p>Photography &amp; Art Direction  -  Marco Wang</p>
-  <p>Location  -  Elk Mountains, Aspen</p>
-  <div style="text-align: center; margin-top: 80px;">
-    <a href="index.html" style="font-family:var(--sans); font-size:0.65rem; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; text-decoration:none; color:var(--ink); border-bottom:1px solid var(--border); padding-bottom:8px; transition:opacity 0.3s;">Return to Home Portfolio</a>
-  </div>
+<!-- Vendor Credits -->
+<div class="vendor-credits rv" style="padding: clamp(60px, 8vw, 100px) 48px; text-align:left; border-top:1px solid var(--border); font-family:var(--sans); font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); line-height:2.5; max-width:600px; margin: 0 auto;">
+  <p>Photography &amp; Art Direction: <a href="https://www.marcowang.com" style="color:var(--accent); text-decoration:none;">Marco Wang</a></p>
+  <p>Location: Elk Mountains, Aspen, Colorado</p>
 </div>
 
-<section class="cta-section rv" style="padding:160px 48px; text-align:center; background:var(--warm);">
-  <h2 style="font-family:var(--serif); font-style:italic; font-size:clamp(3rem,5vw,5rem); font-weight:300; margin-bottom:24px;">Dreaming of the Mountains?</h2>
-  <p style="font-family:var(--sans); font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:48px;">From quiet groves to rocky peaks, let's capture your story.</p>
+<!-- CTA -->
+<section class="cta-section rv" style="padding:clamp(80px, 12vw, 160px) 48px; text-align:center; background:var(--warm);">
+  <p style="font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(1.4rem, 3vw, 2.2rem); line-height:1.4; color:var(--muted); margin-bottom:16px; max-width:600px; margin-left:auto; margin-right:auto;">Dreaming of the mountains?</p>
+  <p style="font-family:var(--sans); font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:48px;">From quiet groves to rocky peaks, let&rsquo;s capture your story.</p>
   <a href="contact.html" style="font-family:var(--sans); font-size:0.6rem; font-weight:500; letter-spacing:0.35em; text-transform:uppercase; text-decoration:none; color:var(--white); background:var(--accent); padding:16px 48px; display:inline-block; transition: background 0.4s var(--ease), transform 0.3s;">Inquire</a>
 </section>
 
