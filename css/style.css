@@ -2456,6 +2456,10 @@ footer {
 
   /* Gallery editorial layouts — mobile */
   /* Homepage mobile */
+  .ds-home-hero { height: 50vh; height: 50dvh; }
+  .ds-home-hero .hero-slide:nth-child(1) img { object-position: center 25%; }
+  .ds-home-hero .hero-slide:nth-child(2) img { object-position: center 25%; }
+  .ds-home-hero .hero-slide:nth-child(3) img { object-position: 65% 35%; }
   .hero-line-2 { margin-left: 0; }
   .hero-line-3 { margin-left: 0; }
   .ds-statement { padding: 80px 24px; }
