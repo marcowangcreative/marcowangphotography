@@ -607,8 +607,12 @@
             <div class="event-date">May 22</div>
           </div>
           <div class="event-content">
-            <div class="event-name">Rehearsal Dinner</div>
-            <div class="event-venue">Venue TBD</div>
+            <div class="event-name">Rehearsal Dinner · 7:00 PM</div>
+            <div class="event-venue">
+              Hotel Splendide Royal · Crystal Lounge<br>
+              14 Via di Porta Pinciana, Roma<br>
+              Attire: Semi-Formal
+            </div>
           </div>
         </div>
 
@@ -618,9 +622,10 @@
             <div class="event-date">May 23</div>
           </div>
           <div class="event-content">
-            <div class="event-name">Wedding Ceremony</div>
+            <div class="event-name">Wedding Ceremony · 11:30 AM</div>
             <div class="event-venue">
               Chiesa di Sant'Anna dei Palafrenieri · Vatican City<br>
+              Attire: Semi-Formal (Vatican Appropriate)<br>
               <a href="https://en.wikipedia.org/wiki/Sant%27Anna_dei_Palafrenieri" target="_blank">View venue ↗</a>
             </div>
           </div>
@@ -632,9 +637,10 @@
             <div class="event-date">May 23</div>
           </div>
           <div class="event-content">
-            <div class="event-name">Wedding Reception</div>
+            <div class="event-name">Reception Lunch · 1:00 – 4:00 PM</div>
             <div class="event-venue">
               The St. Regis Rome<br>
+              Attire: Semi-Formal<br>
               <a href="https://www.marriott.com/en-us/hotels/romxr-the-st-regis-rome/overview/" target="_blank">View venue ↗</a>
             </div>
           </div>
@@ -675,8 +681,9 @@
         {name:"FCO – Fiumicino Airport",lat:41.803463,lng:12.251921,color:"#0066CC",label:"FCO Airport",note:"Arrive Sun 5/18 · Depart Sun 5/24"},
         {name:"CC Palace Hotel Roma",lat:41.900905,lng:12.492752,color:"#008C45",label:"CC Palace Hotel",note:"Lodging May 21–24 · Client covered"},
         {name:"Villa Taverna",lat:41.92016,lng:12.490032,color:"#CE2B37",label:"Villa Taverna",note:"Thu 5/21 · Ambassador's Residence"},
-        {name:"Chiesa di Sant'Anna dei Palafrenieri",lat:41.904067,lng:12.457488,color:"#CE2B37",label:"Chiesa di Sant'Anna",note:"Sat 5/23 · Wedding Ceremony"},
-        {name:"The St. Regis Rome",lat:41.904072,lng:12.494873,color:"#CE2B37",label:"The St. Regis",note:"Sat 5/23 · Wedding Reception"}
+        {name:"Hotel Splendide Royal",lat:41.9082,lng:12.4888,color:"#CE2B37",label:"Splendide Royal",note:"Fri 5/22 · Rehearsal Dinner · 7 PM"},
+        {name:"Chiesa di Sant'Anna dei Palafrenieri",lat:41.904067,lng:12.457488,color:"#CE2B37",label:"Chiesa di Sant'Anna",note:"Sat 5/23 · Ceremony · 11:30 AM"},
+        {name:"The St. Regis Rome",lat:41.904072,lng:12.494873,color:"#CE2B37",label:"The St. Regis",note:"Sat 5/23 · Reception Lunch · 1–4 PM"}
       ];
       var map=L.map('map',{scrollWheelZoom:false});
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
@@ -685,7 +692,8 @@
       locs.forEach(function(l){
         var svg='<svg xmlns="http://www.w3.org/2000/svg" width="30" height="42" viewBox="0 0 30 42"><path d="M15 0C6.72 0 0 6.72 0 15c0 11.25 15 27 15 27s15-15.75 15-27C30 6.72 23.28 0 15 0z" fill="'+l.color+'"/><circle cx="15" cy="15" r="6.5" fill="#fff"/></svg>';
         var ic=L.divIcon({className:'',html:svg,iconSize:[30,42],iconAnchor:[15,42],popupAnchor:[0,-38]});
-        var pop='<div style="font-family:DM Sans,sans-serif;min-width:180px;"><div style="font-family:Syne,sans-serif;font-weight:700;font-size:14px;margin-bottom:4px;">'+l.name+'</div><div style="font-size:12px;color:#6B7280;">'+l.note+'</div></div>';
+        var mapsUrl='https://www.google.com/maps/dir/?api=1&destination='+l.lat+','+l.lng;
+        var pop='<div style="font-family:DM Sans,sans-serif;min-width:180px;"><div style="font-family:Syne,sans-serif;font-weight:700;font-size:14px;margin-bottom:4px;">'+l.name+'</div><div style="font-size:12px;color:#6B7280;margin-bottom:8px;">'+l.note+'</div><a href="'+mapsUrl+'" target="_blank" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#fff;background:#0066CC;padding:6px 14px;border-radius:6px;text-decoration:none;">Navigate ↗</a></div>';
         var m=L.marker([l.lat,l.lng],{icon:ic}).addTo(map).bindPopup(pop);
         grp.addLayer(m);
         markers.push(m);
