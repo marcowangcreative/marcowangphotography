@@ -157,6 +157,8 @@ a { color: inherit; }
   transition: color 0.3s;
 }
 .nav-links a:hover { color: #fff; }
+.nav-links a.active { border-bottom: 1px solid currentColor; padding-bottom: 4px; }
+.menu-overlay a.active { border-bottom: 1px solid currentColor; padding-bottom: 4px; }
 
 /* Mobile menu button (hidden on desktop) */
 .menu-btn {
