@@ -626,5 +626,35 @@ homeForm.addEventListener('submit', async function(e) {
   </div>
   <a href="contact.html" class="sticky-btn">Check Availability</a>
 </div>
+
+<!-- Summer 2026 Promo Popup -->
+<div id="promoOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; backdrop-filter:blur(4px); opacity:0; transition:opacity 0.4s;">
+  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--cream); max-width:480px; width:90%; padding:48px 40px; text-align:center; border-radius:2px;">
+    <button id="promoClose" style="position:absolute; top:16px; right:20px; background:none; border:none; font-size:1.2rem; color:var(--muted); cursor:pointer; font-family:var(--sans);">&times;</button>
+    <p style="font-family:var(--sans); font-size:0.55rem; font-weight:600; letter-spacing:0.35em; text-transform:uppercase; color:var(--accent); margin-bottom:16px;">Limited Availability</p>
+    <p style="font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(1.6rem, 4vw, 2.2rem); line-height:1.3; color:var(--ink); margin-bottom:12px;">20% Off Remaining<br>Summer 2026 Dates</p>
+    <p style="font-family:var(--sans); font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">June &ndash; September</p>
+    <p style="font-family:var(--sans); font-size:0.7rem; color:var(--muted); line-height:1.7; margin-bottom:32px;">A handful of summer dates remain open.<br>Mention &ldquo;Summer 2026&rdquo; in your inquiry.</p>
+    <a href="contact.html" style="font-family:var(--sans); font-size:0.6rem; font-weight:500; letter-spacing:0.35em; text-transform:uppercase; text-decoration:none; color:var(--white); background:var(--accent); padding:16px 48px; display:inline-block;">Check Availability</a>
+  </div>
+</div>
+<script>
+(function(){
+  if(document.cookie.indexOf('promo_seen=1')!==-1) return;
+  setTimeout(function(){
+    var el=document.getElementById('promoOverlay');
+    el.style.display='block';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.style.opacity='1'; }); });
+  }, 15000);
+  function close(){
+    var el=document.getElementById('promoOverlay');
+    el.style.opacity='0';
+    setTimeout(function(){ el.style.display='none'; },400);
+    document.cookie='promo_seen=1;max-age=604800;path=/';
+  }
+  document.getElementById('promoClose').addEventListener('click',close);
+  document.getElementById('promoOverlay').addEventListener('click',function(e){ if(e.target===this) close(); });
+})();
+</script>
 </body>
 </html>
