@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rome Trip – Monica & Hugh Roy Wedding</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azzurro: #0066CC;
+    --azzurro-deep: #004A99;
+    --azzurro-light: #E8F0FE;
+    --rosso: #CE2B37;
+    --rosso-soft: #FFF0F0;
+    --verde: #008C45;
+    --verde-soft: #EEFAF3;
+    --bianco: #FFFFFF;
+    --nero: #1A1A1A;
+    --grigio: #6B7280;
+    --grigio-light: #F3F4F6;
+    --bg: #FAFBFC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--nero);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .flag-bar {
+    display: flex;
+    height: 5px;
+  }
+  .flag-bar div { flex: 1; }
+  .flag-green { background: var(--verde); }
+  .flag-white { background: var(--bianco); border-bottom: 1px solid #eee; }
+  .flag-red { background: var(--rosso); }
+
+  .hero {
+    background: var(--azzurro);
+    color: var(--bianco);
+    padding: 56px 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -120px; left: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .hero-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+  }
+
+  .hero-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 14px;
+    border-radius: 100px;
+    backdrop-filter: blur(4px);
+  }
+
+  .hero-flag {
+    display: flex;
+    gap: 3px;
+  }
+
+  .hero-flag span {
+    width: 18px;
+    height: 26px;
+    border-radius: 3px;
+  }
+
+  .hf-green { background: var(--verde); }
+  .hf-white { background: rgba(255,255,255,0.9); }
+  .hf-red { background: var(--rosso); }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 6px;
+    letter-spacing: -1px;
+  }
+
+  .hero .location {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+
+  .hero .date-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .date-strip .dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+
+  .section { margin-bottom: 40px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+
+  .icon-blue { background: var(--azzurro-light); color: var(--azzurro); }
+  .icon-green { background: var(--verde-soft); color: var(--verde); }
+  .icon-red { background: var(--rosso-soft); color: var(--rosso); }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--nero);
+  }
+
+  .card {
+    background: var(--bianco);
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 10px;
+    transition: box-shadow 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .flight-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .flight-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    min-width: 70px;
+    text-align: center;
+  }
+
+  .badge-out {
+    background: var(--azzurro);
+    color: var(--bianco);
+  }
+
+  .badge-return {
+    background: var(--nero);
+    color: var(--bianco);
+  }
+
+  .flight-codes {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    flex: 1;
+  }
+
+  .flight-codes .plane {
+    color: var(--azzurro);
+    margin: 0 10px;
+    font-size: 18px;
+  }
+
+  .flight-details {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .flight-details .fd-line1 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--nero);
+  }
+
+  .flight-details .fd-line2 {
+    font-size: 12px;
+    color: var(--grigio);
+    margin-top: 2px;
+  }
+
+  .lodging-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .lodging-left .l-dates {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .lodging-left .l-nights {
+    font-size: 12px;
+    color: var(--grigio);
+    margin-top: 2px;
+  }
+
+  .lodging-right { text-align: right; }
+
+  .lodging-right .l-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .pill-tbd {
+    background: var(--grigio-light);
+    color: var(--grigio);
+  }
+
+  .pill-covered {
+    background: var(--verde-soft);
+    color: var(--verde);
+  }
+
+  .l-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--azzurro);
+    text-decoration: none;
+  }
+
+  .l-link:hover { text-decoration: underline; }
+
+  .event-list { display: flex; flex-direction: column; gap: 0; }
+
+  .event-item {
+    display: flex;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid #F0F0F0;
+    position: relative;
+  }
+
+  .event-item:last-child { border-bottom: none; }
+
+  .event-day-col {
+    flex-shrink: 0;
+    width: 110px;
+  }
+
+  .event-dayname {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .event-date {
+    font-size: 12px;
+    color: var(--grigio);
+    margin-top: 2px;
+  }
+
+  .event-content { flex: 1; }
+
+  .event-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .event-venue {
+    font-size: 13px;
+    color: var(--grigio);
+    line-height: 1.5;
+  }
+
+  .event-venue a {
+    color: var(--azzurro);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .event-venue a:hover { text-decoration: underline; }
+
+  .event-item.wedding .event-name {
+    color: var(--rosso);
+  }
+
+  .event-item.wedding::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 22px;
+    bottom: 22px;
+    width: 3px;
+    border-radius: 3px;
+    background: var(--rosso);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    color: var(--grigio);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .footer-flags {
+    display: inline-flex;
+    gap: 3px;
+    margin-bottom: 10px;
+  }
+
+  .footer-flags span {
+    width: 14px; height: 4px;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 40px 24px 36px; }
+    .hero h1 { font-size: 36px; }
+    .hero-top { flex-direction: column; gap: 12px; }
+    .date-strip { flex-wrap: wrap; }
+    .flight-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .flight-details { text-align: left; }
+    .lodging-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .lodging-right { text-align: left; }
+    .event-item { flex-direction: column; gap: 6px; }
+    .event-day-col { width: auto; }
+    .event-item.wedding::before { display: none; }
+  }
+
+  .map-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--nero);
+    background: var(--grigio-light);
+    border: 1px solid #E5E7EB;
+    padding: 6px 12px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .map-chip:hover { background: #e2e4e8; }
+
+  .map-chip.active {
+    background: var(--azzurro);
+    color: var(--bianco);
+    border-color: var(--azzurro);
+  }
+
+  .map-chip.active .chip-dot { border: 1.5px solid #fff; }
+
+  .chip-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    background: var(--azzurro-light);
+    color: var(--azzurro);
+    border: none;
+    transition: background 0.2s;
+  }
+
+  .contact-btn:hover { background: #d4e4fc; }
+
+  .contact-btn-save {
+    background: var(--azzurro);
+    color: var(--bianco);
+  }
+
+  .contact-btn-save:hover { background: var(--azzurro-deep); }
+</style>
+</head>
+<body>
+
+<div class="flag-bar">
+  <div class="flag-green"></div>
+  <div class="flag-white"></div>
+  <div class="flag-red"></div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-tag">Marco Wang Photography + Flowe Team · Wedding Travel Plan</div>
+      <div class="hero-flag">
+        <span class="hf-green"></span>
+        <span class="hf-white"></span>
+        <span class="hf-red"></span>
+      </div>
+    </div>
+    <h1>Monica &amp;<br>Hugh Roy</h1>
+    <div class="location">Roma, Italia</div>
+    <div class="date-strip">
+      <span>Sunday, May 17</span>
+      <span style="opacity:0.5;">—</span>
+      <span>Sunday, May 24</span>
+      <span class="dot"></span>
+      <span>2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+      <div class="section-title">Flights · ITA Airways</div>
+    </div>
+
+    <div class="card">
+      <div class="flight-row">
+        <div class="flight-badge badge-out">Depart</div>
+        <div class="flight-codes">IAH <span class="plane">✈</span> FCO</div>
+        <div class="flight-details">
+          <div class="fd-line1">AZ637 · Sun, May 17</div>
+          <div class="fd-line2">6:10 PM → 11:50 AM +1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="flight-row">
+        <div class="flight-badge badge-return">Return</div>
+        <div class="flight-codes">FCO <span class="plane">✈</span> IAH</div>
+        <div class="flight-details">
+          <div class="fd-line1">AZ636 · Sun, May 24</div>
+          <div class="fd-line2">10:20 AM → 3:40 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="section-title">Lodging</div>
+    </div>
+
+    <div class="card">
+      <div class="lodging-row">
+        <div class="lodging-left">
+          <div class="l-dates">May 18 – 21</div>
+          <div class="l-nights">3 nights</div>
+        </div>
+        <div class="lodging-right">
+          <span class="pill pill-tbd">TBD</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="lodging-row">
+        <div class="lodging-left">
+          <div class="l-dates">May 21 – 24</div>
+          <div class="l-nights">3 nights</div>
+        </div>
+        <div class="lodging-right">
+          <div class="l-name">CC Palace Hotel Roma</div>
+          <span class="pill pill-covered">Client Covered</span><br>
+          <a class="l-link" href="https://www.ccpalacehotel.com/en/" target="_blank">ccpalacehotel.com ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-red"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="section-title">Event Schedule</div>
+    </div>
+
+    <div class="card" style="padding: 4px 24px;">
+      <div class="event-list">
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Wed / Thu</div>
+            <div class="event-date">May 20 or 21</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Portrait Session</div>
+            <div class="event-venue"><span class="pill pill-tbd" style="font-size:9px;">Tentative</span></div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Thursday</div>
+            <div class="event-date">May 21</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Ambassador's Residence</div>
+            <div class="event-venue">
+              Villa Taverna · Rome<br>
+              <a href="https://it.usembassy.gov/villa-taverna-the-u-s-ambassadors-residence/" target="_blank">View venue ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Friday</div>
+            <div class="event-date">May 22</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Rehearsal Dinner</div>
+            <div class="event-venue">Venue TBD</div>
+          </div>
+        </div>
+
+        <div class="event-item wedding">
+          <div class="event-day-col">
+            <div class="event-dayname">Saturday</div>
+            <div class="event-date">May 23</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Wedding Ceremony</div>
+            <div class="event-venue">
+              Chiesa di Sant'Anna dei Palafrenieri · Vatican City<br>
+              <a href="https://en.wikipedia.org/wiki/Sant%27Anna_dei_Palafrenieri" target="_blank">View venue ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-item wedding">
+          <div class="event-day-col">
+            <div class="event-dayname">Saturday</div>
+            <div class="event-date">May 23</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Wedding Reception</div>
+            <div class="event-venue">
+              The St. Regis Rome<br>
+              <a href="https://www.marriott.com/en-us/hotels/romxr-the-st-regis-rome/overview/" target="_blank">View venue ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Sunday</div>
+            <div class="event-date">May 24</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Depart Rome</div>
+            <div class="event-venue">AZ636 · FCO 10:20 AM → IAH 3:40 PM</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></div>
+      <div class="section-title">Location Map</div>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden;">
+      <div id="map" style="width:100%; height:420px; border-radius:12px 12px 0 0;"></div>
+      <div id="map-legend" style="display:flex; flex-wrap:wrap; gap:6px; padding:14px 16px; background:#fff; border-top:1px solid #E5E7EB;"></div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script>
+    (function(){
+      var locs = [
+        {name:"FCO – Fiumicino Airport",lat:41.803463,lng:12.251921,color:"#0066CC",label:"FCO Airport",note:"Arrive Sun 5/18 · Depart Sun 5/24"},
+        {name:"CC Palace Hotel Roma",lat:41.900905,lng:12.492752,color:"#008C45",label:"CC Palace Hotel",note:"Lodging May 21–24 · Client covered"},
+        {name:"Villa Taverna",lat:41.92016,lng:12.490032,color:"#CE2B37",label:"Villa Taverna",note:"Thu 5/21 · Ambassador's Residence"},
+        {name:"Chiesa di Sant'Anna dei Palafrenieri",lat:41.904067,lng:12.457488,color:"#CE2B37",label:"Chiesa di Sant'Anna",note:"Sat 5/23 · Wedding Ceremony"},
+        {name:"The St. Regis Rome",lat:41.904072,lng:12.494873,color:"#CE2B37",label:"The St. Regis",note:"Sat 5/23 · Wedding Reception"}
+      ];
+      var map=L.map('map',{scrollWheelZoom:false});
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
+      var grp=L.featureGroup();
+      var markers=[];
+      locs.forEach(function(l){
+        var svg='<svg xmlns="http://www.w3.org/2000/svg" width="30" height="42" viewBox="0 0 30 42"><path d="M15 0C6.72 0 0 6.72 0 15c0 11.25 15 27 15 27s15-15.75 15-27C30 6.72 23.28 0 15 0z" fill="'+l.color+'"/><circle cx="15" cy="15" r="6.5" fill="#fff"/></svg>';
+        var ic=L.divIcon({className:'',html:svg,iconSize:[30,42],iconAnchor:[15,42],popupAnchor:[0,-38]});
+        var pop='<div style="font-family:DM Sans,sans-serif;min-width:180px;"><div style="font-family:Syne,sans-serif;font-weight:700;font-size:14px;margin-bottom:4px;">'+l.name+'</div><div style="font-size:12px;color:#6B7280;">'+l.note+'</div></div>';
+        var m=L.marker([l.lat,l.lng],{icon:ic}).addTo(map).bindPopup(pop);
+        grp.addLayer(m);
+        markers.push(m);
+      });
+      map.fitBounds(grp.getBounds().pad(0.12));
+
+      var leg=document.getElementById('map-legend');
+      var allBtn=document.createElement('button');
+      allBtn.className='map-chip active';
+      allBtn.innerHTML='<span class="chip-dot" style="background:#1A1A1A;"></span>All';
+      allBtn.onclick=function(){
+        map.fitBounds(grp.getBounds().pad(0.12));
+        leg.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active');});
+        allBtn.classList.add('active');
+      };
+      leg.appendChild(allBtn);
+
+      locs.forEach(function(l,i){
+        var ch=document.createElement('button');
+        ch.className='map-chip';
+        ch.innerHTML='<span class="chip-dot" style="background:'+l.color+';"></span>'+l.label;
+        ch.onclick=function(){
+          map.flyTo([l.lat,l.lng],l.name.includes('Airport')?13:16,{duration:1});
+          markers[i].openPopup();
+          leg.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active');});
+          ch.classList.add('active');
+        };
+        leg.appendChild(ch);
+      });
+    })();
+    </script>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <div class="section-title">Team Contacts</div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div>
+          <div style="font-family:'Syne',sans-serif; font-size:17px; font-weight:600;">Marco Wang</div>
+          <div style="font-size:13px; color:var(--grigio); margin-top:2px;">Photographer</div>
+          <a href="tel:+18324514298" style="font-size:14px; color:var(--azzurro); text-decoration:none; font-weight:500;">+1 (832) 451-4298</a>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <a href="tel:+18324514298" class="contact-btn">Call</a>
+          <a href="sms:+18324514298" class="contact-btn">Text</a>
+          <a class="contact-btn contact-btn-save" onclick="saveContact('Marco','Wang','+18324514298','Photographer','Marco Wang Photography')">Save Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div>
+          <div style="font-family:'Syne',sans-serif; font-size:17px; font-weight:600;">Jordan Wang</div>
+          <div style="font-size:13px; color:var(--grigio); margin-top:2px;">Stylist</div>
+          <a href="tel:+18329167131" style="font-size:14px; color:var(--azzurro); text-decoration:none; font-weight:500;">+1 (832) 916-7131</a>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <a href="tel:+18329167131" class="contact-btn">Call</a>
+          <a href="sms:+18329167131" class="contact-btn">Text</a>
+          <a class="contact-btn contact-btn-save" onclick="saveContact('Jordan','Wang','+18329167131','Stylist','Flowe Collective')">Save Contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+function saveContact(first, last, phone, title, org) {
+  var vcard = 'BEGIN:VCARD\n' +
+    'VERSION:3.0\n' +
+    'N:' + last + ';' + first + ';;;\n' +
+    'FN:' + first + ' ' + last + '\n' +
+    'ORG:' + org + '\n' +
+    'TITLE:' + title + '\n' +
+    'TEL;TYPE=CELL:' + phone + '\n' +
+    'END:VCARD';
+  var blob = new Blob([vcard], { type: 'text/vcard' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = first + '_' + last + '.vcf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
