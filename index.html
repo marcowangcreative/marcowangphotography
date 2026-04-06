@@ -72,8 +72,8 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 
 <!-- Booking Bar -->
 <div class="booking-bar">
-  <span class="booking-bar-text">Now accepting bookings for 2026 &amp; 2027</span>
-  <a href="contact.html" class="booking-bar-link">Check your date</a>
+  <span class="booking-bar-text">Now booking 2026 &amp; 2027 &nbsp;&bull;&nbsp; Collections from $10,800</span>
+  <a href="contact.html" class="booking-bar-link">Check Availability</a>
 </div>
 
 <!-- Navigation -->
@@ -83,7 +83,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
     <a href="weddings.html">Love Stories</a>
     <!-- <a href="experience.html">The Experience</a> -->
     <a href="about.html">About</a>
-    <a href="contact.html">Inquire</a>
+    <a href="contact.html">Check Availability</a>
   </div>
   <button class="menu-btn" id="menuBtn">Menu</button>
 </nav>
@@ -94,7 +94,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <a href="weddings.html">Love Stories</a>
   <!-- <a href="experience.html">The Experience</a> -->
   <a href="about.html">About</a>
-  <a href="contact.html">Inquire</a>
+  <a href="contact.html">Check Availability</a>
 </div>
 
 <!-- Hero with rotating images -->
@@ -107,6 +107,15 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   </div>
   <div class="hero-slide">
     <img src="images/hero-slider/tuscany-italy-destination-wedding-ombroneta.jpg" alt="Tuscany Italy fine art luxury destination wedding photography at Ombroneta" loading="lazy">
+  </div>
+  <!-- Hero CTA Overlay -->
+  <div class="hero-cta-overlay">
+    <p class="hero-cta-sub">Houston &amp; Destination Wedding Photographer</p>
+    <p class="hero-cta-price">Collections begin at $10,800</p>
+    <div class="hero-cta-buttons">
+      <a href="contact.html" class="hero-cta-btn hero-cta-primary">Check Availability</a>
+      <a href="experience.html" class="hero-cta-btn hero-cta-secondary">View Pricing</a>
+    </div>
   </div>
 </header>
 
@@ -324,7 +333,7 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
         <textarea id="hMessage" name="Message" rows="5" placeholder="Share your plans  -  venue, guest count, what matters most to you..."></textarea>
       </div>
 
-      <button type="submit" class="conv-form-submit" id="homeSubmitBtn">Send Inquiry</button>
+      <button type="submit" class="conv-form-submit" id="homeSubmitBtn">Check Availability</button>
     </form>
     <div class="tave-success" id="homeSuccess" style="display:none;">
       <h3>Thank you!</h3>
@@ -480,6 +489,143 @@ homeForm.addEventListener('submit', async function(e) {
 .pin-btn:hover {
   background: rgba(189,8,28,1);
 }
+
+/* ─── Hero CTA Overlay ─── */
+.hero-cta-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 10;
+  padding: 0 48px 52px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.hero-cta-sub {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 8px;
+}
+.hero-cta-price {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 20px;
+  letter-spacing: 0.01em;
+}
+.hero-cta-buttons {
+  display: flex;
+  gap: 12px;
+}
+.hero-cta-btn {
+  font-family: var(--sans);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 28px;
+  transition: all 0.3s var(--ease);
+}
+.hero-cta-primary {
+  background: rgba(255,255,255,0.95);
+  color: #1a1a1a;
+}
+.hero-cta-primary:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+.hero-cta-secondary {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+.hero-cta-secondary:hover {
+  border-color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.08);
+}
+
+/* ─── Sticky Mobile CTA Bar ─── */
+.mobile-sticky-cta {
+  display: none;
+}
+@media (max-width: 768px) {
+  .mobile-sticky-cta {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 400;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    padding: 10px 16px;
+    gap: 8px;
+    align-items: center;
+  }
+  .mobile-sticky-cta .sticky-price {
+    flex: 1;
+    font-family: var(--serif);
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .mobile-sticky-cta .sticky-price span {
+    display: block;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 0.45rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .mobile-sticky-cta .sticky-btn {
+    font-family: var(--sans);
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: var(--ink);
+    color: var(--white);
+    padding: 14px 20px;
+    white-space: nowrap;
+    transition: background 0.3s;
+  }
+  .mobile-sticky-cta .sticky-btn:hover {
+    background: var(--ink-soft);
+  }
+
+  /* Adjust hero overlay for mobile */
+  .hero-cta-overlay {
+    padding: 0 24px 40px;
+    align-items: flex-start;
+  }
+  .hero-cta-sub { font-size: 0.5rem; letter-spacing: 0.2em; }
+  .hero-cta-price { font-size: 0.85rem; margin-bottom: 16px; }
+  .hero-cta-buttons { flex-direction: column; gap: 8px; width: 100%; }
+  .hero-cta-btn { text-align: center; padding: 12px 24px; }
+
+  /* Add bottom padding to body so sticky bar doesn't cover content */
+  body { padding-bottom: 64px; }
+}
 </style>
+
+<!-- Sticky Mobile CTA Bar -->
+<div class="mobile-sticky-cta">
+  <div class="sticky-price">
+    <span>Collections from</span>
+    $10,800
+  </div>
+  <a href="contact.html" class="sticky-btn">Check Availability</a>
+</div>
 </body>
 </html>
