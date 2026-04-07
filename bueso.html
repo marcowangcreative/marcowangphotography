@@ -703,8 +703,6 @@
         grp.addLayer(m);
         markers.push(m);
       });
-      var routeCoords=locs.map(function(l){return[l.lat,l.lng];});
-      L.polyline(routeCoords,{color:'#C4A265',weight:2,opacity:0.5,dashArray:'6 6'}).addTo(map);
       map.fitBounds(grp.getBounds().pad(0.2));
 
       var leg=document.getElementById('map-legend');
