@@ -2130,12 +2130,12 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .booking-bar { height: 56px; padding: 6px 20px; flex-direction: column; gap: 4px; justify-content: center; }
+  .booking-bar { height: 40px; padding: 0 20px; flex-direction: row; gap: 12px; }
   .booking-bar-text { font-size: 0.45rem; letter-spacing: 0.2em; }
   .booking-bar-link { font-size: 0.70rem; }
 
-  .site-nav { padding: 20px 24px; top: 56px; }
-  .site-nav.scrolled { padding: 14px 24px; top: 56px; }
+  .site-nav { padding: 20px 24px; top: 40px; }
+  .site-nav.scrolled { padding: 14px 24px; top: 40px; }
   .site-nav.nav-light { top: 56px; }
   .nav-links { display: none; }
   .menu-btn { display: block; }
