@@ -1946,6 +1946,142 @@ footer {
 .gallery-breadcrumb span[aria-hidden] { margin: 0 8px; color: var(--border); }
 
 /* ─── RESPONSIVE ─── */
+/* ─── DROPS PAGE ─── */
+.drops-header {
+  padding: 140px 48px 48px;
+  text-align: center;
+  background: var(--cream);
+}
+.drops-label {
+  font-family: var(--sans);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--grey);
+  display: block;
+  margin-bottom: 16px;
+}
+.drops-title {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.drops-subtitle {
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.drops-grid {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 48px 120px;
+}
+.drops-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.drops-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+.drops-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.drops-card-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+.drops-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 35% 60%;
+  transition: transform 0.8s var(--ease);
+}
+.drops-card:hover .drops-card-image img {
+  transform: scale(1.03);
+}
+.drops-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: var(--sans);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--white);
+  padding: 6px 14px;
+}
+.drops-card-info {
+  padding: 28px 28px 32px;
+}
+.drops-card-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.drops-card-desc {
+  font-family: var(--body);
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.drops-card-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.drops-price {
+  font-family: var(--sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+}
+.drops-price-original {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--grey);
+  text-decoration: line-through;
+}
+.drops-card-btn {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 14px 36px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  transition: background 0.3s, color 0.3s;
+}
+.drops-card-link:hover .drops-card-btn {
+  background: var(--ink);
+  color: var(--white);
+}
+
 @media (max-width: 1024px) {
   .ds-grid-offset { gap: 40px; }
   .ds-asym-pair { gap: 60px; }
@@ -1989,6 +2125,9 @@ footer {
   .contact-split-form { padding: 48px 24px; }
   .conv-form-section { padding: 72px 24px; }
   .tave-row { grid-template-columns: 1fr; gap: 24px; }
+
+  .drops-header { padding: 140px 24px 40px; }
+  .drops-grid { padding: 0 24px 72px; max-width: 100%; }
 
   footer { padding: 48px 24px 28px; }
   .ft-links { flex-wrap: wrap; gap: 14px 24px; justify-content: center; }
