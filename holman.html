@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abby & John — Holman Ranch</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root {
+  --cream: #f7f3ed;
+  --warm-white: #faf8f4;
+  --sand: #d4c5a9;
+  --dune: #c2b59b;
+  --driftwood: #a89a7e;
+  --sage: #8a9a7b;
+  --sage-light: #b5c4a8;
+  --coast: #7a95a0;
+  --tide: #5e7f8a;
+  --slate: #4a5553;
+  --bark: #3e3a34;
+  --pebble: #8a8378;
+  --fog: #d9d4cc;
+  --card: #fff;
+  --border: #e5e2dc;
+  --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  color: var(--bark);
+  background: var(--warm-white);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+a { color: var(--coast); text-decoration: none; }
+a:hover { color: var(--tide); }
+
+/* ── HERO ── */
+.hero {
+  padding: 48px 40px 40px;
+  text-align: center;
+  background: var(--slate);
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 400px 300px at 70% 30%, rgba(138,154,123,0.12) 0%, transparent 70%);
+}
+
+.hero-tag {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--sage-light);
+  margin-bottom: 24px;
+  font-weight: 400;
+  opacity: 0.8;
+  position: relative;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.hero-location {
+  font-family: 'Lora', serif;
+  font-size: 1rem;
+  color: var(--sand);
+  font-weight: 400;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.hero-dates {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--fog);
+  background: rgba(255,255,255,0.06);
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+}
+
+.hero-dates .dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+/* ── SECTIONS ── */
+.section { margin-bottom: 40px; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.section-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-coast { background: rgba(122,149,160,0.12); color: var(--coast); }
+.icon-sage { background: rgba(138,154,123,0.12); color: var(--sage); }
+.icon-driftwood { background: rgba(168,154,126,0.15); color: var(--driftwood); }
+
+.section-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--bark);
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 10px;
+  transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+
+/* ── FLIGHTS ── */
+.flight-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.flight-badge {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  min-width: 70px;
+  text-align: center;
+}
+
+.badge-out { background: var(--coast); color: #fff; }
+.badge-return { background: var(--bark); color: #fff; }
+
+.flight-codes {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  flex: 1;
+}
+
+.flight-codes .plane { color: var(--coast); margin: 0 10px; font-size: 16px; }
+
+.flight-details { text-align: right; flex-shrink: 0; }
+.flight-details .fd-line1 { font-size: 13px; font-weight: 500; color: var(--bark); }
+.flight-details .fd-line2 { font-size: 12px; color: var(--pebble); margin-top: 2px; }
+
+/* ── LODGING ── */
+.lodging-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lodging-left .l-dates { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; }
+.lodging-left .l-nights { font-size: 12px; color: var(--pebble); margin-top: 2px; }
+
+.lodging-right { text-align: right; }
+.lodging-right .l-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+
+.pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
+.pill-tbd { background: rgba(217,212,204,0.4); color: var(--pebble); }
+.pill-covered { background: rgba(138,154,123,0.12); color: var(--sage); }
+
+.l-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--coast);
+}
+
+/* ── EVENTS ── */
+.event-list { display: flex; flex-direction: column; }
+
+.event-item {
+  display: flex;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(217,212,204,0.5);
+  position: relative;
+}
+.event-item:last-child { border-bottom: none; }
+
+.event-day-col { flex-shrink: 0; width: 110px; }
+.event-dayname { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 500; }
+.event-date { font-size: 12px; color: var(--pebble); margin-top: 2px; }
+
+.event-content { flex: 1; }
+.event-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+.event-venue { font-size: 13px; color: var(--pebble); line-height: 1.5; }
+.event-venue a { color: var(--coast); font-weight: 500; }
+
+.event-item.wedding .event-name { color: var(--sage); }
+.event-item.wedding::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 22px; bottom: 22px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--sage);
+}
+
+.golf-tag {
+  display: inline-block;
+  background: rgba(138,154,123,0.1);
+  border: 1px solid rgba(138,154,123,0.2);
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--sage);
+  font-weight: 500;
+  margin-top: 6px;
+}
+
+/* ── MAP ── */
+.map-card { padding: 0; overflow: hidden; }
+#map { width: 100%; height: 420px; border-radius: var(--radius) var(--radius) 0 0; }
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 14px 16px;
+  background: #fff;
+  border-top: 1px solid var(--border);
+}
+
+.map-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--bark);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.map-chip:hover { background: var(--cream); }
+.map-chip.active { background: var(--bark); color: #fff; border-color: var(--bark); }
+
+.chip-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+
+/* ── CONTACTS ── */
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  background: rgba(122,149,160,0.1);
+  color: var(--coast);
+  border: none;
+  transition: background 0.2s;
+}
+.contact-btn:hover { background: rgba(122,149,160,0.18); }
+.contact-btn-save { background: var(--coast); color: #fff; }
+.contact-btn-save:hover { background: var(--tide); }
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 32px 16px;
+  font-size: 11px;
+  color: var(--pebble);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Jost', sans-serif;
+}
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 2.4rem; }
+  .hero-dates { flex-wrap: wrap; }
+  .flight-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .flight-details { text-align: left; }
+  .lodging-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .lodging-right { text-align: left; }
+  .event-item { flex-direction: column; gap: 6px; }
+  .event-day-col { width: auto; }
+  .event-item.wedding::before { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Marco Wang Photography + Flowe Team · Wedding Travel Plan</div>
+  <h1>Abby & John</h1>
+  <div class="hero-location">Carmel Valley, California</div>
+  <div class="hero-dates">
+    <span>Wednesday, Sep 30</span>
+    <span style="opacity:0.4;">—</span>
+    <span>Sunday, Oct 4</span>
+    <span class="dot"></span>
+    <span>2026</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- FLIGHTS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-coast"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+      <div class="section-title">Flights · Southwest Airlines</div>
+    </div>
+
+    <div class="card">
+      <div class="flight-row">
+        <div class="flight-badge badge-out">Depart</div>
+        <div class="flight-codes">HOU <span class="plane">✈</span> SJC</div>
+        <div class="flight-details">
+          <div class="fd-line1">Nonstop · Wed, Sep 30</div>
+          <div class="fd-line2">~7:45 AM → ~10:55 AM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="flight-row">
+        <div class="flight-badge badge-return">Return</div>
+        <div class="flight-codes">SJC <span class="plane">✈</span> HOU</div>
+        <div class="flight-details">
+          <div class="fd-line1">Nonstop · Sun, Oct 4</div>
+          <div class="fd-line2">TBD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LODGING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-sage"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="section-title">Lodging</div>
+    </div>
+
+    <div class="card">
+      <div class="lodging-row">
+        <div class="lodging-left">
+          <div class="l-dates">Sep 30</div>
+          <div class="l-nights">1 night</div>
+        </div>
+        <div class="lodging-right">
+          <div class="l-name"><a href="https://www.innatpasatiempo.com/" target="_blank">Inn at Pasatiempo</a></div>
+          <div class="golf-tag" style="margin-top:4px;">⛳ Golf Package</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="lodging-row">
+        <div class="lodging-left">
+          <div class="l-dates">Oct 1 – 3</div>
+          <div class="l-nights">3 nights</div>
+        </div>
+        <div class="lodging-right">
+          <div class="l-name"><a href="https://www.holmanranch.com/" target="_blank">Holman Ranch</a></div>
+          <span class="pill pill-covered">Client Covered</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-driftwood"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="section-title">Event Schedule</div>
+    </div>
+    <div style="font-size:12px; color:var(--pebble); margin-bottom:14px; display:flex; gap:16px; align-items:center;">
+      <span style="display:inline-flex; align-items:center; gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C4A265" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/><polyline points="8 6 12 2 16 6"/></svg> Sunrise ~7:05 AM</span>
+      <span style="display:inline-flex; align-items:center; gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a89a7e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/><polyline points="16 6 12 10 8 6"/></svg> Sunset ~6:40 PM</span>
+    </div>
+
+    <div class="card" style="padding: 4px 24px;">
+      <div class="event-list">
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Wednesday</div>
+            <div class="event-date">Sep 30</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Arrive San Jose · 10:55 AM</div>
+            <div class="event-venue">Norman Y. Mineta San Jose International Airport (SJC)<br><em style="font-size:12px; color:var(--sage); font-style:italic;">Pick up rental car · 15 min drive to Pasatiempo</em></div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Wednesday</div>
+            <div class="event-date">Sep 30</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Pasatiempo Golf Club · ~12:00 PM</div>
+            <div class="event-venue">
+              <a href="https://www.pasatiempo.com/" target="_blank">Pasatiempo Golf Club</a> · Santa Cruz<br>
+              <a href="https://maps.app.goo.gl/pasatiempo" target="_blank" style="color:var(--pebble);">20 Clubhouse Rd, Santa Cruz, CA 95060</a><br>
+              <em style="font-size:12px; color:var(--sage); font-style:italic;">Alister MacKenzie design · Top 100 U.S. course</em>
+            </div>
+            <div class="golf-tag">⛳ 18 Holes · Walking</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Wednesday</div>
+            <div class="event-date">Sep 30</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Inn at Pasatiempo · Evening</div>
+            <div class="event-venue">
+              Dinner — Back Nine Grill & Bar<br>
+              <a href="https://maps.google.com/?q=Inn+at+Pasatiempo" target="_blank" style="color:var(--pebble);">555 Highway 17, Santa Cruz, CA 95060</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Thursday</div>
+            <div class="event-date">Oct 1</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Pacific Grove Golf Links · 7:00 AM</div>
+            <div class="event-venue">
+              <a href="https://www.playpacificgrove.com/" target="_blank">Pacific Grove Golf Links</a> · Pacific Grove<br>
+              <a href="https://maps.google.com/?q=Pacific+Grove+Golf+Links" target="_blank" style="color:var(--pebble);">77 Asilomar Blvd, Pacific Grove, CA 93950</a><br>
+              <em style="font-size:12px; color:var(--sage); font-style:italic;">The Poor Man's Pebble · Oceanside back nine</em>
+            </div>
+            <div class="golf-tag">⛳ 18 Holes · Cart</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Thursday</div>
+            <div class="event-date">Oct 1</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Arrive Holman Ranch · ~12:30 PM</div>
+            <div class="event-venue">
+              <a href="https://www.holmanranch.com/" target="_blank">Holman Ranch</a> · Carmel Valley<br>
+              <a href="https://maps.google.com/?q=Holman+Ranch+Carmel+Valley" target="_blank" style="color:var(--pebble);">60 Holman Rd, Carmel Valley, CA 93924</a><br>
+              <em style="font-size:12px; color:var(--sage); font-style:italic;">Scout venue · Check light · Settle in</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Thursday</div>
+            <div class="event-date">Oct 1</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Explore Carmel-by-the-Sea · Afternoon</div>
+            <div class="event-venue"><em style="font-size:12px; color:var(--sage); font-style:italic;">Wine tasting · Carmel Valley Rd wineries</em></div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Friday</div>
+            <div class="event-date">Oct 2</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Rehearsal · TBD</div>
+            <div class="event-venue"><a href="https://www.holmanranch.com/" target="_blank">Holman Ranch</a> · Carmel Valley</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Friday</div>
+            <div class="event-date">Oct 2</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Rehearsal Dinner · TBD</div>
+            <div class="event-venue">Venue TBD<br>Attire: TBD</div>
+            <span class="pill pill-tbd" style="font-size:10px; margin-top:6px;">View Styling Guide · Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="event-item wedding">
+          <div class="event-day-col">
+            <div class="event-dayname">Saturday</div>
+            <div class="event-date">Oct 3</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Wedding Ceremony · TBD</div>
+            <div class="event-venue">
+              <a href="https://www.holmanranch.com/" target="_blank">Holman Ranch</a> · Carmel Valley<br>
+              <a href="https://maps.google.com/?q=Holman+Ranch+Carmel+Valley" target="_blank" style="color:var(--pebble);">60 Holman Rd, Carmel Valley, CA 93924</a><br>
+              Attire: TBD
+            </div>
+            <span class="pill pill-tbd" style="font-size:10px; margin-top:6px;">View Styling Guide · Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="event-item wedding">
+          <div class="event-day-col">
+            <div class="event-dayname">Saturday</div>
+            <div class="event-date">Oct 3</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Reception · TBD</div>
+            <div class="event-venue"><a href="https://www.holmanranch.com/" target="_blank">Holman Ranch</a><br>Attire: TBD</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Sunday</div>
+            <div class="event-date">Oct 4</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Depart Carmel Valley</div>
+            <div class="event-venue">Holman Ranch → SJC · ~90 min via Hwy 101</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-day-col">
+            <div class="event-dayname">Sunday</div>
+            <div class="event-date">Oct 4</div>
+          </div>
+          <div class="event-content">
+            <div class="event-name">Depart San Jose · TBD</div>
+            <div class="event-venue">SW Nonstop · SJC → HOU</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-coast"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></div>
+      <div class="section-title">Location Map</div>
+    </div>
+
+    <div class="card map-card">
+      <div id="map"></div>
+      <div class="map-legend" id="map-legend"></div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-coast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <div class="section-title">Team Contacts</div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div>
+          <div style="font-family:'Playfair Display',serif; font-size:17px; font-weight:500;">Marco Wang</div>
+          <div style="font-size:13px; color:var(--pebble); margin-top:2px;">Photographer</div>
+          <a href="tel:+18324514298" style="font-size:14px; color:var(--coast); font-weight:400;">+1 (832) 451-4298</a>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <a href="tel:+18324514298" class="contact-btn">Call</a>
+          <a href="sms:+18324514298" class="contact-btn">Text</a>
+          <a class="contact-btn contact-btn-save" onclick="saveContact('Marco','Wang','+18324514298','Photographer','Marco Wang Photography')">Save Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div>
+          <div style="font-family:'Playfair Display',serif; font-size:17px; font-weight:500;">Jordan Wang</div>
+          <div style="font-size:13px; color:var(--pebble); margin-top:2px;">Stylist</div>
+          <a href="tel:+18329167131" style="font-size:14px; color:var(--coast); font-weight:400;">+1 (832) 916-7131</a>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <a href="tel:+18329167131" class="contact-btn">Call</a>
+          <a href="sms:+18329167131" class="contact-btn">Text</a>
+          <a class="contact-btn contact-btn-save" onclick="saveContact('Jordan','Wang','+18329167131','Stylist','Flowe Collective')">Save Contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Marco Wang Photography + Flowe Team</div>
+
+<script>
+(function(){
+  var locs = [
+    {name:"SJC Airport",lat:37.3639,lng:-121.9289,color:"#7a95a0",desc:"Arrive Wed 9/30 · Depart Sun 10/4",mapsUrl:"https://maps.google.com/?q=San+Jose+International+Airport"},
+    {name:"Pasatiempo Golf Club",lat:36.9855,lng:-122.0271,color:"#8a9a7b",desc:"Wed 9/30 · 18 Holes · MacKenzie Design",mapsUrl:"https://maps.google.com/?q=Pasatiempo+Golf+Club+Santa+Cruz"},
+    {name:"Inn at Pasatiempo",lat:36.9850,lng:-122.0250,color:"#a89a7e",desc:"Lodging Wed 9/30 · 1 night",mapsUrl:"https://maps.google.com/?q=Inn+at+Pasatiempo"},
+    {name:"Pacific Grove Golf",lat:36.6187,lng:-121.9294,color:"#8a9a7b",desc:"Thu 10/1 · 7 AM · Oceanside Back Nine",mapsUrl:"https://maps.google.com/?q=Pacific+Grove+Golf+Links"},
+    {name:"Holman Ranch",lat:36.4178,lng:-121.7330,color:"#c2b59b",desc:"Oct 1–3 · Wedding Venue & Lodging",mapsUrl:"https://maps.google.com/?q=Holman+Ranch+Carmel+Valley"}
+  ];
+  var map=L.map('map',{scrollWheelZoom:false,attributionControl:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
+  var grp=L.featureGroup();
+  var markers=[];
+  locs.forEach(function(l){
+    var dot='<div style="width:14px;height:14px;border-radius:50%;background:'+l.color+';border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.25);"></div>';
+    var ic=L.divIcon({className:'',html:dot,iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-10]});
+    var pop='<div style="font-family:Jost,sans-serif;min-width:180px;"><div style="font-family:Playfair Display,serif;font-weight:500;font-size:14px;margin-bottom:4px;">'+l.name+'</div><div style="font-size:12px;color:#8a8378;margin-bottom:8px;">'+l.desc+'</div><a href="'+l.mapsUrl+'" target="_blank" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:#fff;background:#7a95a0;padding:6px 14px;border-radius:6px;text-decoration:none;">Navigate ↗</a></div>';
+    var m=L.marker([l.lat,l.lng],{icon:ic}).addTo(map).bindPopup(pop);
+    grp.addLayer(m);
+    markers.push(m);
+  });
+  map.fitBounds(grp.getBounds().pad(0.2));
+
+  var leg=document.getElementById('map-legend');
+  var allBtn=document.createElement('button');
+  allBtn.className='map-chip active';
+  allBtn.innerHTML='<span class="chip-dot" style="background:#3e3a34"></span>All';
+  allBtn.onclick=function(){
+    map.fitBounds(grp.getBounds().pad(0.2));
+    leg.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active')});
+    allBtn.classList.add('active');
+  };
+  leg.appendChild(allBtn);
+
+  locs.forEach(function(l,i){
+    var ch=document.createElement('button');
+    ch.className='map-chip';
+    ch.innerHTML='<span class="chip-dot" style="background:'+l.color+'"></span>'+l.name;
+    ch.onclick=function(){
+      map.flyTo([l.lat,l.lng],l.name.includes('Airport')?12:15,{duration:1});
+      markers[i].openPopup();
+      leg.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active')});
+      ch.classList.add('active');
+    };
+    leg.appendChild(ch);
+  });
+})();
+
+function saveContact(first, last, phone, title, org) {
+  var vcard = 'BEGIN:VCARD\nVERSION:3.0\nN:' + last + ';' + first + ';;;\nFN:' + first + ' ' + last + '\nORG:' + org + '\nTITLE:' + title + '\nTEL;TYPE=CELL:' + phone + '\nEND:VCARD';
+  var blob = new Blob([vcard], { type: 'text/vcard' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = first + '_' + last + '.vcf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
