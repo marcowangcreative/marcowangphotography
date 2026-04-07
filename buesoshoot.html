@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rome Portrait Session. Route Guide</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{--azzurro:#0055A4;--verde:#008C45;--rosso:#CD212A;--grigio:#7A7A7A;--nero:#1A1A1A;--bg:#F4F3F0;--card:#FFF;--border:#E5E7EB;--gold:#C4A265;--olive:#5A7247;--night:#2C2C3A;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--nero);-webkit-font-smoothing:antialiased;min-height:100vh}
+@media(min-width:768px){
+.hero{padding:64px 48px 48px;max-width:1100px;margin-left:auto;margin-right:auto}
+.hero h1{font-size:48px}
+.desktop-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1100px;margin:0 auto;padding:0 24px}
+.desktop-grid .card{margin:0}
+.desktop-full{grid-column:1/-1}
+.desktop-full .card{margin:0}
+.desktop-grid>div:last-of-type{display:flex;flex-direction:column;gap:16px}
+.desktop-grid>div:last-of-type .card{margin:0}
+#map{height:450px}
+.stop-item{padding:20px 24px}
+.stop-name{font-size:20px}
+}
+@media(min-width:1024px){.hero h1{font-size:56px}#map{height:500px}}
+.tricolore{display:flex;height:4px;position:sticky;top:0;z-index:100}
+.tricolore span{flex:1}
+.hero{background:var(--nero);padding:48px 24px 36px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 300px 300px at 80% 20%,rgba(196,162,101,.15) 0%,transparent 70%)}
+.hero-tag{font-family:'Syne',sans-serif;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;position:relative}
+.hero h1{font-family:'Syne',sans-serif;font-weight:700;font-size:32px;line-height:1.15;color:#fff;position:relative}
+.hero h1 span{color:var(--gold)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;position:relative}
+.hero-pill{font-size:11px;font-weight:500;padding:5px 12px;border-radius:20px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1)}
+.card{background:var(--card);border-radius:var(--radius);margin:12px 16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-header{display:flex;align-items:center;gap:10px;padding:16px 20px 12px;border-bottom:1px solid var(--border)}
+.card-header svg{width:18px;height:18px;flex-shrink:0}
+.card-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.map-card{padding:0}
+#map{width:100%;height:380px;border-radius:var(--radius) var(--radius) 0 0}
+.map-legend{display:flex;flex-wrap:wrap;gap:6px;padding:14px 16px;background:#fff;border-top:1px solid var(--border)}
+.map-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--nero);cursor:pointer;transition:all .2s;white-space:nowrap}
+.map-chip:hover{background:#f9f9f7}
+.map-chip.active{background:var(--nero);color:#fff;border-color:var(--nero)}
+.chip-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.timeline-list{padding:8px 0}
+.stop-item{padding:16px 20px;border-bottom:1px solid var(--border)}
+.stop-item:last-child{border-bottom:none}
+.stop-item.featured{background:linear-gradient(135deg,rgba(196,162,101,.04),rgba(196,162,101,.08));border-left:3px solid var(--gold)}
+.stop-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.stop-left{flex:1}
+.stop-number{font-family:'Syne',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--grigio);margin-bottom:4px}
+.stop-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:600;color:var(--nero);line-height:1.2;cursor:pointer;text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px;transition:text-decoration-color .2s}
+.stop-name:hover{text-decoration-color:var(--gold)}
+.stop-time-badge{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0}
+.stop-time-badge .time{font-family:'Syne',sans-serif;font-size:16px;font-weight:600}
+.stop-time-badge .dur{font-size:11px;color:var(--grigio);margin-top:2px}
+.stop-vibe-pill{display:inline-block;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:3px;margin-top:8px;color:#fff}
+.pill-modern{background:var(--azzurro)}
+.pill-estate{background:var(--gold);color:var(--nero)}
+.pill-epic{background:var(--olive)}
+.stop-desc{font-size:13px;line-height:1.65;color:#5A5650;margin-top:10px;max-width:560px}
+.stop-shots{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.shot-tag{font-size:10px;font-weight:500;color:var(--grigio);background:var(--bg);padding:3px 8px;border-radius:4px}
+.featured .shot-tag{background:rgba(196,162,101,.12);color:#8A7A5A}
+.stop-exclusive{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-top:10px}
+.stop-exclusive svg{width:12px;height:12px}
+.stop-nav{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.stop-nav-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;color:#5A5650}
+.stop-nav-item .nav-num{font-family:'Syne',sans-serif;font-size:10px;font-weight:600;color:var(--grigio);min-width:14px;margin-top:1px}
+.stop-nav-item a{color:var(--azzurro);text-decoration:none;font-weight:500}
+.stop-nav-item a:hover{text-decoration:underline}
+.transit-item{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid var(--border);background:#FAFAF8}
+.transit-icon{width:24px;height:24px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.transit-icon svg{width:12px;height:12px;fill:var(--grigio)}
+.transit-text{font-size:12px;color:var(--grigio);font-style:italic}
+.transit-text strong{font-style:normal;font-weight:500;color:var(--nero)}
+.notes-list{padding:16px 20px}
+.note-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.6;color:#5A5A5A}
+.note-item:last-child{border-bottom:none}
+.note-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:7px}
+.lightbox-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px)}
+.lightbox-overlay.active{display:flex}
+.lightbox{background:var(--card);border-radius:var(--radius);max-width:720px;width:100%;max-height:90vh;overflow-y:auto;animation:lbIn .25s ease}
+@keyframes lbIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.lb-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);z-index:1;border-radius:var(--radius) var(--radius) 0 0}
+.lb-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:600}
+.lb-subtitle{font-size:12px;color:var(--grigio);margin-top:2px}
+.lb-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--nero);flex-shrink:0}
+.lb-close:hover{background:var(--border)}
+.lb-embed{padding:0}
+.lb-embed iframe{width:100%;height:400px;border:0}
+@media(max-width:480px){.lb-embed iframe{height:300px}}
+.lb-maps-link{display:block;text-align:center;padding:14px;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--azzurro);text-decoration:none;border-top:1px solid var(--border)}
+.lb-maps-link:hover{background:var(--bg)}
+.footer{text-align:center;padding:32px 16px 48px;font-size:11px;color:var(--grigio);letter-spacing:2px;text-transform:uppercase;font-family:'Syne',sans-serif}
+.footer-flags{display:flex;justify-content:center;gap:4px;margin-bottom:12px}
+.footer-flags span{width:20px;height:3px;border-radius:1px}
+</style>
+</head>
+<body>
+<div class="tricolore"><span style="background:var(--verde)"></span><span style="background:#ddd"></span><span style="background:var(--rosso)"></span></div>
+<section class="hero">
+<div class="hero-tag">Marco Wang Photography + Flowe Team</div>
+<h1>Portrait Session<br><span>Route Guide</span></h1>
+<div class="hero-meta">
+<span class="hero-pill">May 20, 2026</span>
+<span class="hero-pill">3 Stops · 2.5 hrs</span>
+<span class="hero-pill">Golden Hour</span>
+</div>
+</section>
+<div class="desktop-grid">
+<div class="desktop-full">
+<div class="card map-card">
+<div id="map"></div>
+<div class="map-legend" id="map-legend"></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+<span class="card-title">Evening Route</span>
+</div>
+<div class="timeline-list">
+<div class="stop-item">
+<div class="stop-top">
+<div class="stop-left"><div class="stop-number">Stop 01</div><div class="stop-name" onclick="openLightbox('monti')">Monti</div></div>
+<div class="stop-time-badge"><span class="time">5:15</span><span class="dur">20 min</span></div>
+</div>
+<div class="stop-vibe-pill pill-modern">Modern Lifestyle</div>
+<div class="stop-desc">Quick lifestyle opener. Everything is within a 200m triangle. One continuous walk through the neighborhood, not three separate stops.</div>
+<div class="stop-nav">
+<div class="stop-nav-item"><span class="nav-num">1</span><div>Start on <a href="https://www.google.com/maps/search/Via+dei+Serpenti,+Roma,+Italy" target="_blank">Via dei Serpenti ↗</a>. Walk the street, shoot facades, wine bars, movement shots. Widest light.</div></div>
+<div class="stop-nav-item"><span class="nav-num">2</span><div>Duck into <a href="https://maps.app.goo.gl/xTGPzeXgs6pbauQ88" target="_blank">Libreria Caffè Bohémien ↗</a> on Via degli Zingari if open (5:30 PM). One doorway/interior frame. Moody, book-lined, editorial.</div></div>
+<div class="stop-nav-item"><span class="nav-num">3</span><div>End at <a href="https://www.google.com/maps/place/Piazza+della+Madonna+dei+Monti,+Roma,+Italy" target="_blank">Piazza della Madonna dei Monti ↗</a>. Fountain at center, warm buildings wrapping the square. Wide establishing shot.</div></div>
+</div>
+<div class="stop-shots"><span class="shot-tag">Street walking</span><span class="shot-tag">Café doorway</span><span class="shot-tag">Fountain wide</span></div>
+</div>
+<div class="transit-item">
+<div class="transit-icon"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+<div class="transit-text"><strong>10 min cab</strong> to Villa Taverna. Both on east side</div>
+</div>
+<div class="stop-item featured">
+<div class="stop-top">
+<div class="stop-left"><div class="stop-number">Stop 02 · Hero Location</div><div class="stop-name" onclick="openLightbox('villataverna')">Villa Taverna</div></div>
+<div class="stop-time-badge"><span class="time">5:45</span><span class="dur">75 min</span></div>
+</div>
+<div class="stop-vibe-pill pill-estate">Private Estate</div>
+<div class="stop-desc">15th century U.S. Ambassador's Residence. 7-acre grounds with Baroque fountain, 3rd century Roman sarcophagus, Egyptian granite columns with Luna marble capitals, 300-year-old emperor busts. Private access. No tourists, no competition. This is the session.</div>
+<div class="stop-exclusive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private Guest Access</div>
+<div class="stop-shots"><span class="shot-tag">Garden wide shots</span><span class="shot-tag">Baroque fountain</span><span class="shot-tag">Column framing</span><span class="shot-tag">Sarcophagus detail</span><span class="shot-tag">Architectural facades</span><span class="shot-tag">Emperor busts</span></div>
+</div>
+<div class="transit-item">
+<div class="transit-icon"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+<div class="transit-text"><strong>15 min cab</strong> across to Gianicolo. West side</div>
+</div>
+<div class="stop-item">
+<div class="stop-top">
+<div class="stop-left"><div class="stop-number">Stop 03</div><div class="stop-name" onclick="openLightbox('gianicolo')">Gianicolo</div></div>
+<div class="stop-time-badge"><span class="time">7:15</span><span class="dur">65 min</span></div>
+</div>
+<div class="stop-vibe-pill pill-epic">Epic Vista</div>
+<div class="stop-desc">Terrazza Panoramica. The specific overlook platform with the full city composition. Golden hour light wraps from the west. Stone pines frame the wide shots. Shoot through sunset at 8:20.</div>
+<div class="stop-shots"><span class="shot-tag">Wide skyline</span><span class="shot-tag">Stone pine framing</span><span class="shot-tag">Silhouettes at sunset</span><span class="shot-tag">Close-ups in warm light</span></div>
+</div>
+</div>
+</div>
+<div>
+<div class="card">
+<div class="card-header">
+<svg viewBox="0 0 24 24" fill="none" stroke="var(--rosso)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+<span class="card-title">Production Notes</span>
+</div>
+<div class="notes-list">
+<div class="note-item"><div class="note-dot"></div><div>Villa Taverna is the centerpiece. 75 min, bulk of the editorial work. Prioritize grounds, fountain, and columns during the best light window.</div></div>
+<div class="note-item"><div class="note-dot"></div><div>Two cab rides total (~€20). Monti → Villa Taverna is quick (both east side). Villa Taverna → Gianicolo crosses the city. Budget 15 min.</div></div>
+<div class="note-item"><div class="note-dot"></div><div>Gianicolo approach by cab avoids the steep Via Garibaldi climb. Driver drops at the piazzale at the summit.</div></div>
+<div class="note-item"><div class="note-dot"></div><div>Gianicolo pin is on the Terrazza Panoramica. The specific overlook platform, not the general hilltop.</div></div>
+<div class="note-item"><div class="note-dot"></div><div>Compose with stone pines at Gianicolo. Most distinctly Roman natural element. They silhouette beautifully at sunset.</div></div>
+<div class="note-item"><div class="note-dot"></div><div>May 20 sunset ~8:20 PM. Golden hour begins ~7:15. Be on Gianicolo no later than 7:15.</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="if(event.target===this)closeLightbox()">
+<div class="lightbox" id="lightboxContent"></div>
+</div>
+<div style="height:32px"></div>
+<script>
+var locs=[
+{name:'Monti',lat:41.8953,lng:12.4938,color:'#0055A4',desc:'Stop 01 · 5:15 PM · Piazza della Madonna dei Monti',mapsUrl:'https://www.google.com/maps/search/Piazza+della+Madonna+dei+Monti+Rome+Italy'},
+{name:'Villa Taverna',lat:41.9202,lng:12.4900,color:'#C4A265',desc:'Stop 02 · 5:45 PM · Private Estate',mapsUrl:'https://www.google.com/maps/place/?q=place_id:ChIJkygZBQBhLxMRbuLqP9wFSI4'},
+{name:'Gianicolo',lat:41.896678,lng:12.4614803,color:'#5A7247',desc:'Stop 03 · 7:15 PM · Terrazza Panoramica',mapsUrl:'https://www.google.com/maps/place/?q=place_id:ChIJk0ZgdUJgLxMRUVv6OAQzlIQ'}
+];
+var map=L.map('map',{scrollWheelZoom:false,attributionControl:false});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
+var markers={};
+locs.forEach(function(loc){
+var roman=['I','II','III'];
+var sz=(loc.name==='Villa Taverna')?28:24;
+var idx=roman[locs.indexOf(loc)];
+var txtColor=loc.color==='#C4A265'?'#1A1A1A':'#fff';
+var icon=L.divIcon({className:'',html:'<div style="position:relative;width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+loc.color+';border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:Syne,sans-serif;font-size:9px;font-weight:700;color:'+txtColor+';line-height:1;letter-spacing:0.5px">'+idx+'</span></div>',iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]});
+var m=L.marker([loc.lat,loc.lng],{icon:icon}).addTo(map);
+m.bindPopup('<strong style="font-family:Syne,sans-serif">'+loc.name+'</strong><br><span style="font-size:11px;color:#7A7A7A">'+loc.desc+'</span><br><a href="'+loc.mapsUrl+'" target="_blank" style="font-size:11px;font-weight:500;color:#0055A4;text-decoration:none;margin-top:4px;display:inline-block">Navigate ↗</a>');
+markers[loc.name]=m;
+});
+var group=L.featureGroup(Object.values(markers));
+map.fitBounds(group.getBounds().pad(0.2));
+L.polyline(locs.map(function(l){return[l.lat,l.lng]}),{color:'#C4A265',weight:2,opacity:.5,dashArray:'6 6'}).addTo(map);
+var legend=document.getElementById('map-legend');
+var allBtn=document.createElement('button');
+allBtn.className='map-chip active';
+allBtn.innerHTML='<span class="chip-dot" style="background:#1A1A1A"></span>All';
+allBtn.onclick=function(){map.fitBounds(group.getBounds().pad(0.2));document.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active')});allBtn.classList.add('active')};
+legend.appendChild(allBtn);
+locs.forEach(function(loc){
+var btn=document.createElement('button');
+btn.className='map-chip';
+btn.innerHTML='<span class="chip-dot" style="background:'+loc.color+'"></span>'+loc.name;
+btn.onclick=function(){map.setView([loc.lat,loc.lng],16);markers[loc.name].openPopup();document.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active')});btn.classList.add('active')};
+legend.appendChild(btn);
+});
+
+var locData={
+monti:{title:'Monti',sub:'Piazza della Madonna dei Monti · Stop 01',mapsUrl:'https://www.google.com/maps/search/Piazza+della+Madonna+dei+Monti+Rome+Italy',embedQ:'Piazza+della+Madonna+dei+Monti+Rome'},
+villataverna:{title:'Villa Taverna',sub:'Private Estate · Hero Location',mapsUrl:'https://www.google.com/maps/place/?q=place_id:ChIJkygZBQBhLxMRbuLqP9wFSI4',embedQ:'Villa+Taverna+Viale+Gioacchino+Rossini+Rome'},
+gianicolo:{title:'Gianicolo',sub:'Terrazza Panoramica · Stop 03',mapsUrl:'https://www.google.com/maps/place/?q=place_id:ChIJk0ZgdUJgLxMRUVv6OAQzlIQ',embedQ:'Terrazza+Panoramica+Passeggiata+del+Gianicolo+Rome'}
+};
+
+function openLightbox(key){
+var d=locData[key];if(!d)return;
+var h='<div class="lb-header"><div><div class="lb-title">'+d.title+'</div><div class="lb-subtitle">'+d.sub+'</div></div><button class="lb-close" onclick="closeLightbox()">✕</button></div>';
+h+='<div class="lb-embed"><iframe src="https://maps.google.com/maps?q='+d.embedQ+'&t=k&z=17&output=embed" allowfullscreen loading="lazy"></iframe></div>';
+h+='<a class="lb-maps-link" href="'+d.mapsUrl+'" target="_blank">Open in Google Maps ↗</a>';
+document.getElementById('lightboxContent').innerHTML=h;
+document.getElementById('lightboxOverlay').classList.add('active');
+document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+document.getElementById('lightboxOverlay').classList.remove('active');
+document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
