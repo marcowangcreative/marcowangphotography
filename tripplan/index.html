@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MWP — Photographer Trip Planner</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0d0c;
+  --surface: #171615;
+  --surface-2: #1f1e1c;
+  --surface-3: #292826;
+  --border: #302e2b;
+  --border-hover: #403d38;
+  --text: #eae4db;
+  --text-dim: #938d83;
+  --text-muted: #605b53;
+  --azzurro: #5b9cf5;
+  --azzurro-deep: #3a7ad9;
+  --azzurro-glow: rgba(91,156,245,0.08);
+  --rosso: #e06060;
+  --rosso-bg: rgba(224,96,96,0.1);
+  --verde: #5bb87a;
+  --verde-bg: rgba(91,184,122,0.1);
+  --amber: #e8a94e;
+  --amber-bg: rgba(245,180,91,0.12);
+  --serif: 'Syne', system-ui, sans-serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --transition: 160ms ease;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--sans); background:var(--bg); color:var(--text); line-height:1.5; min-height:100vh; -webkit-font-smoothing:antialiased; }
+.app { display:flex; min-height:100vh; }
+
+/* ─── SIDEBAR ─── */
+.sidebar { width:256px; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; z-index:100; }
+.sidebar-header { padding:26px 22px 18px; border-bottom:1px solid var(--border); }
+.sidebar-header h1 { font-family:var(--serif); font-size:22px; font-weight:700; letter-spacing:-0.5px; color:var(--azzurro); }
+.sidebar-header span { font-size:10px; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-top:3px; display:block; }
+.sidebar-nav { flex:1; padding:14px 10px; overflow-y:auto; }
+.nav-label { font-size:9.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); padding:14px 12px 5px; font-weight:600; }
+.nav-item { display:flex; align-items:center; gap:9px; padding:8px 12px; border-radius:var(--radius); font-size:13px; color:var(--text-dim); cursor:pointer; transition:all var(--transition); border:1px solid transparent; }
+.nav-item:hover { color:var(--text); background:var(--surface-2); }
+.nav-item.active { color:var(--azzurro); background:var(--azzurro-glow); border-color:rgba(91,156,245,0.12); }
+.nav-item svg { width:15px; height:15px; opacity:0.55; flex-shrink:0; }
+.nav-item.active svg { opacity:1; }
+.nav-item .cnt { margin-left:auto; font-size:10px; background:var(--surface-3); color:var(--text-muted); padding:1px 7px; border-radius:10px; font-weight:500; }
+.nav-item.active .cnt { background:rgba(91,156,245,0.15); color:var(--azzurro-deep); }
+.sidebar-trips { padding:6px 10px 10px; }
+.trip-selector { width:100%; padding:8px 10px; font-family:var(--sans); font-size:12.5px; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); cursor:pointer; outline:none; }
+.trip-selector:focus { border-color:var(--azzurro-deep); }
+.sidebar-footer { padding:14px; border-top:1px solid var(--border); display:flex; gap:6px; flex-wrap:wrap; }
+.sidebar-footer button { flex:1; min-width:70px; padding:7px; font-size:10.5px; font-family:var(--sans); font-weight:500; letter-spacing:0.03em; background:var(--surface-2); color:var(--text-dim); border:1px solid var(--border); border-radius:var(--radius); cursor:pointer; transition:all var(--transition); }
+.sidebar-footer button:hover { color:var(--text); border-color:var(--border-hover); }
+
+/* ─── MAIN ─── */
+.main { margin-left:256px; flex:1; min-height:100vh; }
+.topbar { height:52px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 28px; position:sticky; top:0; background:rgba(14,13,12,0.88); backdrop-filter:blur(12px); z-index:50; }
+.topbar-title { font-size:12.5px; color:var(--text-dim); display:flex; align-items:center; gap:7px; }
+.topbar-title strong { color:var(--text); font-weight:500; }
+.topbar-actions { display:flex; gap:7px; }
+.content { padding:28px; max-width:1060px; }
+
+/* ─── BUTTONS ─── */
+.btn { display:inline-flex; align-items:center; gap:5px; padding:7px 14px; font-family:var(--sans); font-size:12px; font-weight:500; border-radius:var(--radius); cursor:pointer; transition:all var(--transition); border:1px solid var(--border); background:var(--surface-2); color:var(--text-dim); white-space:nowrap; }
+.btn:hover { color:var(--text); border-color:var(--border-hover); background:var(--surface-3); }
+.btn svg { width:13px; height:13px; }
+.btn-primary { background:var(--azzurro); color:#0e0d0c; border-color:var(--azzurro); font-weight:600; }
+.btn-primary:hover { background:#6faaff; border-color:#6faaff; color:#0e0d0c; }
+.btn-danger { color:var(--rosso); }
+.btn-danger:hover { background:var(--rosso-bg); border-color:var(--rosso); }
+.btn-sm { padding:4px 9px; font-size:11px; }
+.btn-icon { padding:6px; }
+.btn-green { background:var(--verde); color:#fff; border-color:var(--verde); }
+.btn-green:hover { background:#6cc88a; border-color:#6cc88a; }
+
+/* ─── FORMS ─── */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.form-grid .full { grid-column:1/-1; }
+.field { display:flex; flex-direction:column; gap:4px; }
+.field label { font-size:10px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); }
+.field input, .field select, .field textarea { font-family:var(--sans); font-size:13px; padding:8px 11px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); transition:all var(--transition); outline:none; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color:var(--azzurro-deep); box-shadow:0 0 0 2px var(--azzurro-glow); }
+.field input::placeholder, .field textarea::placeholder { color:var(--text-muted); }
+.field textarea { resize:vertical; min-height:72px; line-height:1.6; }
+.field select { cursor:pointer; }
+.field .hint { font-size:10px; color:var(--text-muted); margin-top:1px; }
+
+/* ─── CARDS ─── */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; transition:border-color var(--transition); margin-bottom:12px; }
+.card:hover { border-color:var(--border-hover); }
+.card-header { padding:14px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.card-header h3 { font-family:var(--serif); font-size:16px; font-weight:600; }
+.card-body { padding:18px; }
+
+/* ─── TABLE ─── */
+table { width:100%; border-collapse:collapse; }
+th { text-align:left; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); padding:9px 14px; border-bottom:1px solid var(--border); font-weight:500; }
+td { padding:11px 14px; font-size:12.5px; color:var(--text-dim); border-bottom:1px solid rgba(48,46,43,0.5); vertical-align:top; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { color:var(--text); background:rgba(255,255,255,0.01); }
+.td-name { color:var(--text); font-weight:500; }
+
+/* ─── BADGES ─── */
+.badge { display:inline-block; padding:2px 8px; font-size:10.5px; border-radius:4px; font-weight:600; letter-spacing:0.02em; }
+.badge-blue { background:rgba(91,156,245,0.12); color:var(--azzurro); }
+.badge-green { background:var(--verde-bg); color:var(--verde); }
+.badge-red { background:var(--rosso-bg); color:var(--rosso); }
+.badge-grey { background:var(--surface-3); color:var(--text-muted); }
+.badge-amber { background:var(--amber-bg); color:var(--amber); }
+
+/* ─── MODAL ─── */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.65); backdrop-filter:blur(4px); z-index:200; display:flex; align-items:center; justify-content:center; padding:20px; animation:fadeIn 120ms ease; }
+.modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); width:100%; max-width:640px; max-height:85vh; overflow-y:auto; animation:slideUp 180ms ease; }
+.modal-header { padding:18px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.modal-header h2 { font-family:var(--serif); font-size:20px; font-weight:600; }
+.modal-body { padding:22px; }
+.modal-footer { padding:14px 22px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:7px; }
+@keyframes fadeIn { from { opacity:0; } }
+@keyframes slideUp { from { transform:translateY(10px); opacity:0; } }
+
+/* ─── STATS ─── */
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:28px; }
+.stat { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:16px 18px; }
+.stat-label { font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); margin-bottom:5px; }
+.stat-val { font-family:var(--serif); font-size:26px; font-weight:700; color:var(--text); }
+.stat-sub { font-size:10.5px; color:var(--text-muted); margin-top:1px; }
+
+/* ─── TIMELINE ─── */
+.tl-item { display:flex; gap:14px; padding:14px 0; border-bottom:1px solid rgba(48,46,43,0.4); }
+.tl-item:last-child { border-bottom:none; }
+.tl-day { width:90px; flex-shrink:0; }
+.tl-dayname { font-family:var(--serif); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
+.tl-date { font-size:11px; color:var(--text-muted); margin-top:1px; }
+.tl-dot { width:9px; height:9px; border-radius:50%; margin-top:5px; flex-shrink:0; }
+.tl-content { flex:1; }
+.tl-content h4 { font-size:13.5px; font-weight:500; }
+.tl-content p { font-size:12px; color:var(--text-dim); margin-top:2px; }
+
+/* ─── SUN CARD ─── */
+.sun-card { display:flex; gap:20px; align-items:center; padding:16px 20px; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-lg); margin-bottom:16px; }
+.sun-item { display:flex; align-items:center; gap:8px; }
+.sun-icon { font-size:18px; }
+.sun-label { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); }
+.sun-time { font-family:var(--serif); font-size:18px; font-weight:600; color:var(--text); }
+.sun-loading { font-size:12px; color:var(--amber); }
+.sun-auto-note { font-size:10.5px; color:var(--text-muted); margin-left:auto; font-style:italic; }
+
+/* ─── TAGS ─── */
+.tag-list { display:flex; flex-wrap:wrap; gap:5px; }
+.tag { display:inline-flex; align-items:center; gap:4px; padding:3px 9px; font-size:11.5px; background:var(--surface-2); border:1px solid var(--border); border-radius:18px; color:var(--text-dim); }
+.tag .rm { cursor:pointer; font-size:13px; line-height:1; color:var(--text-muted); margin-left:2px; }
+.tag .rm:hover { color:var(--rosso); }
+.tag-input input { background:transparent; border:1px dashed var(--border); border-radius:18px; padding:3px 9px; font-size:11.5px; font-family:var(--sans); color:var(--text); outline:none; width:130px; }
+.tag-input input:focus { border-color:var(--azzurro-deep); }
+
+/* ─── SEC HEADER ─── */
+.sec-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.sec-header h2 { font-family:var(--serif); font-size:24px; font-weight:600; letter-spacing:-0.3px; }
+
+/* ─── TOAST ─── */
+.toast { position:fixed; bottom:20px; right:20px; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius); padding:10px 18px; font-size:12.5px; color:var(--text); z-index:300; animation:slideUp 180ms ease, fadeOut 280ms ease 2.4s forwards; box-shadow:0 6px 28px rgba(0,0,0,0.4); }
+@keyframes fadeOut { to { opacity:0; transform:translateY(6px); } }
+
+/* ─── EMPTY ─── */
+.empty { text-align:center; padding:50px 20px; color:var(--text-muted); }
+.empty p { font-size:13.5px; margin-bottom:14px; }
+
+/* ─── OVERVIEW EDITABLE FIELDS ─── */
+.ov-field { display:flex; align-items:baseline; gap:10px; padding:8px 0; border-bottom:1px solid rgba(48,46,43,0.3); }
+.ov-field:last-child { border-bottom:none; }
+.ov-field label { font-size:10px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); width:110px; flex-shrink:0; }
+.ov-field input { flex:1; font-family:var(--sans); font-size:14px; padding:4px 8px; background:transparent; border:1px solid transparent; border-radius:4px; color:var(--text); outline:none; transition:all var(--transition); }
+.ov-field input:hover { border-color:var(--border); }
+.ov-field input:focus { border-color:var(--azzurro-deep); background:var(--surface-2); box-shadow:0 0 0 2px var(--azzurro-glow); }
+
+@media (max-width:900px) { .sidebar { display:none; } .main { margin-left:0; } .form-grid { grid-template-columns:1fr; } .stats { grid-template-columns:1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+const DB = {
+  trips: [{
+    id: uid(),
+    name: 'Monica & Hugh Roy',
+    type: 'Wedding',
+    destination: 'Roma, Italia',
+    startDate: '2026-05-17',
+    endDate: '2026-05-24',
+    lat: '41.9028',
+    lng: '12.4964',
+    website: 'https://www.monicaandhughroy.com/',
+    tagline: 'Marco Wang Photography + Flowe Team · Wedding Travel Plan',
+    sunrise: '',
+    sunset: '',
+    sunAuto: true,
+    flights: [
+      { id:uid(), type:'depart', airline:'ITA Airways', flightNo:'AZ637', from:'IAH', to:'FCO', date:'Sun, May 17', time:'6:10 PM → 11:50 AM +1' },
+      { id:uid(), type:'return', airline:'ITA Airways', flightNo:'AZ636', from:'FCO', to:'IAH', date:'Sun, May 24', time:'10:20 AM → 3:40 PM' }
+    ],
+    lodging: [
+      { id:uid(), dates:'May 18 – 21', nights:'3 nights', name:'', status:'tbd', url:'', notes:'' },
+      { id:uid(), dates:'May 21 – 24', nights:'3 nights', name:'CC Palace Hotel Roma', status:'client-covered', url:'https://www.ccpalacehotel.com/en/', notes:'' }
+    ],
+    events: [
+      { id:uid(), day:'Wednesday', date:'May 20', name:'Portrait Session', time:'5:00 PM', venue:'', address:'', attire:'', highlight:false, link:'buesoshoot.html', linkLabel:'View Route Guide' },
+      { id:uid(), day:'Thursday', date:'May 21', name:"Ambassador's Residence", time:'6:30 PM', venue:'Villa Taverna', address:'Viale Gioacchino Rossini, 5, 00198 Roma', attire:'', highlight:false, link:'https://it.usembassy.gov/villa-taverna-the-u-s-ambassadors-residence/', linkLabel:'' },
+      { id:uid(), day:'Friday', date:'May 22', name:'Rehearsal Dinner', time:'7:00 PM', venue:'Hotel Splendide Royal · Crystal Lounge', address:'14 Via di Porta Pinciana, Roma', attire:'Semi-Formal', highlight:false, link:'https://www.splendideroyal.com/en', linkLabel:'' },
+      { id:uid(), day:'Saturday', date:'May 23', name:'Wedding Ceremony', time:'11:30 AM', venue:"Chiesa di Sant'Anna dei Palafrenieri · Vatican City", address:'Via di Porta Angelica, Vatican City', attire:'Semi-Formal (Vatican Appropriate)', highlight:true, link:'', linkLabel:'' },
+      { id:uid(), day:'Saturday', date:'May 23', name:'Reception Lunch', time:'1:00 – 4:00 PM', venue:'The St. Regis Rome', address:'3 Via Vittorio Emanuele Orlando, Roma', attire:'Semi-Formal', highlight:true, link:'', linkLabel:'' },
+      { id:uid(), day:'Sunday', date:'May 24', name:'Depart Rome', time:'', venue:'AZ636 · FCO 10:20 AM → IAH 3:40 PM', address:'', attire:'', highlight:false, link:'', linkLabel:'' }
+    ],
+    mapLocations: [
+      { id:uid(), name:'FCO – Fiumicino Airport', lat:'41.803463', lng:'12.251921', color:'#0066CC', label:'FCO Airport', desc:'Arrive Sun 5/18 · Depart Sun 5/24', mapsUrl:'https://www.google.com/maps/place/Leonardo+da+Vinci–Fiumicino+Airport/' },
+      { id:uid(), name:'CC Palace Hotel Roma', lat:'41.900905', lng:'12.492752', color:'#008C45', label:'CC Palace Hotel', desc:'Lodging May 21–24 · Client covered', mapsUrl:'https://www.google.com/maps/place/CC+Palace+Hotel+Roma/' },
+      { id:uid(), name:'Villa Taverna', lat:'41.92016', lng:'12.490032', color:'#CE2B37', label:'Villa Taverna', desc:'Thu 5/21 · 6:30 PM', mapsUrl:'https://www.google.com/maps/place/Villa+Taverna/' },
+      { id:uid(), name:'Hotel Splendide Royal', lat:'41.9082', lng:'12.4888', color:'#CE2B37', label:'Splendide Royal', desc:'Fri 5/22 · Rehearsal · 7 PM', mapsUrl:'https://www.google.com/maps/place/Hotel+Splendide+Royal+Roma/' },
+      { id:uid(), name:"Chiesa di Sant'Anna dei Palafrenieri", lat:'41.904067', lng:'12.457488', color:'#CE2B37', label:"Chiesa di Sant'Anna", desc:'Sat 5/23 · Ceremony · 11:30 AM', mapsUrl:"https://www.google.com/maps/place/Chiesa+di+Sant'Anna+dei+Palafrenieri/" },
+      { id:uid(), name:'The St. Regis Rome', lat:'41.904072', lng:'12.494873', color:'#CE2B37', label:'The St. Regis', desc:'Sat 5/23 · Reception · 1–4 PM', mapsUrl:'https://www.google.com/maps/place/The+St.+Regis+Rome/' }
+    ],
+    contacts: [
+      { id:uid(), name:'Marco Wang', role:'Photographer', phone:'+1 (832) 451-4298', org:'Marco Wang Photography' },
+      { id:uid(), name:'Jordan Wang', role:'Stylist', phone:'+1 (832) 916-7131', org:'Flowe Collective' }
+    ]
+  }],
+  activeTripId: null
+};
+DB.activeTripId = DB.trips[0].id;
+
+function uid() { return crypto.randomUUID(); }
+function trip() { return DB.trips.find(t => t.id === DB.activeTripId); }
+
+// ═══════════════════════════════════════
+// SUNRISE / SUNSET AUTO-CALC
+// ═══════════════════════════════════════
+// Uses sunrise-sunset.org API + timezone lookup to convert UTC → local destination time
+const sunCache = {};
+
+// Step 1: Look up IANA timezone for the destination coordinates
+async function getTimezone(lat, lng) {
+  try {
+    // Use timeapi.io to get timezone from coords
+    const resp = await fetch(`https://timeapi.io/api/timezone/coordinate?latitude=${lat}&longitude=${lng}`);
+    if (resp.ok) {
+      const data = await resp.json();
+      return data.timeZone; // e.g. "Europe/Rome"
+    }
+  } catch (e) { console.warn('Timezone lookup failed:', e); }
+
+  // Fallback: estimate timezone from longitude (rough but works)
+  const offset = Math.round(parseFloat(lng) / 15);
+  return null; // will use offset fallback
+}
+
+// Step 2: Format a UTC ISO string to a local time in a given IANA timezone
+function utcToLocal12(utcIso, tzName) {
+  const d = new Date(utcIso);
+  if (tzName) {
+    try {
+      return d.toLocaleTimeString('en-US', {
+        timeZone: tzName,
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+    } catch (e) { /* fall through to offset method */ }
+  }
+  // Offset fallback: won't be called if tzName works
+  let h = d.getUTCHours(), m = d.getUTCMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${m.toString().padStart(2,'0')} ${ampm} UTC`;
+}
+
+async function fetchSunTimes(lat, lng, dateStr) {
+  const key = `${lat},${lng},${dateStr}`;
+  if (sunCache[key]) return sunCache[key];
+
+  try {
+    // Get destination timezone first
+    const tzName = await getTimezone(lat, lng);
+
+    // Fetch sun times (formatted=0 gives UTC ISO strings)
+    const url = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=${dateStr}&formatted=0`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.status === 'OK') {
+      const result = {
+        sunrise: utcToLocal12(data.results.sunrise, tzName),
+        sunset: utcToLocal12(data.results.sunset, tzName),
+        goldenHour: utcToLocal12(data.results.golden_hour, tzName),
+        blueHour: utcToLocal12(data.results.civil_twilight_end, tzName),
+        timezone: tzName || 'Unknown',
+        raw: data.results
+      };
+      sunCache[key] = result;
+      return result;
+    }
+  } catch (e) { console.warn('Sun API error:', e); }
+  return null;
+}
+
+async function autoCalcSun(t) {
+  if (!t.lat || !t.lng || !t.startDate) return;
+  const el = document.getElementById('sunStatus');
+  if (el) el.textContent = 'Calculating...';
+
+  const result = await fetchSunTimes(t.lat, t.lng, t.startDate);
+  if (result) {
+    t.sunrise = result.sunrise;
+    t.sunset = result.sunset;
+    t._goldenHour = result.goldenHour;
+    t._blueHour = result.blueHour;
+    t._timezone = result.timezone;
+    render();
+    toast(`Sun times calculated (${result.timezone})`);
+  } else {
+    if (el) el.textContent = 'Could not fetch — enter manually';
+  }
+}
+
+// ═══════════════════════════════════════
+// GEOCODING — lookup lat/lng from destination name
+// ═══════════════════════════════════════
+async function geocodeDestination(destination) {
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(destination)}&limit=1`;
+    const resp = await fetch(url, { headers: { 'User-Agent': 'MWP-TripPlanner/1.0' } });
+    const data = await resp.json();
+    if (data.length > 0) {
+      return { lat: data[0].lat, lng: data[0].lon, display: data[0].display_name };
+    }
+  } catch (e) { console.warn('Geocode error:', e); }
+  return null;
+}
+
+// ═══════════════════════════════════════
+// SVG ICONS
+// ═══════════════════════════════════════
+const I = {
+  plane: `<svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>`,
+  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  cal: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  map: `<svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>`,
+  user: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  dash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`,
+  code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>`,
+  edit: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+  dl: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>`,
+  ul: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>`,
+  x: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+  sun: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>`,
+  copy: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>`,
+};
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let view = 'trip';
+let modal = { open:false, type:null, data:null };
+
+// ═══════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════
+function render() {
+  const t = trip();
+  document.getElementById('app').innerHTML = `
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>MWP</h1>
+        <span>Photographer Trip Planner</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-label">Trips</div>
+        <div class="sidebar-trips">
+          <select class="trip-selector" onchange="switchTrip(this.value)">
+            ${DB.trips.map(tr => `<option value="${tr.id}" ${tr.id===DB.activeTripId?'selected':''}>${esc(tr.name)} — ${esc(tr.destination)}</option>`).join('')}
+          </select>
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <button class="btn btn-sm btn-primary" style="flex:1;" onclick="newTrip()">${I.plus} New Trip</button>
+            ${DB.trips.length > 1 ? `<button class="btn btn-sm btn-danger" onclick="deleteTrip()">${I.trash}</button>` : ''}
+          </div>
+        </div>
+        <div class="nav-label">Sections</div>
+        ${navItem('trip','Trip Details',I.dash)}
+        ${navItem('flights','Flights',I.plane, t?.flights.length)}
+        ${navItem('lodging','Lodging',I.home, t?.lodging.length)}
+        ${navItem('events','Events',I.cal, t?.events.length)}
+        ${navItem('map','Map Locations',I.map, t?.mapLocations.length)}
+        ${navItem('contacts','Contacts',I.user, t?.contacts.length)}
+        <div class="nav-label" style="margin-top:12px;">Output</div>
+        ${navItem('export','Generate HTML',I.code)}
+      </nav>
+      <div class="sidebar-footer">
+        <button onclick="exportJSON()">${I.dl} Export</button>
+        <button onclick="document.getElementById('imp').click()">${I.ul} Import</button>
+        <button onclick="duplicateTrip()">${I.copy} Duplicate</button>
+        <input type="file" id="imp" accept=".json" style="display:none" onchange="importJSON(event)">
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-title">${I[viewIcon()]} <strong>${viewTitle()}</strong></div>
+        <div class="topbar-actions">${topActions()}</div>
+      </div>
+      <div class="content">${renderView()}</div>
+    </main>
+    ${renderModal()}
+  `;
+}
+
+function navItem(v, label, icon, count) {
+  return `<div class="nav-item ${view===v?'active':''}" onclick="switchView('${v}')">${icon} ${label}${count!=null?`<span class="cnt">${count}</span>`:''}</div>`;
+}
+function viewIcon() { return {trip:'dash',flights:'plane',lodging:'home',events:'cal',map:'map',contacts:'user',export:'code'}[view]||'dash'; }
+function viewTitle() { return {trip:'Trip Details',flights:'Flights',lodging:'Lodging',events:'Event Schedule',map:'Map Locations',contacts:'Team Contacts',export:'Generate HTML'}[view]||''; }
+function topActions() {
+  const adds = {
+    flights: `<button class="btn btn-primary" onclick="openModal('addFlight')">${I.plus} Add Flight</button>`,
+    lodging: `<button class="btn btn-primary" onclick="openModal('addLodging')">${I.plus} Add Lodging</button>`,
+    events: `<button class="btn btn-primary" onclick="openModal('addEvent')">${I.plus} Add Event</button>`,
+    map: `<button class="btn btn-primary" onclick="openModal('addMapLoc')">${I.plus} Add Location</button>`,
+    contacts: `<button class="btn btn-primary" onclick="openModal('addContact')">${I.plus} Add Contact</button>`,
+  };
+  return adds[view] || '';
+}
+
+// ═══════════════════════════════════════
+// VIEWS
+// ═══════════════════════════════════════
+function renderView() {
+  const t = trip();
+  if (!t) return `<div class="empty"><p>No trip loaded.</p><button class="btn btn-primary" onclick="newTrip()">${I.plus} Create Trip</button></div>`;
+  switch(view) {
+    case 'trip': return vTrip(t);
+    case 'flights': return vFlights(t);
+    case 'lodging': return vLodging(t);
+    case 'events': return vEvents(t);
+    case 'map': return vMap(t);
+    case 'contacts': return vContacts(t);
+    case 'export': return vExport(t);
+  }
+}
+
+function vTrip(t) {
+  const dayCount = t.startDate && t.endDate ? Math.ceil((new Date(t.endDate+'T00:00:00') - new Date(t.startDate+'T00:00:00')) / 86400000) : 0;
+
+  return `
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Duration</div><div class="stat-val">${dayCount}</div><div class="stat-sub">days</div></div>
+      <div class="stat"><div class="stat-label">Flights</div><div class="stat-val">${t.flights.length}</div><div class="stat-sub">booked</div></div>
+      <div class="stat"><div class="stat-label">Events</div><div class="stat-val">${t.events.length}</div><div class="stat-sub">scheduled</div></div>
+      <div class="stat"><div class="stat-label">Map Pins</div><div class="stat-val">${t.mapLocations.length}</div><div class="stat-sub">locations</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>Trip Details</h3></div>
+      <div class="card-body">
+        <div class="ov-field"><label>Trip Name</label><input value="${esc(t.name)}" onchange="updateTrip('name',this.value)"></div>
+        <div class="ov-field"><label>Type</label><input value="${esc(t.type)}" onchange="updateTrip('type',this.value)" placeholder="Wedding, Engagement, Editorial, Commercial..."></div>
+        <div class="ov-field"><label>Destination</label><input value="${esc(t.destination)}" onchange="updateTrip('destination',this.value); autoGeocode(this.value)" placeholder="City, Country"></div>
+        <div class="ov-field"><label>Start Date</label><input type="date" value="${t.startDate}" onchange="updateTrip('startDate',this.value); triggerSunCalc()"></div>
+        <div class="ov-field"><label>End Date</label><input type="date" value="${t.endDate}" onchange="updateTrip('endDate',this.value)"></div>
+        <div class="ov-field"><label>Tagline</label><input value="${esc(t.tagline)}" onchange="updateTrip('tagline',this.value)" placeholder="Studio name + shoot type"></div>
+        <div class="ov-field"><label>Website</label><input value="${esc(t.website)}" onchange="updateTrip('website',this.value)" placeholder="https://..."></div>
+        <div class="ov-field"><label>Latitude</label><input value="${t.lat}" onchange="updateTrip('lat',this.value); triggerSunCalc()" placeholder="e.g. 41.9028"></div>
+        <div class="ov-field"><label>Longitude</label><input value="${t.lng}" onchange="updateTrip('lng',this.value); triggerSunCalc()" placeholder="e.g. 12.4964"></div>
+      </div>
+    </div>
+
+    <div class="sun-card">
+      <div class="sun-item">
+        <div class="sun-icon">☀️</div>
+        <div>
+          <div class="sun-label">Sunrise</div>
+          <div class="sun-time">${t.sunrise || '—'}</div>
+        </div>
+      </div>
+      <div class="sun-item">
+        <div class="sun-icon">🌅</div>
+        <div>
+          <div class="sun-label">Sunset</div>
+          <div class="sun-time">${t.sunset || '—'}</div>
+        </div>
+      </div>
+      ${t._goldenHour ? `
+      <div class="sun-item">
+        <div class="sun-icon">✨</div>
+        <div>
+          <div class="sun-label">Golden Hour</div>
+          <div class="sun-time">${t._goldenHour}</div>
+        </div>
+      </div>` : ''}
+      ${t._blueHour ? `
+      <div class="sun-item">
+        <div class="sun-icon">🌙</div>
+        <div>
+          <div class="sun-label">Blue Hour End</div>
+          <div class="sun-time">${t._blueHour}</div>
+        </div>
+      </div>` : ''}
+      <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+        ${t._timezone ? `<span style="font-size:10px;color:var(--text-muted);">${esc(t._timezone)}</span>` : ''}
+        <span id="sunStatus" class="sun-loading"></span>
+        <button class="btn btn-sm" onclick="triggerSunCalc()" style="font-size:10px;">${I.sun} Recalculate</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>Quick Timeline</h3></div>
+      <div class="card-body">
+        ${t.events.length ? t.events.map(e => `
+          <div class="tl-item">
+            <div class="tl-day"><div class="tl-dayname">${esc(e.day)}</div><div class="tl-date">${esc(e.date)}</div></div>
+            <div class="tl-dot" style="background:${e.highlight?'var(--rosso)':'var(--azzurro)'}"></div>
+            <div class="tl-content"><h4>${esc(e.name)}${e.time?' · '+esc(e.time):''}</h4><p>${esc(e.venue)}</p></div>
+          </div>
+        `).join('') : '<p style="color:var(--text-muted);font-size:13px;">No events yet — add them in the Events tab.</p>'}
+      </div>
+    </div>
+  `;
+}
+
+function vFlights(t) {
+  if (!t.flights.length) return empty('No flights','Add your first flight.');
+  return `<div class="card"><table>
+    <thead><tr><th>Type</th><th>Route</th><th>Flight</th><th>Date</th><th>Time</th><th></th></tr></thead>
+    <tbody>${t.flights.map((f,i) => `<tr>
+      <td><span class="badge ${f.type==='depart'?'badge-blue':'badge-grey'}">${f.type}</span></td>
+      <td class="td-name">${esc(f.from)} → ${esc(f.to)}</td>
+      <td>${esc(f.flightNo)}</td><td>${esc(f.date)}</td>
+      <td style="font-size:11.5px;">${esc(f.time)}</td>
+      <td style="white-space:nowrap;"><button class="btn btn-sm btn-icon" onclick="openModal('editFlight',${i})">${I.edit}</button> <button class="btn btn-sm btn-icon btn-danger" onclick="del('flights',${i})">${I.trash}</button></td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+function vLodging(t) {
+  if (!t.lodging.length) return empty('No lodging','Add accommodation.');
+  return `<div class="card"><table>
+    <thead><tr><th>Dates</th><th>Nights</th><th>Property</th><th>Status</th><th></th></tr></thead>
+    <tbody>${t.lodging.map((l,i) => `<tr>
+      <td class="td-name">${esc(l.dates)}</td><td>${esc(l.nights)}</td>
+      <td>${l.name?(l.url?`<a href="${esc(l.url)}" target="_blank" style="color:var(--azzurro);text-decoration:none;">${esc(l.name)}</a>`:esc(l.name)):'<span style="color:var(--text-muted);">—</span>'}</td>
+      <td><span class="badge ${l.status==='client-covered'?'badge-green':l.status==='booked'?'badge-blue':'badge-amber'}">${l.status}</span></td>
+      <td style="white-space:nowrap;"><button class="btn btn-sm btn-icon" onclick="openModal('editLodging',${i})">${I.edit}</button> <button class="btn btn-sm btn-icon btn-danger" onclick="del('lodging',${i})">${I.trash}</button></td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+function vEvents(t) {
+  if (!t.events.length) return empty('No events','Add your first event.');
+  return `<div class="card"><table>
+    <thead><tr><th>Day</th><th>Event</th><th>Time</th><th>Venue</th><th>Attire</th><th>Highlight</th><th></th></tr></thead>
+    <tbody>${t.events.map((e,i) => `<tr>
+      <td><div style="font-size:12px;font-weight:500;">${esc(e.day)}</div><div style="font-size:10.5px;color:var(--text-muted);">${esc(e.date)}</div></td>
+      <td class="td-name">${esc(e.name)}</td><td>${esc(e.time)}</td>
+      <td style="max-width:180px;">${esc(e.venue)}<br><span style="font-size:10.5px;color:var(--text-muted);">${esc(e.address)}</span></td>
+      <td style="font-size:11.5px;">${esc(e.attire)||'—'}</td>
+      <td>${e.highlight?'<span class="badge badge-red">Yes</span>':'—'}</td>
+      <td style="white-space:nowrap;"><button class="btn btn-sm btn-icon" onclick="openModal('editEvent',${i})">${I.edit}</button> <button class="btn btn-sm btn-icon btn-danger" onclick="del('events',${i})">${I.trash}</button></td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+function vMap(t) {
+  if (!t.mapLocations.length) return empty('No map locations','Add pins for the client-facing map.');
+  return `<div class="card"><table>
+    <thead><tr><th>Pin</th><th>Name</th><th>Label</th><th>Lat / Lng</th><th>Description</th><th></th></tr></thead>
+    <tbody>${t.mapLocations.map((m,i) => `<tr>
+      <td><div style="width:12px;height:12px;border-radius:50%;background:${esc(m.color)};border:2px solid var(--surface-3);"></div></td>
+      <td class="td-name">${esc(m.name)}</td><td>${esc(m.label)}</td>
+      <td style="font-size:11px;font-family:monospace;">${m.lat}, ${m.lng}</td>
+      <td style="font-size:11.5px;max-width:200px;">${esc(m.desc)}</td>
+      <td style="white-space:nowrap;"><button class="btn btn-sm btn-icon" onclick="openModal('editMapLoc',${i})">${I.edit}</button> <button class="btn btn-sm btn-icon btn-danger" onclick="del('mapLocations',${i})">${I.trash}</button></td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+function vContacts(t) {
+  if (!t.contacts.length) return empty('No contacts','Add a team member.');
+  return `<div class="card"><table>
+    <thead><tr><th>Name</th><th>Role</th><th>Phone</th><th>Organization</th><th></th></tr></thead>
+    <tbody>${t.contacts.map((c,i) => `<tr>
+      <td class="td-name">${esc(c.name)}</td><td>${esc(c.role)}</td><td>${esc(c.phone)}</td>
+      <td style="font-size:11.5px;">${esc(c.org)}</td>
+      <td style="white-space:nowrap;"><button class="btn btn-sm btn-icon" onclick="openModal('editContact',${i})">${I.edit}</button> <button class="btn btn-sm btn-icon btn-danger" onclick="del('contacts',${i})">${I.trash}</button></td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+function vExport(t) {
+  return `
+    <div class="sec-header"><h2>Generate Client Page</h2></div>
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:20px;">
+      Exports a self-contained client page — flag bar, hero header, flight cards, lodging, event timeline, Leaflet map with clickable legend, and vCard contacts. Ready to share.
+    </p>
+    <button class="btn btn-primary" onclick="generateHTML()" style="padding:12px 28px;font-size:14px;">${I.code} &nbsp;Generate Client Page</button>
+    <div id="exportPreview" style="margin-top:24px;"></div>
+  `;
+}
+
+// ═══════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════
+function renderModal() {
+  if (!modal.open) return '';
+  const t = trip();
+  let title='', body='';
+  const types = {
+    addFlight() { title='Add Flight'; body=flightForm({}); },
+    editFlight() { title='Edit Flight'; body=flightForm(t.flights[modal.data]); },
+    addLodging() { title='Add Lodging'; body=lodgingForm({}); },
+    editLodging() { title='Edit Lodging'; body=lodgingForm(t.lodging[modal.data]); },
+    addEvent() { title='Add Event'; body=eventForm({}); },
+    editEvent() { title='Edit Event'; body=eventForm(t.events[modal.data]); },
+    addMapLoc() { title='Add Map Location'; body=mapLocForm({}); },
+    editMapLoc() { title='Edit Map Location'; body=mapLocForm(t.mapLocations[modal.data]); },
+    addContact() { title='Add Contact'; body=contactForm({}); },
+    editContact() { title='Edit Contact'; body=contactForm(t.contacts[modal.data]); },
+  };
+  if (types[modal.type]) types[modal.type]();
+  return `<div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header"><h2>${title}</h2><button class="btn btn-sm btn-icon" onclick="closeModal()">${I.x}</button></div>
+      <div class="modal-body">${body}</div>
+      <div class="modal-footer"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveModal()">Save</button></div>
+    </div></div>`;
+}
+
+function flightForm(f) {
+  return `<div class="form-grid">
+    <div class="field"><label>Type</label><select id="m_ftype"><option value="depart" ${f.type==='depart'?'selected':''}>Depart</option><option value="return" ${f.type==='return'?'selected':''}>Return</option><option value="connection" ${f.type==='connection'?'selected':''}>Connection</option></select></div>
+    <div class="field"><label>Airline</label><input id="m_fair" value="${esc(f.airline||'')}"></div>
+    <div class="field"><label>Flight #</label><input id="m_fno" value="${esc(f.flightNo||'')}" placeholder="AZ637"></div>
+    <div class="field"><label>From</label><input id="m_ffrom" value="${esc(f.from||'')}" placeholder="IAH"></div>
+    <div class="field"><label>To</label><input id="m_fto" value="${esc(f.to||'')}" placeholder="FCO"></div>
+    <div class="field"><label>Date</label><input id="m_fdate" value="${esc(f.date||'')}" placeholder="Sun, May 17"></div>
+    <div class="field full"><label>Time</label><input id="m_ftime" value="${esc(f.time||'')}" placeholder="6:10 PM → 11:50 AM +1"></div>
+  </div>`;
+}
+function lodgingForm(l) {
+  return `<div class="form-grid">
+    <div class="field"><label>Dates</label><input id="m_ldates" value="${esc(l.dates||'')}" placeholder="May 18 – 21"></div>
+    <div class="field"><label>Nights</label><input id="m_lnights" value="${esc(l.nights||'')}" placeholder="3 nights"></div>
+    <div class="field"><label>Property Name</label><input id="m_lname" value="${esc(l.name||'')}"></div>
+    <div class="field"><label>Status</label><select id="m_lstatus">
+      ${['tbd','booked','client-covered','confirmed'].map(s=>`<option value="${s}" ${l.status===s?'selected':''}>${s}</option>`).join('')}
+    </select></div>
+    <div class="field full"><label>URL</label><input id="m_lurl" value="${esc(l.url||'')}"></div>
+  </div>`;
+}
+function eventForm(e) {
+  return `<div class="form-grid">
+    <div class="field"><label>Day</label><input id="m_eday" value="${esc(e.day||'')}" placeholder="Saturday"></div>
+    <div class="field"><label>Date</label><input id="m_edate" value="${esc(e.date||'')}" placeholder="May 23"></div>
+    <div class="field"><label>Event Name</label><input id="m_ename" value="${esc(e.name||'')}"></div>
+    <div class="field"><label>Time</label><input id="m_etime" value="${esc(e.time||'')}" placeholder="11:30 AM"></div>
+    <div class="field full"><label>Venue</label><input id="m_evenue" value="${esc(e.venue||'')}"></div>
+    <div class="field full"><label>Address</label><input id="m_eaddr" value="${esc(e.address||'')}"></div>
+    <div class="field"><label>Attire</label><input id="m_eattire" value="${esc(e.attire||'')}"></div>
+    <div class="field"><label>Highlight Event?</label><select id="m_ehi"><option value="false" ${!e.highlight?'selected':''}>No</option><option value="true" ${e.highlight?'selected':''}>Yes — accent color</option></select></div>
+    <div class="field"><label>Link URL</label><input id="m_elink" value="${esc(e.link||'')}"></div>
+    <div class="field"><label>Link Label</label><input id="m_elabel" value="${esc(e.linkLabel||'')}"></div>
+  </div>`;
+}
+function mapLocForm(m) {
+  return `<div class="form-grid">
+    <div class="field full"><label>Location Name</label><input id="m_mname" value="${esc(m.name||'')}"></div>
+    <div class="field"><label>Short Label</label><input id="m_mlabel" value="${esc(m.label||'')}"></div>
+    <div class="field"><label>Pin Color</label><input type="color" id="m_mcolor" value="${m.color||'#CE2B37'}" style="height:36px;"></div>
+    <div class="field"><label>Latitude</label><input id="m_mlat" value="${m.lat||''}" placeholder="41.9028"></div>
+    <div class="field"><label>Longitude</label><input id="m_mlng" value="${m.lng||''}" placeholder="12.4964"></div>
+    <div class="field full"><label>Description</label><input id="m_mdesc" value="${esc(m.desc||'')}"></div>
+    <div class="field full"><label>Google Maps URL</label><input id="m_murl" value="${esc(m.mapsUrl||'')}"></div>
+  </div>`;
+}
+function contactForm(c) {
+  return `<div class="form-grid">
+    <div class="field"><label>Full Name</label><input id="m_cname" value="${esc(c.name||'')}"></div>
+    <div class="field"><label>Role</label><input id="m_crole" value="${esc(c.role||'')}" placeholder="Photographer, Stylist, Planner..."></div>
+    <div class="field"><label>Phone</label><input id="m_cphone" value="${esc(c.phone||'')}"></div>
+    <div class="field"><label>Organization</label><input id="m_corg" value="${esc(c.org||'')}"></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════
+function switchView(v) { view=v; render(); }
+function switchTrip(id) { DB.activeTripId=id; render(); if(view==='trip') triggerSunCalc(); }
+function openModal(type,data) { modal={open:true,type,data}; render(); setTimeout(()=>{const i=document.querySelector('.modal input,.modal select');if(i)i.focus();},40); }
+function closeModal() { modal={open:false,type:null,data:null}; render(); }
+
+function updateTrip(key,val) { trip()[key] = val; }
+
+async function autoGeocode(destination) {
+  const t = trip();
+  const result = await geocodeDestination(destination);
+  if (result) {
+    t.lat = parseFloat(result.lat).toFixed(6);
+    t.lng = parseFloat(result.lng).toFixed(6);
+    render();
+    toast(`Coordinates found: ${t.lat}, ${t.lng}`);
+    triggerSunCalc();
+  }
+}
+
+function triggerSunCalc() {
+  const t = trip();
+  if (t && t.lat && t.lng && t.startDate) {
+    autoCalcSun(t);
+  }
+}
+
+function newTrip() {
+  const t = {
+    id: uid(), name:'New Trip', type:'', destination:'', startDate:'', endDate:'',
+    lat:'', lng:'', website:'', tagline:'', sunrise:'', sunset:'', sunAuto:true,
+    flights:[], lodging:[], events:[], mapLocations:[], contacts:[]
+  };
+  DB.trips.push(t);
+  DB.activeTripId = t.id;
+  view = 'trip';
+  render();
+  toast('New trip created');
+}
+
+function deleteTrip() {
+  if (DB.trips.length <= 1) return;
+  if (!confirm('Delete this trip?')) return;
+  DB.trips = DB.trips.filter(t => t.id !== DB.activeTripId);
+  DB.activeTripId = DB.trips[0].id;
+  render();
+  toast('Trip deleted');
+}
+
+function duplicateTrip() {
+  const src = trip();
+  const copy = JSON.parse(JSON.stringify(src));
+  copy.id = uid();
+  copy.name = src.name + ' (Copy)';
+  // regenerate all sub-IDs
+  ['flights','lodging','events','mapLocations','contacts'].forEach(col => {
+    copy[col].forEach(item => item.id = uid());
+  });
+  DB.trips.push(copy);
+  DB.activeTripId = copy.id;
+  render();
+  toast('Trip duplicated');
+}
+
+function saveModal() {
+  const t = trip();
+  const g = id => document.getElementById(id)?.value||'';
+  const saves = {
+    addFlight() { t.flights.push({id:uid(),type:g('m_ftype'),airline:g('m_fair'),flightNo:g('m_fno'),from:g('m_ffrom'),to:g('m_fto'),date:g('m_fdate'),time:g('m_ftime')}); toast('Flight added'); },
+    editFlight() { Object.assign(t.flights[modal.data],{type:g('m_ftype'),airline:g('m_fair'),flightNo:g('m_fno'),from:g('m_ffrom'),to:g('m_fto'),date:g('m_fdate'),time:g('m_ftime')}); toast('Flight updated'); },
+    addLodging() { t.lodging.push({id:uid(),dates:g('m_ldates'),nights:g('m_lnights'),name:g('m_lname'),status:g('m_lstatus'),url:g('m_lurl'),notes:''}); toast('Lodging added'); },
+    editLodging() { Object.assign(t.lodging[modal.data],{dates:g('m_ldates'),nights:g('m_lnights'),name:g('m_lname'),status:g('m_lstatus'),url:g('m_lurl')}); toast('Lodging updated'); },
+    addEvent() { t.events.push({id:uid(),day:g('m_eday'),date:g('m_edate'),name:g('m_ename'),time:g('m_etime'),venue:g('m_evenue'),address:g('m_eaddr'),attire:g('m_eattire'),highlight:g('m_ehi')==='true',link:g('m_elink'),linkLabel:g('m_elabel')}); toast('Event added'); },
+    editEvent() { Object.assign(t.events[modal.data],{day:g('m_eday'),date:g('m_edate'),name:g('m_ename'),time:g('m_etime'),venue:g('m_evenue'),address:g('m_eaddr'),attire:g('m_eattire'),highlight:g('m_ehi')==='true',link:g('m_elink'),linkLabel:g('m_elabel')}); toast('Event updated'); },
+    addMapLoc() { t.mapLocations.push({id:uid(),name:g('m_mname'),lat:g('m_mlat'),lng:g('m_mlng'),color:g('m_mcolor'),label:g('m_mlabel'),desc:g('m_mdesc'),mapsUrl:g('m_murl')}); toast('Location added'); },
+    editMapLoc() { Object.assign(t.mapLocations[modal.data],{name:g('m_mname'),lat:g('m_mlat'),lng:g('m_mlng'),color:g('m_mcolor'),label:g('m_mlabel'),desc:g('m_mdesc'),mapsUrl:g('m_murl')}); toast('Location updated'); },
+    addContact() { t.contacts.push({id:uid(),name:g('m_cname'),role:g('m_crole'),phone:g('m_cphone'),org:g('m_corg')}); toast('Contact added'); },
+    editContact() { Object.assign(t.contacts[modal.data],{name:g('m_cname'),role:g('m_crole'),phone:g('m_cphone'),org:g('m_corg')}); toast('Contact updated'); },
+  };
+  if (saves[modal.type]) saves[modal.type]();
+  closeModal();
+}
+
+function del(col,idx) {
+  if (confirm('Delete this item?')) { trip()[col].splice(idx,1); render(); toast('Deleted'); }
+}
+
+// ═══════════════════════════════════════
+// IMPORT / EXPORT
+// ═══════════════════════════════════════
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `mwp-${trip()?.name?.replace(/\W+/g,'-').toLowerCase()||'trip'}.json`;
+  a.click(); toast('JSON exported');
+}
+function importJSON(ev) {
+  const f = ev.target.files[0]; if(!f)return;
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const d = JSON.parse(e.target.result);
+      if(d.trips) { Object.assign(DB,d); DB.activeTripId=DB.trips[0]?.id; render(); toast('Imported'); }
+      else toast('Invalid format');
+    } catch(e) { toast('Error reading file'); }
+  };
+  r.readAsText(f); ev.target.value='';
+}
+
+// ═══════════════════════════════════════
+// GENERATE CLIENT HTML
+// ═══════════════════════════════════════
+function generateHTML() {
+  const t = trip();
+  const e = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  const flightsHTML = t.flights.map(f => `<div class="card"><div class="flight-row"><div class="flight-badge ${f.type==='depart'?'badge-out':'badge-return'}">${e(f.type)}</div><div class="flight-codes">${e(f.from)} <span class="plane">✈</span> ${e(f.to)}</div><div class="flight-details"><div class="fd-line1">${e(f.flightNo)} · ${e(f.date)}</div><div class="fd-line2">${e(f.time)}</div></div></div></div>`).join('\n');
+  const lodgingHTML = t.lodging.map(l => `<div class="card"><div class="lodging-row"><div class="lodging-left"><div class="l-dates">${e(l.dates)}</div><div class="l-nights">${e(l.nights)}</div></div><div class="lodging-right">${l.name?`<div class="l-name">${e(l.name)}</div>`:''}<span class="pill ${l.status==='client-covered'?'pill-covered':'pill-tbd'}">${e(l.status)}</span>${l.url?`<br><a class="l-link" href="${e(l.url)}" target="_blank">${e(l.url.replace(/^https?:\/\/(www\.)?/,'').replace(/\/.*$/,''))} ↗</a>`:''}</div></div></div>`).join('\n');
+  const eventsHTML = t.events.map(ev => `<div class="event-item${ev.highlight?' wedding':''}"><div class="event-day-col"><div class="event-dayname">${e(ev.day)}</div><div class="event-date">${e(ev.date)}</div></div><div class="event-content"><div class="event-name">${e(ev.name)}${ev.time?' · '+e(ev.time):''}</div><div class="event-venue">${ev.link?`<a href="${e(ev.link)}" target="_blank">${e(ev.venue||ev.linkLabel||'Link')}</a>`:e(ev.venue)}${ev.address?`<br><span style="color:var(--grigio);">${e(ev.address)}</span>`:''}${ev.attire?`<br>Attire: ${e(ev.attire)}`:''}</div></div></div>`).join('\n');
+  const mapLocsJS = t.mapLocations.map(m => `{name:${JSON.stringify(m.name)},lat:${m.lat},lng:${m.lng},color:${JSON.stringify(m.color)},label:${JSON.stringify(m.label)},desc:${JSON.stringify(m.desc)},mapsUrl:${JSON.stringify(m.mapsUrl)}}`).join(',\n        ');
+  const contactsHTML = t.contacts.map(c => { const p=c.name.split(' '); const first=p[0]||''; const last=p.slice(1).join(' ')||''; const ph=c.phone.replace(/[^\d+]/g,'');
+    return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;"><div><div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:600;">${e(c.name)}</div><div style="font-size:13px;color:var(--grigio);margin-top:2px;">${e(c.role)}</div><a href="tel:${ph}" style="font-size:14px;color:var(--azzurro);text-decoration:none;font-weight:500;">${e(c.phone)}</a></div><div style="display:flex;gap:8px;"><a href="tel:${ph}" class="contact-btn">Call</a><a href="sms:${ph}" class="contact-btn">Text</a><a class="contact-btn contact-btn-save" onclick="saveContact('${e(first)}','${e(last)}','${ph}','${e(c.role)}','${e(c.org)}')">Save Contact</a></div></div></div>`; }).join('\n');
+  const sd=new Date(t.startDate+'T00:00:00'); const ed=new Date(t.endDate+'T00:00:00');
+  const fmt=d=>d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+
+  const html = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${e(t.destination)} Trip – ${e(t.name)}</title><meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>:root{--azzurro:#0066CC;--azzurro-deep:#004A99;--azzurro-light:#E8F0FE;--rosso:#CE2B37;--rosso-soft:#FFF0F0;--verde:#008C45;--verde-soft:#EEFAF3;--bianco:#FFF;--nero:#1A1A1A;--grigio:#6B7280;--grigio-light:#F3F4F6;--bg:#FAFBFC}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--nero);min-height:100vh;-webkit-font-smoothing:antialiased}.flag-bar{display:flex;height:5px}.flag-bar div{flex:1}.flag-green{background:var(--verde)}.flag-white{background:var(--bianco);border-bottom:1px solid #eee}.flag-red{background:var(--rosso)}.hero{background:var(--azzurro);color:var(--bianco);padding:56px 40px 48px;position:relative;overflow:hidden}.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,0.04)}.hero::after{content:'';position:absolute;bottom:-120px;left:-60px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.03)}.hero-inner{max-width:800px;margin:0 auto;position:relative;z-index:1}.hero-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px}.hero-tag{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;background:rgba(255,255,255,0.15);padding:6px 14px;border-radius:100px;backdrop-filter:blur(4px)}.hero-flag{display:flex;gap:3px}.hero-flag span{width:18px;height:26px;border-radius:3px}.hf-green{background:var(--verde)}.hf-white{background:rgba(255,255,255,0.9)}.hf-red{background:var(--rosso)}.hero h1{font-family:'Syne',sans-serif;font-size:52px;font-weight:700;line-height:1.05;margin-bottom:6px;letter-spacing:-1px}.hero .location{font-family:'Syne',sans-serif;font-size:20px;font-weight:400;opacity:0.7;margin-bottom:20px}.hero .date-strip{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;background:rgba(255,255,255,0.1);padding:10px 20px;border-radius:8px;border:1px solid rgba(255,255,255,0.15)}.date-strip .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.4)}.container{max-width:800px;margin:0 auto;padding:40px 24px 60px}.section{margin-bottom:40px}.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}.section-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}.icon-blue{background:var(--azzurro-light);color:var(--azzurro)}.icon-green{background:var(--verde-soft);color:var(--verde)}.icon-red{background:var(--rosso-soft);color:var(--rosso)}.section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase}.card{background:var(--bianco);border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:10px;transition:box-shadow 0.2s}.card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.06)}.flight-row{display:flex;align-items:center;gap:20px}.flight-badge{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:6px;flex-shrink:0;min-width:70px;text-align:center}.badge-out{background:var(--azzurro);color:var(--bianco)}.badge-return{background:var(--nero);color:var(--bianco)}.flight-codes{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;letter-spacing:1px;flex:1}.flight-codes .plane{color:var(--azzurro);margin:0 10px;font-size:18px}.flight-details{text-align:right;flex-shrink:0}.flight-details .fd-line1{font-size:13px;font-weight:600}.flight-details .fd-line2{font-size:12px;color:var(--grigio);margin-top:2px}.lodging-row{display:flex;justify-content:space-between;align-items:center}.lodging-left .l-dates{font-family:'Syne',sans-serif;font-size:18px;font-weight:600}.lodging-left .l-nights{font-size:12px;color:var(--grigio);margin-top:2px}.lodging-right{text-align:right}.lodging-right .l-name{font-size:14px;font-weight:600;margin-bottom:4px}.pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:100px}.pill-tbd{background:var(--grigio-light);color:var(--grigio)}.pill-covered{background:var(--verde-soft);color:var(--verde)}.l-link{display:inline-block;margin-top:6px;font-size:12px;font-weight:600;color:var(--azzurro);text-decoration:none}.l-link:hover{text-decoration:underline}.event-list{display:flex;flex-direction:column}.event-item{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid #F0F0F0;position:relative}.event-item:last-child{border-bottom:none}.event-day-col{flex-shrink:0;width:110px}.event-dayname{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px}.event-date{font-size:12px;color:var(--grigio);margin-top:2px}.event-content{flex:1}.event-name{font-family:'Syne',sans-serif;font-size:19px;font-weight:600;margin-bottom:4px}.event-venue{font-size:13px;color:var(--grigio);line-height:1.5}.event-venue a{color:var(--azzurro);text-decoration:none;font-weight:600}.event-venue a:hover{text-decoration:underline}.event-item.wedding .event-name{color:var(--rosso)}.event-item.wedding::before{content:'';position:absolute;left:-24px;top:22px;bottom:22px;width:3px;border-radius:3px;background:var(--rosso)}.map-chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--nero);background:var(--grigio-light);border:1px solid #E5E7EB;padding:6px 12px;border-radius:100px;text-decoration:none;transition:all 0.2s;cursor:pointer;white-space:nowrap}.map-chip:hover{background:#e2e4e8}.map-chip.active{background:var(--azzurro);color:var(--bianco);border-color:var(--azzurro)}.chip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.contact-btn{display:inline-flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;border-radius:8px;text-decoration:none;cursor:pointer;background:var(--azzurro-light);color:var(--azzurro);border:none;transition:background 0.2s}.contact-btn:hover{background:#d4e4fc}.contact-btn-save{background:var(--azzurro);color:var(--bianco)}.contact-btn-save:hover{background:var(--azzurro-deep)}@media(max-width:600px){.hero{padding:40px 24px 36px}.hero h1{font-size:36px}.hero-top{flex-direction:column;gap:12px}.flight-row{flex-direction:column;align-items:flex-start;gap:10px}.flight-details{text-align:left}.lodging-row{flex-direction:column;align-items:flex-start;gap:10px}.lodging-right{text-align:left}.event-item{flex-direction:column;gap:6px}.event-day-col{width:auto}.event-item.wedding::before{display:none}}</style></head>
+<body>
+<div class="flag-bar"><div class="flag-green"></div><div class="flag-white"></div><div class="flag-red"></div></div>
+<div class="hero"><div class="hero-inner">
+<div class="hero-top"><div class="hero-tag">${e(t.tagline)}</div><div class="hero-flag"><span class="hf-green"></span><span class="hf-white"></span><span class="hf-red"></span></div></div>
+<h1>${e(t.name)}</h1>
+<div class="location">${e(t.destination)}</div>
+<div class="date-strip"><span>${fmt(sd)}</span><span style="opacity:0.5;">—</span><span>${fmt(ed)}</span><span class="dot"></span><span>${sd.getFullYear()}</span>${t.website?`<span class="dot"></span><a href="${e(t.website)}" target="_blank" style="color:#fff;text-decoration:none;font-weight:600;">Website ↗</a>`:''}</div>
+</div></div>
+<div class="container">
+<div class="section"><div class="section-header"><div class="section-icon icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div><div class="section-title">Flights · ${e(t.flights[0]?.airline||'')}</div></div>${flightsHTML}</div>
+<div class="section"><div class="section-header"><div class="section-icon icon-green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="section-title">Lodging</div></div>${lodgingHTML}</div>
+<div class="section"><div class="section-header"><div class="section-icon icon-red"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="section-title">Event Schedule</div></div>
+<div style="font-size:12px;color:var(--grigio);margin-bottom:14px;">☀ Sunrise ~${e(t.sunrise)} · 🌅 Sunset ~${e(t.sunset)}</div>
+<div class="card" style="padding:4px 24px;"><div class="event-list">${eventsHTML}</div></div></div>
+${t.mapLocations.length?`<div class="section"><div class="section-header"><div class="section-icon icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></div><div class="section-title">Location Map</div></div>
+<div class="card" style="padding:0;overflow:hidden;"><div id="map" style="width:100%;height:420px;border-radius:12px 12px 0 0;"></div><div id="map-legend" style="display:flex;flex-wrap:wrap;gap:6px;padding:14px 16px;background:#fff;border-top:1px solid #E5E7EB;"></div></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"><\/script>
+<script>(function(){var locs=[${mapLocsJS}];var map=L.map('map',{scrollWheelZoom:false,attributionControl:false});L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);var grp=L.featureGroup();var markers=[];locs.forEach(function(l){var dot='<div style="width:14px;height:14px;border-radius:50%;background:'+l.color+';border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>';var ic=L.divIcon({className:'',html:dot,iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-10]});var pop='<div style="font-family:DM Sans,sans-serif;min-width:180px;"><div style="font-family:Syne,sans-serif;font-weight:700;font-size:14px;margin-bottom:4px;">'+l.name+'</div><div style="font-size:12px;color:#6B7280;margin-bottom:8px;">'+l.desc+'</div><a href="'+l.mapsUrl+'" target="_blank" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#fff;background:#0066CC;padding:6px 14px;border-radius:6px;text-decoration:none;">Navigate ↗</a></div>';var m=L.marker([l.lat,l.lng],{icon:ic}).addTo(map).bindPopup(pop);grp.addLayer(m);markers.push(m);});map.fitBounds(grp.getBounds().pad(0.2));var leg=document.getElementById('map-legend');var allBtn=document.createElement('button');allBtn.className='map-chip active';allBtn.innerHTML='<span class="chip-dot" style="background:#1A1A1A;"></span>All';allBtn.onclick=function(){map.fitBounds(grp.getBounds().pad(0.2));leg.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active');});allBtn.classList.add('active');};leg.appendChild(allBtn);locs.forEach(function(l,i){var ch=document.createElement('button');ch.className='map-chip';ch.innerHTML='<span class="chip-dot" style="background:'+l.color+';"></span>'+l.label;ch.onclick=function(){map.flyTo([l.lat,l.lng],l.name.includes('Airport')?13:16,{duration:1});markers[i].openPopup();leg.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active');});ch.classList.add('active');};leg.appendChild(ch);});})();<\/script></div>`:''}
+<div class="section"><div class="section-header"><div class="section-icon icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="section-title">Team Contacts</div></div>${contactsHTML}</div>
+</div>
+<script>function saveContact(first,last,phone,title,org){var v='BEGIN:VCARD\\nVERSION:3.0\\nN:'+last+';'+first+';;;\\nFN:'+first+' '+last+'\\nORG:'+org+'\\nTITLE:'+title+'\\nTEL;TYPE=CELL:'+phone+'\\nEND:VCARD';var b=new Blob([v],{type:'text/vcard'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=first+'_'+last+'.vcf';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);}<\/script>
+</body></html>`;
+
+  const blob = new Blob([html],{type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${t.name.replace(/\W+/g,'-').toLowerCase()}-trip.html`;
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('Client page generated');
+  document.getElementById('exportPreview').innerHTML = `<div class="card"><div class="card-header"><h3>Generated</h3></div><div class="card-body"><p style="font-size:13px;color:var(--text-dim);">${esc(a.download)} downloaded — ${(html.length/1024).toFixed(1)} KB</p></div></div>`;
+}
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtDate(d) { if(!d)return'—'; return new Date(d+'T00:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); }
+function empty(t,s) { return `<div class="empty"><p><strong>${t}</strong><br>${s}</p></div>`; }
+function toast(msg) { document.querySelectorAll('.toast').forEach(t=>t.remove()); const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
+
+// INIT
+render();
+// Auto-calc sun on load if we have coords
+setTimeout(() => { const t=trip(); if(t&&t.lat&&t.lng&&t.startDate) autoCalcSun(t); }, 500);
+</script>
+</body>
+</html>
