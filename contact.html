@@ -241,6 +241,12 @@ taveForm.addEventListener('submit', async function(e) {
   submitBtn.textContent = 'Sending...';
   submitBtn.disabled = true;
   const data = Object.fromEntries(new FormData(taveForm));
+  // Formspree fallback notification (silent, fire-and-forget)
+  fetch('https://formspree.io/f/xojprdzp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  }).catch(function(){});
   try {
     const res = await fetch('/api/lead', {
       method: 'POST',
