@@ -708,7 +708,7 @@
           <div class="event-day-col">
             <div class="event-dayname">Thursday</div>
             <div class="event-date">April 9</div>
-            <div style="font-size:10px; color:var(--grigio); margin-top:4px;">⛅ 85° / 53°F</div>
+            <div id="wx-apr9" style="font-size:10px; color:var(--grigio); margin-top:4px;"></div>
           </div>
           <div class="event-content">
             <div class="event-name">Rehearsal Dinner</div>
@@ -735,7 +735,7 @@
           <div class="event-day-col">
             <div class="event-dayname">Friday</div>
             <div class="event-date">April 10</div>
-            <div style="font-size:10px; color:var(--grigio); margin-top:4px;">🌤 84° / 54°F</div>
+            <div id="wx-apr10" style="font-size:10px; color:var(--grigio); margin-top:4px;"></div>
           </div>
           <div class="event-content">
             <div class="event-name">Welcome Cocktail</div>
@@ -759,7 +759,7 @@
         <div style="font-size:11px; color:var(--grigio);">·</div>
         <div class="event-dayname">April 11</div>
         <div style="font-size:11px; color:var(--grigio);">·</div>
-        <div style="font-size:10px; color:var(--grigio);">🌧 86° / 54°F</div>
+        <div id="wx-apr11" style="font-size:10px; color:var(--grigio);"></div>
       </div>
       <div class="event-name" style="font-family:'Cormorant Garamond',serif; font-size:20px; margin-bottom:4px;">Wedding Day</div>
       <div style="font-size:12px; color:var(--grigio); margin-bottom:16px;">Photographer: 2:00 PM – 12:00 AM (10 hours)</div>
@@ -950,6 +950,40 @@ function saveContact(first, last, phone, title, org) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+</script>
+
+<script>
+(function(){
+  var WMO={0:'☀️ Clear',1:'🌤 Mostly Clear',2:'⛅ Partly Cloudy',3:'☁️ Overcast',
+    45:'🌫 Fog',48:'🌫 Fog',51:'🌦 Light Drizzle',53:'🌦 Drizzle',55:'🌧 Heavy Drizzle',
+    61:'🌦 Light Rain',63:'🌧 Rain',65:'🌧 Heavy Rain',71:'🌨 Light Snow',73:'🌨 Snow',
+    75:'🌨 Heavy Snow',80:'🌦 Showers',81:'🌧 Showers',82:'🌧 Heavy Showers',
+    95:'⛈ Thunderstorm',96:'⛈ Thunderstorm',99:'⛈ Severe Storm'};
+  var days=[
+    {date:'2026-04-09',el:'wx-apr9'},
+    {date:'2026-04-10',el:'wx-apr10'},
+    {date:'2026-04-11',el:'wx-apr11'}
+  ];
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=20.9153&longitude=-100.7439&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=fahrenheit&timezone=America/Mexico_City&start_date=2026-04-09&end_date=2026-04-11')
+    .then(function(r){return r.json()})
+    .then(function(d){
+      days.forEach(function(day,i){
+        var el=document.getElementById(day.el);
+        if(!el||!d.daily)return;
+        var hi=Math.round(d.daily.temperature_2m_max[i]);
+        var lo=Math.round(d.daily.temperature_2m_min[i]);
+        var code=d.daily.weathercode[i];
+        var desc=WMO[code]||'🌤 Fair';
+        el.textContent=desc+' '+hi+'° / '+lo+'°F';
+      });
+    })
+    .catch(function(){
+      days.forEach(function(day){
+        var el=document.getElementById(day.el);
+        if(el)el.textContent='';
+      });
+    });
+})();
 </script>
 
 </body>
