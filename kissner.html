@@ -853,8 +853,8 @@
     <script>
     (function(){
       var locs = [
-        {name:"Casa Cece",lat:20.9070,lng:-100.7408,color:"#FFFFFF",label:"Rehearsal · Casa Cece",desc:"Thu · Rehearsal Dinner · 5:30 PM",mapsUrl:"https://maps.app.goo.gl/y8VtTfsM9vbBXRdw6"},
-        {name:"The Restaurant",lat:20.9132,lng:-100.7428,color:"#C2663A",label:"Welcome Cocktail · The Restaurant",desc:"Fri · Welcome Cocktail · 7:00 PM",mapsUrl:"https://share.google/WYxDMYhY3XnAXoDPi"},
+        {name:"Casa Cece",lat:20.9070,lng:-100.7408,color:"#8E6AA0",label:"Rehearsal · Casa Cece",desc:"Thu · Rehearsal Dinner · 5:30 PM",mapsUrl:"https://maps.app.goo.gl/y8VtTfsM9vbBXRdw6"},
+        {name:"The Restaurant",lat:20.9132,lng:-100.7428,color:"#D4A04A",label:"Welcome Cocktail · The Restaurant",desc:"Fri · Welcome Cocktail · 7:00 PM",mapsUrl:"https://share.google/WYxDMYhY3XnAXoDPi"},
         {name:"Casa Cariño",lat:20.9070,lng:-100.7408,color:"#C2663A",label:"Pre-Ceremony · Casa Cariño",desc:"Sat · Getting Ready · 9:15 AM",mapsUrl:"https://share.google/OB0QPYa5IPjzIHLuv"},
         {name:"Templo de San Francisco",lat:20.9152,lng:-100.7422,color:"#CE2B37",label:"Ceremony · Templo de San Francisco",desc:"Sat · Ceremony · 5:30 PM",mapsUrl:"https://maps.app.goo.gl/85pSXFChY5Y2uSjr5"},
         {name:"Instituto Allende",lat:20.9096,lng:-100.7469,color:"#008C45",label:"Reception · Instituto Allende",desc:"Sat · Reception · 6:50 PM",mapsUrl:"https://maps.app.goo.gl/Fxv7LUkbge3bgLRx5"},
@@ -865,8 +865,7 @@
       var grp=L.featureGroup();
       var markers=[];
       locs.forEach(function(l){
-        var bdr=l.color==="#FFFFFF"?"#999":"#fff";
-        var dot='<div style="width:14px;height:14px;border-radius:50%;background:'+l.color+';border:2.5px solid '+bdr+';box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>';
+        var dot='<div style="width:14px;height:14px;border-radius:50%;background:'+l.color+';border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>';
         var ic=L.divIcon({className:'',html:dot,iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-10]});
         var pop='<div style="font-family:Lora,serif;min-width:180px;"><div style="font-family:Cormorant Garamond,serif;font-weight:700;font-size:14px;margin-bottom:4px;">'+l.name+'</div><div style="font-size:12px;color:#6B7280;margin-bottom:8px;">'+l.desc+'</div><a href="'+l.mapsUrl+'" target="_blank" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#fff;background:#C2663A;padding:6px 14px;border-radius:6px;text-decoration:none;">Navigate ↗</a></div>';
         var m=L.marker([l.lat,l.lng],{icon:ic}).addTo(map).bindPopup(pop);
@@ -889,8 +888,7 @@
       locs.forEach(function(l,i){
         var ch=document.createElement('button');
         ch.className='map-chip';
-        var dotStyle=l.color==="#FFFFFF"?'background:'+l.color+';border:1.5px solid #999;':'background:'+l.color+';';
-        ch.innerHTML='<span class="chip-dot" style="'+dotStyle+'"></span>'+l.label;
+        ch.innerHTML='<span class="chip-dot" style="background:'+l.color+';"></span>'+l.label;
         ch.onclick=function(){
           map.flyTo([l.lat,l.lng],16,{duration:1});
           markers[i].openPopup();
