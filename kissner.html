@@ -864,9 +864,11 @@
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
       var grp=L.featureGroup();
       var markers=[];
-      locs.forEach(function(l){
-        var dot='<div style="width:14px;height:14px;border-radius:50%;background:'+l.color+';border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>';
-        var ic=L.divIcon({className:'',html:dot,iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-10]});
+      locs.forEach(function(l,i){
+        var num=i<5?(i+1):'';
+        var sz=num?22:14;
+        var dot=num?'<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+l.color+';border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-family:Lora,serif;font-size:11px;font-weight:700;color:#fff;">'+num+'</div>':'<div style="width:14px;height:14px;border-radius:50%;background:'+l.color+';border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>';
+        var ic=L.divIcon({className:'',html:dot,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],popupAnchor:[0,-sz/2-2]});
         var pop='<div style="font-family:Lora,serif;min-width:180px;"><div style="font-family:Cormorant Garamond,serif;font-weight:700;font-size:14px;margin-bottom:4px;">'+l.name+'</div><div style="font-size:12px;color:#6B7280;margin-bottom:8px;">'+l.desc+'</div><a href="'+l.mapsUrl+'" target="_blank" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#fff;background:#C2663A;padding:6px 14px;border-radius:6px;text-decoration:none;">Navigate ↗</a></div>';
         var m=L.marker([l.lat,l.lng],{icon:ic}).addTo(map).bindPopup(pop);
         grp.addLayer(m);
@@ -888,7 +890,8 @@
       locs.forEach(function(l,i){
         var ch=document.createElement('button');
         ch.className='map-chip';
-        ch.innerHTML='<span class="chip-dot" style="background:'+l.color+';"></span>'+l.label;
+        var chipNum=i<5?(i+1)+'. ':'';
+        ch.innerHTML='<span class="chip-dot" style="background:'+l.color+';"></span>'+chipNum+l.label;
         ch.onclick=function(){
           map.flyTo([l.lat,l.lng],16,{duration:1});
           markers[i].openPopup();
