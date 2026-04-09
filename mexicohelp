@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USD ↔ MXN + Translate</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+      padding: 24px 16px;
+      gap: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(40px);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 32px 24px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .header h2 { color: #fff; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .header .sub { color: rgba(255,255,255,0.35); font-size: 12px; font-family: 'Space Mono', monospace; margin-top: 2px; }
+    .btn-refresh {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; color: rgba(255,255,255,0.5); font-size: 11px;
+      font-family: 'Space Mono', monospace; padding: 6px 14px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-refresh:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .input-block {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px; padding: 18px 20px;
+    }
+    .input-label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .input-label .flag { font-size: 24px; }
+    .input-label .code { color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600; letter-spacing: 1.5px; }
+    .input-block input[type="number"] {
+      width: 100%; background: transparent; border: none; outline: none;
+      color: #fff; font-size: 32px; font-family: 'Space Mono', monospace;
+      font-weight: 700; letter-spacing: -1px;
+    }
+    .swap-wrap { display: flex; justify-content: center; margin: -12px 0; position: relative; z-index: 2; }
+    .btn-swap {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: 3px solid #0a0a0a; color: #fff; font-size: 18px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-swap:hover { transform: rotate(180deg) scale(1.1); }
+    .error-msg {
+      color: #ff6b6b; font-size: 13px; margin-bottom: 16px;
+      padding: 10px 14px; background: rgba(255,100,100,0.08); border-radius: 10px;
+    }
+    .sync { text-align: center; color: rgba(255,255,255,0.2); font-size: 10px; font-family: 'Space Mono', monospace; margin-top: 16px; }
+
+```
+/* Translate section */
+.translate-grid { display: flex; gap: 12px; margin-bottom: 0; }
+.translate-col { flex: 1; display: flex; flex-direction: column; }
+.translate-col label {
+  display: flex; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600;
+  letter-spacing: 1.5px; margin-bottom: 8px;
+}
+.translate-col label .flag { font-size: 20px; }
+textarea {
+  flex: 1; min-height: 120px; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;
+  padding: 14px 16px; color: #fff; font-family: 'DM Sans', sans-serif;
+  font-size: 15px; line-height: 1.5; resize: vertical; outline: none;
+  transition: border-color 0.2s;
+}
+textarea:focus { border-color: rgba(102,126,234,0.4); }
+textarea::placeholder { color: rgba(255,255,255,0.15); }
+textarea.output { color: rgba(255,255,255,0.7); }
+.translate-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+.btn-translate {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none; border-radius: 12px; color: #fff; font-size: 14px;
+  font-weight: 600; padding: 10px 24px; cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-translate:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-translate:disabled { opacity: 0.4; cursor: default; transform: none; }
+.char-count { color: rgba(255,255,255,0.2); font-size: 10px; font-family: 'Space Mono', monospace; }
+
+@media (max-width: 480px) {
+  .translate-grid { flex-direction: column; }
+  .input-block input[type="number"] { font-size: 28px; }
+}
+```
+
+  </style>
+</head>
+<body>
+
+  <!-- CURRENCY CONVERTER -->
+
+  <div class="card" id="converter">
+    <div class="header">
+      <div>
+        <h2>Convert</h2>
+        <div class="sub" id="rate-display">fetching...</div>
+      </div>
+      <button class="btn-refresh" id="btn-refresh" onclick="fetchRate()">Refresh</button>
+    </div>
+    <div id="error-box" class="error-msg" style="display:none"></div>
+
+```
+<div class="input-block" id="top-block">
+  <div class="input-label"><span class="flag" id="top-flag">🇺🇸</span><span class="code" id="top-code">USD</span></div>
+  <input type="number" inputmode="decimal" id="top-input" placeholder="0.00" value="1" oninput="onTopInput()">
+</div>
+
+<div class="swap-wrap">
+  <button class="btn-swap" onclick="swapDirection()">⇅</button>
+</div>
+
+<div class="input-block" id="bottom-block">
+  <div class="input-label"><span class="flag" id="bottom-flag">🇲🇽</span><span class="code" id="bottom-code">MXN</span></div>
+  <input type="number" inputmode="decimal" id="bottom-input" placeholder="0.00" oninput="onBottomInput()">
+</div>
+
+<div class="sync" id="sync-time"></div>
+```
+
+  </div>
+
+  <!-- TRANSLATOR -->
+
+  <div class="card">
+    <div class="header">
+      <div>
+        <h2>Translate</h2>
+        <div class="sub">English → Spanish</div>
+      </div>
+    </div>
+    <div class="translate-grid">
+      <div class="translate-col">
+        <label><span class="flag">🇺🇸</span> EN</label>
+        <textarea id="source-text" placeholder="Type English text..." oninput="updateCharCount()"></textarea>
+      </div>
+      <div class="translate-col">
+        <label><span class="flag">🇲🇽</span> ES</label>
+        <textarea id="translated-text" class="output" placeholder="Translation appears here..." readonly></textarea>
+      </div>
+    </div>
+    <div class="translate-footer">
+      <span class="char-count" id="char-count">0 chars</span>
+      <button class="btn-translate" id="btn-translate" onclick="translateText()">Translate</button>
+    </div>
+  </div>
+
+  <script>
+    let rate = null;
+    let direction = "usd-to-mxn"; // top=USD, bottom=MXN
+
+    async function fetchRate() {
+      document.getElementById("rate-display").textContent = "fetching...";
+      document.getElementById("btn-refresh").textContent = "↻";
+      document.getElementById("error-box").style.display = "none";
+
+      const attempts = [
+        async () => { const r = await fetch("https://open.er-api.com/v6/latest/USD"); const d = await r.json(); return d?.rates?.MXN; },
+        async () => { const r = await fetch("https://latest.currency-api.pages.dev/v1/currencies/usd.json"); const d = await r.json(); return d?.usd?.mxn; },
+      ];
+
+      let mxnRate = null;
+      for (const attempt of attempts) {
+        try { const v = await attempt(); if (v) { mxnRate = v; break; } } catch {}
+      }
+
+      if (mxnRate) {
+        rate = mxnRate;
+        document.getElementById("rate-display").textContent = "1 USD = " + rate.toFixed(4) + " MXN";
+        document.getElementById("sync-time").textContent = "last sync " + new Date().toLocaleTimeString();
+        document.getElementById("error-box").style.display = "none";
+        onTopInput();
+      } else {
+        document.getElementById("rate-display").textContent = "—";
+        document.getElementById("error-box").textContent = "Couldn't fetch live rates. Check connection.";
+        document.getElementById("error-box").style.display = "block";
+      }
+      document.getElementById("btn-refresh").textContent = "Refresh";
+    }
+
+    function onTopInput() {
+      if (!rate) return;
+      const val = parseFloat(document.getElementById("top-input").value);
+      if (isNaN(val)) { document.getElementById("bottom-input").value = ""; return; }
+      if (direction === "usd-to-mxn") {
+        document.getElementById("bottom-input").value = (val * rate).toFixed(2);
+      } else {
+        document.getElementById("bottom-input").value = (val / rate).toFixed(2);
+      }
+    }
+
+    function onBottomInput() {
+      if (!rate) return;
+      const val = parseFloat(document.getElementById("bottom-input").value);
+      if (isNaN(val)) { document.getElementById("top-input").value = ""; return; }
+      if (direction === "usd-to-mxn") {
+        document.getElementById("top-input").value = (val / rate).toFixed(2);
+      } else {
+        document.getElementById("top-input").value = (val * rate).toFixed(2);
+      }
+    }
+
+    function swapDirection() {
+      const topVal = document.getElementById("top-input").value;
+      const bottomVal = document.getElementById("bottom-input").value;
+
+      if (direction === "usd-to-mxn") {
+        direction = "mxn-to-usd";
+        document.getElementById("top-flag").textContent = "🇲🇽";
+        document.getElementById("top-code").textContent = "MXN";
+        document.getElementById("bottom-flag").textContent = "🇺🇸";
+        document.getElementById("bottom-code").textContent = "USD";
+      } else {
+        direction = "usd-to-mxn";
+        document.getElementById("top-flag").textContent = "🇺🇸";
+        document.getElementById("top-code").textContent = "USD";
+        document.getElementById("bottom-flag").textContent = "🇲🇽";
+        document.getElementById("bottom-code").textContent = "MXN";
+      }
+      document.getElementById("top-input").value = bottomVal;
+      document.getElementById("bottom-input").value = topVal;
+    }
+
+    // --- TRANSLATE ---
+    function updateCharCount() {
+      const len = document.getElementById("source-text").value.length;
+      document.getElementById("char-count").textContent = len + " chars";
+    }
+
+    async function translateText() {
+      const text = document.getElementById("source-text").value.trim();
+      if (!text) return;
+
+      const btn = document.getElementById("btn-translate");
+      const output = document.getElementById("translated-text");
+      btn.disabled = true;
+      btn.textContent = "Translating...";
+      output.value = "";
+
+      try {
+        const url = "https://api.mymemory.translated.net/get?q=" +
+          encodeURIComponent(text) + "&langpair=en|es";
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data?.responseData?.translatedText) {
+          output.value = data.responseData.translatedText;
+        } else {
+          output.value = "Translation failed. Try shorter text.";
+        }
+      } catch {
+        output.value = "Error — check connection and retry.";
+      }
+
+      btn.disabled = false;
+      btn.textContent = "Translate";
+    }
+
+    // Allow Ctrl+Enter / Cmd+Enter to translate
+    document.getElementById("source-text").addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) translateText();
+    });
+
+    // Init
+    fetchRate();
+  </script>
+
+</body>
+</html>
