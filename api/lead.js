@@ -27,6 +27,7 @@ module.exports = async function handler(req, res) {
   params.append('MobilePhone', body.MobilePhone || '');
   params.append('PhoneType', 'Mobile');
   params.append('Date', dateStr);
+  params.append('EventDate', dateStr);
   params.append('JobType', body.JobType || '');
   params.append('JobRole', body.JobRole || '');
   params.append('Source', body.Source || '');
