@@ -217,7 +217,7 @@ a { color: inherit; }
   opacity: 0; transform: translateY(14px);
   transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), color 0.3s;
 }
-.menu-overlay a:hover { color: var(--terracotta); }
+.menu-overlay a:hover { color: var(--accent); }
 .menu-overlay.open a { opacity: 1; transform: translateY(0); }
 .menu-overlay.open a:nth-child(2) { transition-delay: 0.04s; }
 .menu-overlay.open a:nth-child(3) { transition-delay: 0.08s; }
