@@ -241,11 +241,31 @@ taveForm.addEventListener('submit', async function(e) {
   submitBtn.textContent = 'Sending...';
   submitBtn.disabled = true;
   const data = Object.fromEntries(new FormData(taveForm));
-  // Formspree fallback notification (silent, fire-and-forget)
+  // Formspree fallback notification with clean labels
+  var jobTypeLabel = {935490:'Wedding',935442:'Portrait',935469:'Other'}[data.JobType] || data.JobType || '';
+  var roleLabel = document.querySelector('#JobRole option:checked');
+  roleLabel = roleLabel ? roleLabel.textContent : data.JobRole || '';
+  var sourceLabel = document.querySelector('#Source option:checked');
+  sourceLabel = sourceLabel ? sourceLabel.textContent : data.Source || '';
+  var dateVal = data.Date || '';
+  if (dateVal && dateVal.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    var p = dateVal.split('-');
+    dateVal = parseInt(p[1]) + '/' + parseInt(p[2]) + '/' + p[0];
+  }
   fetch('https://formspree.io/f/xojprdzp', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      _subject: 'New Lead — M. Wang Photography Inquiry',
+      'Name': (data.FirstName || '') + ' ' + (data.LastName || ''),
+      'Email Address': data.Email || '',
+      'Phone Number': data.MobilePhone || '',
+      'Event Date': dateVal,
+      'Event Type': jobTypeLabel,
+      'What is your role?': roleLabel,
+      'How did you hear about us?': sourceLabel,
+      'Message': data.Message || ''
+    }),
   }).catch(function(){});
   try {
     const res = await fetch('/api/lead', {
