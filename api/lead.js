@@ -24,7 +24,11 @@ module.exports = async function handler(req, res) {
   params.append('FirstName', body.FirstName || '');
   params.append('LastName', body.LastName || '');
   params.append('Email', body.Email || '');
-  params.append('MobilePhone', body.MobilePhone || '');
+  // Send phone in both formats — plain for create-lead API, e164 JSON for VSCO form
+  const rawPhone = (body.MobilePhone || '').replace(/[^\d+]/g, '');
+  const e164Phone = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+1' + rawPhone) : null;
+  params.append('MobilePhone', rawPhone);
+  params.append('Phone', JSON.stringify({ e164: e164Phone }));
   params.append('PhoneType', 'Mobile');
   params.append('Date', dateStr);
   params.append('EventDate', dateStr);
