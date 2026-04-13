@@ -12,11 +12,11 @@ module.exports = async function handler(req, res) {
 
   const body = req.body;
 
-  // Format date from YYYY-MM-DD to MM/DD/YYYY for VSCO/Tave
+  // Format date from YYYY-MM-DD to m/d/yyyy for VSCO/Tave
   let dateStr = body.Date || '';
   if (dateStr && dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
     const [y, m, d] = dateStr.split('-');
-    dateStr = m + '/' + d + '/' + y;
+    dateStr = parseInt(m) + '/' + parseInt(d) + '/' + y;
   }
 
   const params = new URLSearchParams();
@@ -25,6 +25,7 @@ module.exports = async function handler(req, res) {
   params.append('LastName', body.LastName || '');
   params.append('Email', body.Email || '');
   params.append('MobilePhone', body.MobilePhone || '');
+  params.append('PhoneType', 'Mobile');
   params.append('Date', dateStr);
   params.append('JobType', body.JobType || '');
   params.append('JobRole', body.JobRole || '');
