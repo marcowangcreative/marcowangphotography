@@ -105,6 +105,8 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
     <div class="conv-form-greeting">Tell us about your day</div>
 
     <form class="tave-form" id="taveForm">
+      <!-- Honeypot - hidden from real users, bots fill it -->
+      <div style="position:absolute;left:-9999px;"><input type="text" name="website" id="honeypot" tabindex="-1" autocomplete="off"></div>
       <div class="tave-row">
         <div class="tave-field">
           <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required>
@@ -238,9 +240,16 @@ const taveSuccess = document.getElementById('taveSuccess');
 const submitBtn = document.getElementById('submitBtn');
 taveForm.addEventListener('submit', async function(e) {
   e.preventDefault();
+  // Honeypot check — block bots
+  if (document.getElementById('honeypot').value) {
+    submitBtn.textContent = 'Thank you!';
+    submitBtn.disabled = true;
+    return;
+  }
   submitBtn.textContent = 'Sending...';
   submitBtn.disabled = true;
   const data = Object.fromEntries(new FormData(taveForm));
+  delete data.website; // remove honeypot field from payload
   // Formspree fallback notification with clean labels
   var jobTypeLabel = {935490:'Wedding',935442:'Portrait',935469:'Other'}[data.JobType] || data.JobType || '';
   var roleLabel = document.querySelector('#JobRole option:checked');
