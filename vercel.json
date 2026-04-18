@@ -1,5 +1,6 @@
 {
-  "buildCommand": "echo 'No build command required'",
+  "buildCommand": "node scripts/build-galleries.mjs",
+  "installCommand": "npm install",
   "outputDirectory": ".",
   "framework": null,
   "cleanUrls": true

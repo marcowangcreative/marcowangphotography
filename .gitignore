@@ -9,3 +9,6 @@ nh-web/
 si-web/
 .DS_Store
 .env
+.env.local
+.env.*.local
+node_modules/
