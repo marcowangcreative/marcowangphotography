@@ -434,6 +434,88 @@
 
   .back-link:hover { background: #d4e4fc; }
 
+  /* Category tab bar (replaces endless scrolling list) */
+  .cat-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+    padding: 4px 0;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #E5E7EB;
+  }
+
+  .cat-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--nero);
+    background: var(--bianco);
+    border: 1px solid #E5E7EB;
+    padding: 8px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+
+  .cat-tab:hover { background: var(--grigio-light); }
+
+  .cat-tab.active {
+    background: var(--nero);
+    color: var(--bianco);
+    border-color: var(--nero);
+  }
+
+  .cat-tab .tab-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .cat-tab .tab-count {
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0.6;
+    margin-left: 2px;
+  }
+
+  .cat-tab.active .tab-count { opacity: 0.8; }
+
+  .cat-tab .tab-stars {
+    font-size: 10px;
+    color: var(--gold-text);
+    background: var(--gold);
+    padding: 1px 6px;
+    border-radius: 100px;
+    font-weight: 700;
+  }
+
+  .cat-tab.active .tab-stars { color: var(--gold-text); }
+
+  .cat-panel { display: none; }
+  .cat-panel.active { display: block; }
+
+  .cat-panel-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .cat-panel-meta {
+    font-size: 12px;
+    color: var(--grigio);
+  }
+
   @media (max-width: 600px) {
     .hero { padding: 40px 24px 36px; }
     .hero h1 { font-size: 36px; }
@@ -528,7 +610,14 @@
     </div>
   </div>
 
-  <div id="category-sections"></div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+      <div class="section-title">Browse by Category</div>
+    </div>
+    <div id="cat-tabs" class="cat-tabs"></div>
+    <div id="category-sections"></div>
+  </div>
 
   <div class="footer">
     <div class="footer-flags">
@@ -773,22 +862,78 @@
   }
 
   var container = document.getElementById('category-sections');
-  ['restaurant','bar','sight','vintage','shopping','coffee'].forEach(function(cat){
+  var tabsBar = document.getElementById('cat-tabs');
+  var CAT_ORDER = ['restaurant','bar','sight','vintage','shopping','coffee'];
+  var panels = {};
+  var tabs = {};
+
+  function setActiveCategory(cat){
+    CAT_ORDER.forEach(function(k){
+      if (panels[k]) panels[k].classList.toggle('active', k === cat);
+      if (tabs[k])   tabs[k].classList.toggle('active', k === cat);
+    });
+    // sync the map filter so map matches the visible category
+    filterCategory(cat);
+    // also reflect in the map legend chips
+    var lg = document.getElementById('map-legend');
+    if (lg) {
+      lg.querySelectorAll('.map-chip').forEach(function(c){
+        c.classList.toggle('active', c.dataset.cat === cat);
+      });
+    }
+  }
+
+  CAT_ORDER.forEach(function(cat){
     var c = CATS[cat];
     var places = sortByTierAndDist(LOCS.filter(function(l){ return l.cat === cat; }));
     if (!places.length) return;
 
-    var section = document.createElement('div');
-    section.className = 'section';
+    var tier1 = places.filter(function(l){return l.tier===1;}).length;
 
-    var header = '<div class="section-header">'
-      + '<div class="section-icon icon-' + c.icon + '">' + iconSvg[cat] + '</div>'
-      + '<div class="section-title">' + escapeHtml(c.label) + '</div>'
+    // --- Tab ---
+    var tab = document.createElement('button');
+    tab.className = 'cat-tab';
+    tab.dataset.cat = cat;
+    tab.innerHTML = '<span class="tab-dot" style="background:'+c.color+';"></span>'
+      + escapeHtml(c.label)
+      + '<span class="tab-count">' + places.length + '</span>'
+      + (tier1 > 0 ? '<span class="tab-stars">' + tier1 + '★</span>' : '');
+    tab.onclick = function(){ setActiveCategory(cat); };
+    tabsBar.appendChild(tab);
+    tabs[cat] = tab;
+
+    // --- Panel ---
+    var panel = document.createElement('div');
+    panel.className = 'cat-panel';
+    panel.dataset.cat = cat;
+
+    var headerHtml = '<div class="cat-panel-header">'
+      + '<div class="section-header" style="margin-bottom:0;">'
+      +   '<div class="section-icon icon-' + c.icon + '">' + iconSvg[cat] + '</div>'
+      +   '<div class="section-title">' + escapeHtml(c.label) + '</div>'
+      + '</div>'
+      + '<div class="cat-panel-meta">' + places.length + ' places' + (tier1>0 ? ' · '+tier1+' top picks' : '') + '</div>'
       + '</div>';
 
-    section.innerHTML = header + places.map(renderPlaceCard).join('');
-    container.appendChild(section);
+    panel.innerHTML = headerHtml + places.map(renderPlaceCard).join('');
+    container.appendChild(panel);
+    panels[cat] = panel;
   });
+
+  // Tag map-legend chips with their cat and rewire to switch the active panel too
+  var legendChips = document.getElementById('map-legend').querySelectorAll('.map-chip');
+  legendChips.forEach(function(ch){
+    var label = ch.textContent.trim();
+    Object.keys(CATS).forEach(function(k){
+      if (label.indexOf(CATS[k].label) === 0) {
+        ch.dataset.cat = k;
+        ch.onclick = function(){ setActiveCategory(k); };
+      }
+    });
+  });
+
+  // Open the first category by default
+  setActiveCategory(CAT_ORDER[0]);
 })();
 </script>
 
