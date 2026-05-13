@@ -434,12 +434,12 @@
 
   .back-link:hover { background: #d4e4fc; }
 
-  /* Category tab bar — horizontal scroll, reuses .map-chip pill style */
+  /* Category tab bar — icon-only buttons, horizontal scroll */
   .cat-tabs {
     display: flex;
-    gap: 6px;
-    margin: 0 -24px 16px;
-    padding: 14px 24px 12px;
+    gap: 10px;
+    margin: 0 -24px 8px;
+    padding: 14px 24px 14px;
     overflow-x: auto;
     overflow-y: hidden;
     position: sticky;
@@ -451,29 +451,80 @@
   }
   .cat-tabs::-webkit-scrollbar { display: none; }
 
-  .cat-tabs .map-chip { background: var(--bianco); }
-
-  .cat-tabs .tab-stars {
-    font-size: 9px;
-    color: var(--gold-text);
-    background: var(--gold);
-    padding: 1px 5px;
-    border-radius: 100px;
-    font-weight: 700;
-    letter-spacing: 0;
+  .cat-tab-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid #E5E7EB;
+    background: var(--bianco);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    color: var(--grigio);
   }
 
-  .cat-tabs .map-chip.active .tab-stars { color: var(--gold-text); }
+  .cat-tab-icon:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .cat-tab-icon.active {
+    background: var(--cat-color);
+    color: var(--bianco);
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+  }
+
+  .cat-tab-icon:not(.active) { color: var(--cat-color); }
+
+  .cat-tab-icon svg { display: block; }
+
+  .cat-tab-stars {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 100px;
+    background: var(--gold);
+    color: var(--gold-text);
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg);
+    line-height: 1;
+  }
 
   .cat-panel { display: none; }
   .cat-panel.active { display: block; }
 
   .cat-panel-meta {
-    font-size: 11px;
-    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    color: var(--nero);
+    margin-bottom: 14px;
+  }
+
+  .cat-panel-meta .pm-count {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
     color: var(--grigio);
-    margin-bottom: 12px;
     font-weight: 600;
   }
 
@@ -848,23 +899,28 @@
 
     var tier1 = places.filter(function(l){return l.tier===1;}).length;
 
-    // --- Tab (uses .map-chip for visual parity with the map legend) ---
+    // --- Tab (icon-only, colored when active) ---
     var tab = document.createElement('button');
-    tab.className = 'map-chip';
+    tab.className = 'cat-tab-icon';
     tab.dataset.cat = cat;
-    tab.innerHTML = '<span class="chip-dot" style="background:'+c.color+';"></span>'
-      + escapeHtml(c.label)
-      + (tier1 > 0 ? ' <span class="tab-stars">'+tier1+'★</span>' : '');
+    tab.title = c.label;
+    tab.setAttribute('aria-label', c.label);
+    tab.style.setProperty('--cat-color', c.color);
+    tab.innerHTML = iconSvg[cat]
+      + (tier1 > 0 ? '<span class="cat-tab-stars">'+tier1+'</span>' : '');
     tab.onclick = function(){ setActiveCategory(cat); };
     tabsBar.appendChild(tab);
     tabs[cat] = tab;
 
-    // --- Panel (no header — the active tab IS the header) ---
+    // --- Panel (active tab name shown as subhead) ---
     var panel = document.createElement('div');
     panel.className = 'cat-panel';
     panel.dataset.cat = cat;
 
-    var metaHtml = '<div class="cat-panel-meta">' + places.length + ' places' + (tier1>0 ? ' · '+tier1+' top picks' : '') + '</div>';
+    var metaHtml = '<div class="cat-panel-meta">'
+      + escapeHtml(c.label)
+      + '<span class="pm-count">· ' + places.length + ' places' + (tier1>0 ? ' · '+tier1+' top picks' : '') + '</span>'
+      + '</div>';
     panel.innerHTML = metaHtml + places.map(renderPlaceCard).join('');
     container.appendChild(panel);
     panels[cat] = panel;
