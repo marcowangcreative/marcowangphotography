@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roma · Off-Hours Guide</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<style>
+  :root {
+    --azzurro: #0066CC;
+    --azzurro-deep: #004A99;
+    --azzurro-light: #E8F0FE;
+    --rosso: #CE2B37;
+    --rosso-soft: #FFF0F0;
+    --verde: #008C45;
+    --verde-soft: #EEFAF3;
+    --bianco: #FFFFFF;
+    --nero: #1A1A1A;
+    --grigio: #6B7280;
+    --grigio-light: #F3F4F6;
+    --bg: #FAFBFC;
+    --bruno: #B45309;
+    --bruno-soft: #FEF3E2;
+    --viola: #7C3AED;
+    --viola-soft: #F5F3FF;
+    --gold: #FCD34D;
+    --gold-text: #78350F;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--nero);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .flag-bar { display: flex; height: 5px; }
+  .flag-bar div { flex: 1; }
+  .flag-green { background: var(--verde); }
+  .flag-white { background: var(--bianco); border-bottom: 1px solid #eee; }
+  .flag-red { background: var(--rosso); }
+
+  .hero {
+    background: var(--verde);
+    color: var(--bianco);
+    padding: 56px 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -120px; left: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .hero-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+  }
+
+  .hero-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 14px;
+    border-radius: 100px;
+    backdrop-filter: blur(4px);
+  }
+
+  .hero-flag { display: flex; gap: 3px; }
+
+  .hero-flag span {
+    width: 18px;
+    height: 26px;
+    border-radius: 3px;
+  }
+
+  .hf-green { background: var(--verde); }
+  .hf-white { background: rgba(255,255,255,0.9); }
+  .hf-red { background: var(--rosso); }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 6px;
+    letter-spacing: -1px;
+  }
+
+  .hero .location {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+
+  .hero .date-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .date-strip .dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+
+  .section { margin-bottom: 40px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+
+  .icon-blue   { background: var(--azzurro-light); color: var(--azzurro); }
+  .icon-green  { background: var(--verde-soft); color: var(--verde); }
+  .icon-red    { background: var(--rosso-soft); color: var(--rosso); }
+  .icon-black  { background: #ECECEC; color: var(--nero); }
+  .icon-gray   { background: var(--grigio-light); color: var(--grigio); }
+  .icon-brown  { background: var(--bruno-soft); color: var(--bruno); }
+  .icon-purple { background: var(--viola-soft); color: var(--viola); }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--nero);
+  }
+
+  .card {
+    background: var(--bianco);
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 10px;
+    transition: box-shadow 0.2s;
+  }
+
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+
+  .card-hotel {
+    background: var(--verde-soft);
+    border-color: #C9EBD7;
+  }
+
+  .lodging-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .lodging-left .l-dates {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .lodging-left .l-nights {
+    font-size: 12px;
+    color: var(--grigio);
+    margin-top: 2px;
+  }
+
+  .lodging-right { text-align: right; }
+
+  .lodging-right .l-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .lodging-right .l-addr {
+    font-size: 12px;
+    color: var(--grigio);
+    line-height: 1.45;
+    margin-bottom: 2px;
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .pill-walk {
+    background: var(--azzurro-light);
+    color: var(--azzurro);
+  }
+
+  .pill-home {
+    background: var(--verde);
+    color: var(--bianco);
+  }
+
+  .l-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--azzurro);
+    text-decoration: none;
+  }
+
+  .l-link:hover { text-decoration: underline; }
+
+  .footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    color: var(--grigio);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .footer-flags {
+    display: inline-flex;
+    gap: 3px;
+    margin-bottom: 10px;
+  }
+
+  .footer-flags span {
+    width: 14px; height: 4px;
+    border-radius: 2px;
+  }
+
+  .map-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--nero);
+    background: var(--grigio-light);
+    border: 1px solid #E5E7EB;
+    padding: 6px 12px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .map-chip:hover { background: #e2e4e8; }
+
+  .map-chip.active {
+    background: var(--azzurro);
+    color: var(--bianco);
+    border-color: var(--azzurro);
+  }
+
+  .map-chip.active .chip-dot { border: 1.5px solid #fff; }
+
+  .chip-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .place-card {
+    background: var(--bianco);
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    transition: box-shadow 0.2s;
+    position: relative;
+  }
+
+  .place-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+
+  .card-tier-1 { position: relative; }
+
+  .card-tier-3 {
+    padding: 16px;
+    opacity: 0.92;
+  }
+  .card-tier-3 .place-name { color: #9CA3AF; }
+  .card-tier-3 .place-note { font-size: 12px; }
+
+  .top-pick-pill {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--gold);
+    color: var(--gold-text);
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 4px 9px;
+    border-radius: 100px;
+    text-transform: uppercase;
+  }
+
+  .place-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 6px;
+    padding-right: 70px;
+  }
+
+  .card-tier-2 .place-top, .card-tier-3 .place-top { padding-right: 0; }
+
+  .place-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .place-note {
+    font-size: 13px;
+    color: var(--grigio);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .place-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .place-addr {
+    font-size: 12px;
+    color: var(--grigio);
+    text-decoration: none;
+  }
+
+  .place-addr:hover { color: var(--azzurro); text-decoration: underline; }
+
+  .show-on-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--azzurro);
+    background: var(--azzurro-light);
+    padding: 5px 12px;
+    border-radius: 100px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .show-on-map:hover { background: #d4e4fc; }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--azzurro);
+    background: var(--azzurro-light);
+    padding: 8px 16px;
+    border-radius: 100px;
+    text-decoration: none;
+  }
+
+  .back-link:hover { background: #d4e4fc; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 40px 24px 36px; }
+    .hero h1 { font-size: 36px; }
+    .hero-top { flex-direction: column; gap: 12px; }
+    .date-strip { flex-wrap: wrap; }
+    .lodging-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .lodging-right { text-align: left; }
+    .place-top { flex-direction: column; padding-right: 0; }
+    .place-meta { flex-direction: column; align-items: flex-start; }
+    .top-pick-pill { position: static; display: inline-block; margin-bottom: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="flag-bar">
+  <div class="flag-green"></div>
+  <div class="flag-white"></div>
+  <div class="flag-red"></div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-tag">Personal Explore</div>
+      <div class="hero-flag">
+        <span class="hf-green"></span>
+        <span class="hf-white"></span>
+        <span class="hf-red"></span>
+      </div>
+    </div>
+    <h1>Roma</h1>
+    <div class="location">Off-Hours Guide · May 18–24, 2026</div>
+    <div class="date-strip">
+      <span>Free Days</span>
+      <span class="dot"></span>
+      <span>Marco's Birthday 5/19</span>
+      <span class="dot"></span>
+      <span>Late Nights</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="section-title">Home Bases</div>
+    </div>
+
+    <div class="card card-hotel">
+      <div class="lodging-row">
+        <div class="lodging-left">
+          <div class="l-dates">May 18 – 21</div>
+          <div class="l-nights">3 nights · Home Base 1</div>
+        </div>
+        <div class="lodging-right">
+          <div class="l-name">The First Musica</div>
+          <div class="l-addr">Lungotevere dei Mellini, 26E–27, 00193 Roma RM</div>
+          <span class="pill pill-walk">Prati / Lungotevere</span><br>
+          <a class="l-link" href="#map-section" onclick="focusLoc('hotel1');return false;">View on Map ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-hotel">
+      <div class="lodging-row">
+        <div class="lodging-left">
+          <div class="l-dates">May 21 – 24</div>
+          <div class="l-nights">3 nights · Home Base 2</div>
+        </div>
+        <div class="lodging-right">
+          <div class="l-name">Hotel Imperiale</div>
+          <div class="l-addr">Via Vittorio Veneto, 24, 00187 Roma RM</div>
+          <span class="pill pill-walk">Via Veneto / Spagna</span><br>
+          <a class="l-link" href="#map-section" onclick="focusLoc('hotel2');return false;">View on Map ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="map-section">
+    <div class="section-header">
+      <div class="section-icon icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></div>
+      <div class="section-title">Explore Map</div>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden;">
+      <div id="map" style="width:100%; height:480px; border-radius:12px 12px 0 0;"></div>
+      <div id="map-legend" style="display:flex; flex-wrap:wrap; gap:6px; padding:14px 16px; background:#fff; border-top:1px solid #E5E7EB;"></div>
+    </div>
+  </div>
+
+  <div id="category-sections"></div>
+
+  <div class="footer">
+    <div class="footer-flags">
+      <span style="background:var(--verde);"></span>
+      <span style="background:#fff; border:1px solid #eee;"></span>
+      <span style="background:var(--rosso);"></span>
+    </div>
+    <div style="margin-top:8px;">
+      <a class="back-link" href="bueso.html">← Back to Wedding Logistics</a>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+  var H1 = {lat:41.9070262, lng:12.4731701}; // First Musica anchor for sort
+
+  var CATS = {
+    hotel:     {label:'Hotels',              color:'#008C45', icon:'green'},
+    restaurant:{label:'Restaurants',         color:'#CE2B37', icon:'red'},
+    bar:       {label:'Bars & Aperitivo',    color:'#0066CC', icon:'blue'},
+    sight:     {label:'Sights & Walks',      color:'#1A1A1A', icon:'black'},
+    vintage:   {label:'Vintage & Fashion',   color:'#7C3AED', icon:'purple'},
+    shopping:  {label:'Shopping & Film',     color:'#6B7280', icon:'gray'},
+    coffee:    {label:'Coffee & Quick Bites',color:'#B45309', icon:'brown'}
+  };
+
+  // placeId '' triggers search-URL fallback. tier 1 = top, 2 = solid, 3 = if nearby.
+  var LOCS = [
+    // HOTELS — always tier 1, always 18px
+    {id:'hotel1', cat:'hotel', tier:1, name:'The First Musica', lat:41.9070262, lng:12.4731701, placeId:'ChIJK_IU0NphLxMRWMf2MIOsqAk', note:'May 18–21 · Home Base 1', addr:'Lungotevere dei Mellini, 26E–27', walk:'Prati / Lungotevere'},
+    {id:'hotel2', cat:'hotel', tier:1, name:'Hotel Imperiale', lat:41.9048818, lng:12.4878339, placeId:'ChIJMzkrS6phLxMRt-9n-MeJdzg', note:'May 21–24 · Home Base 2', addr:'Via Vittorio Veneto, 24', walk:'Via Veneto / Spagna'},
+
+    // RESTAURANTS
+    {id:'r1',  cat:'restaurant', tier:1, name:'Orma Roma', lat:41.908683, lng:12.495378, placeId:'', search:'Orma+Roma+Rome', note:"Marco's birthday dinner · 7:30 PM", addr:'Via Sicilia, Roma', walk:'3 min from Imperiale'},
+    {id:'r2',  cat:'restaurant', tier:1, name:'Pulejo Ristorante', lat:41.9072148, lng:12.4595928, placeId:'ChIJmYbImQNhLxMRHBgz6XzHZXA', note:'Michelin', addr:'Via Attilio Regolo, Prati', walk:'8 min from First Musica'},
+    {id:'r4',  cat:'restaurant', tier:1, name:'TheGusto Cucina con Enoteca', lat:41.9096863, lng:12.4599917, placeId:'ChIJTba43lJhLxMRBKgsXSfVA2U', note:'Late dinner', addr:'Prati district', walk:'5 min from First Musica'},
+    {id:'r13', cat:'restaurant', tier:1, name:'Kohaku', lat:41.9088227, lng:12.4900973, placeId:'ChIJqaePq9JhLxMRP80uGrwsl88', note:'Japanese sushi', addr:'Via Veneto area', walk:'2 min from Imperiale'},
+    {id:'r12', cat:'restaurant', tier:1, name:'Hasekura', lat:41.8958474, lng:12.4902839, placeId:'ChIJaw0OjrFhLxMR3_6L2LwTeRI', note:'Japanese (the real one)', addr:'Via dei Serpenti 27, Monti', walk:'15 min taxi'},
+    {id:'r15', cat:'restaurant', tier:1, name:'Bonci Pizzarium', lat:41.9066758, lng:12.4466709, placeId:'ChIJr76feHtgLxMRSpUk8Ed4h24', note:'Best slice pizza', addr:'Via della Meloria 43', walk:'10 min from First Musica'},
+    {id:'r6',  cat:'restaurant', tier:2, name:'Casa Prati', lat:41.9061974, lng:12.47143, placeId:'ChIJS9SeYNRhLxMR57KzEj5Es6Y', note:'Local Roman', addr:'Prati district', walk:'5 min from First Musica'},
+    {id:'r5',  cat:'restaurant', tier:2, name:'Il Segreto', lat:41.9080832, lng:12.4531177, placeId:'ChIJa1hhPSphLxMR9ATfrI3Zdw0', note:'Arrival night casual', addr:'Prati district', walk:'8 min from First Musica'},
+    {id:'r3',  cat:'restaurant', tier:2, name:'La Terrazza at Hotel Eden', lat:41.9064761, lng:12.486033, placeId:'ChIJpduOjKphLxMR4AJb2V3VE5U', note:'Michelin rooftop', addr:'Via Ludovisi 49', walk:'4 min from Imperiale'},
+    {id:'r8',  cat:'restaurant', tier:2, name:'Giano at W Rome', lat:41.9062203, lng:12.4885152, placeId:'ChIJS_LpFaphLxMRcB11MjvNHPM', note:'Sicilian · late hours', addr:'Via Liguria 26', walk:'3 min from Imperiale'},
+    {id:'r7',  cat:'restaurant', tier:2, name:'Carpaccio Beef Restaurant', lat:41.9082929, lng:12.4905858, placeId:'ChIJ4-lhSABhLxMRxqHpGfFps-k', note:'Late dinner', addr:'Via Veneto area', walk:'2 min from Imperiale'},
+    {id:'r9',  cat:'restaurant', tier:2, name:'Roscioli Salumeria', lat:41.894256, lng:12.4742417, placeId:'ChIJ4T6-zEhgLxMRSa1VL3N0DyY', note:'Carbonara legend', addr:'Via dei Giubbonari 21', walk:'Taxi'},
+    {id:'r16', cat:'restaurant', tier:2, name:'Supplizio', lat:41.897487, lng:12.467911, placeId:'ChIJ0expikRgLxMRKURtjxS0dDc', note:'Roman supplì', addr:'Via dei Banchi Vecchi 143', walk:'Taxi'},
+    {id:'r17', cat:'restaurant', tier:2, name:'Trapizzino Trastevere', lat:41.891494, lng:12.4698437, placeId:'ChIJhS8gpEdgLxMRYa6Yo9dyRnY', note:'Roman street food', addr:'Trastevere', walk:'Taxi'},
+    {id:'r18', cat:'restaurant', tier:2, name:'Otaleg Gelato', lat:41.8881248, lng:12.4704701, placeId:'ChIJ9Y5rI7KKJRMRs5I2u26nGM8', note:'Best gelato Trastevere', addr:'Via di S. Cosimato 14a', walk:'Taxi'},
+    {id:'r19', cat:'restaurant', tier:2, name:'Fatamorgana Monti', lat:41.8956656, lng:12.4932505, placeId:'ChIJk76GTrBhLxMRI8p6TBaZ8e8', note:'Innovative gelato', addr:'Piazza degli Zingari 5', walk:'Taxi'},
+    {id:'r10', cat:'restaurant', tier:2, name:'Felice a Testaccio', lat:41.8785544, lng:12.4774541, placeId:'ChIJ1_AwEC5gLxMRLFf8-EiTRm0', note:'Classic Roman', addr:'Via Mastro Giorgio, Testaccio', walk:'Taxi'},
+    {id:'r11', cat:'restaurant', tier:2, name:'SantoPalato', lat:41.8814315, lng:12.5014799, placeId:'ChIJVVVJzOthLxMRiJTSop4rebM', note:'James Beard nominee', addr:'Piazza Tarquinia 4', walk:'Taxi'},
+    {id:'r14', cat:'restaurant', tier:3, name:'Ramen Bar Akira', lat:41.8725273, lng:12.4804686, placeId:'ChIJi1CloytgLxMRcCGp36qJ4Hk', note:'Yokohama tonkotsu', addr:'San Saba', walk:'Taxi'},
+
+    // BARS / APERITIVO
+    {id:'b5', cat:'bar', tier:1, name:'Il Sorpasso', lat:41.9055098, lng:12.4613183, placeId:'ChIJ_T6FAF5gLxMRk-_hYuk4BlE', note:'Wine bar', addr:'Via Properzio 31-33', walk:'7 min from First Musica'},
+    {id:'b1', cat:'bar', tier:1, name:'Stravinskij Bar', lat:41.9100583, lng:12.4776766, placeId:'ChIJ2Ti8x_hgLxMRk3c0LjnarPI', note:'Hotel de Russie garden', addr:'Via del Babuino 9', walk:'10 min from Imperiale'},
+    {id:'b3', cat:'bar', tier:1, name:'Drink Kong', lat:41.8951585, lng:12.497966, placeId:'ChIJf3VE-7xhLxMRnMf_uACwlXc', note:"World's 50 Best", addr:'Piazza di S. Martino ai Monti 8', walk:'15 min taxi'},
+    {id:'b2', cat:'bar', tier:2, name:'Salotto42', lat:41.900121, lng:12.479312, placeId:'ChIJs9tSPlJgLxMR3CpMqslM3a4', note:'Temple-view cocktails', addr:'Piazza di Pietra 42', walk:'Taxi'},
+    {id:'b4', cat:'bar', tier:2, name:'The Court at Palazzo Manfredi', lat:41.8901572, lng:12.4955595, placeId:'ChIJueRcm1RhLxMR3vwoYlGzAoQ', note:'Colosseum-view rooftop', addr:'Via Labicana 125', walk:'Taxi'},
+    {id:'b6', cat:'bar', tier:3, name:'Settembrini', lat:41.9150653, lng:12.4659204, placeId:'ChIJaf6XvRFhLxMRSUhMk9LiMT0', note:'Modern Italian', addr:'Via Luigi Settembrini 25', walk:'10 min from First Musica'},
+
+    // SIGHTS / WALKS
+    {id:'s5',  cat:'sight', tier:1, name:"Castel Sant'Angelo", lat:41.9030632, lng:12.466276, placeId:'ChIJ0aTnEYeKJRMRiUF95xwRbDY', note:'Tiber-side castle', addr:'Lungotevere Castello', walk:'5 min from First Musica'},
+    {id:'s2',  cat:'sight', tier:1, name:'Pantheon', lat:41.8986108, lng:12.4768729, placeId:'ChIJqUCGZ09gLxMRLM42IPpl0co', note:'€5 ticket · 9am or 6pm', addr:'Piazza della Rotonda', walk:'Stroll'},
+    {id:'s6',  cat:'sight', tier:1, name:'Pincian Hill (Obelisco)', lat:41.9107933, lng:12.4797509, placeId:'ChIJKRQm4P5gLxMRMiC_bRyQg7c', note:'Free · golden hour views', addr:'Pincio · Villa Borghese', walk:'Stroll'},
+    {id:'s10', cat:'sight', tier:1, name:'Giardino degli Aranci', lat:41.8851338, lng:12.48039, placeId:'ChIJ2dxWXTRgLxMR-Ug5hzOYuQM', note:'Orange garden + Vatican view', addr:"Piazza Pietro D'Illiria", walk:'Taxi'},
+    {id:'s8',  cat:'sight', tier:2, name:'Via Margutta', lat:41.9085893, lng:12.4795757, placeId:'ChIJywRdpxFhLxMRhcqwsTEsBLM', note:"Audrey Hepburn's street", addr:'Via Margutta', walk:'Stroll'},
+    {id:'s4',  cat:'sight', tier:2, name:'Spanish Steps', lat:41.90599, lng:12.482775, placeId:'ChIJda54FlRgLxMRD2muipfUwH8', note:'Free', addr:'Piazza di Spagna', walk:'5 min from Imperiale'},
+    {id:'s1',  cat:'sight', tier:2, name:'Trevi Fountain', lat:41.9009325, lng:12.483313, placeId:'ChIJ1UCDJ1NgLxMRtrsCzOHxdvY', note:'Off-hours only (7am or post-11pm)', addr:'Piazza di Trevi', walk:'Stroll'},
+    {id:'s7',  cat:'sight', tier:2, name:'Villa Borghese', lat:41.9138782, lng:12.4853818, placeId:'ChIJj1M8HQJhLxMRRI6D_z18Pes', note:'Free gardens', addr:'Villa Borghese', walk:'5 min from Imperiale'},
+    {id:'s3',  cat:'sight', tier:2, name:'Piazza Navona', lat:41.8991328, lng:12.4732921, placeId:'ChIJkyhW-09gLxMR-17gjM4lxAU', note:'Always free, lit at night', addr:'Piazza Navona', walk:'Stroll'},
+    {id:'s9',  cat:'sight', tier:2, name:"Campo de' Fiori", lat:41.8956045, lng:12.4721757, placeId:'ChIJfc8DqVVgLxMRxPIIp3z8CBg', note:'7am–2pm market', addr:"Campo de' Fiori", walk:'Taxi'},
+
+    // VINTAGE & FASHION
+    {id:'v1',  cat:'vintage', tier:1, name:'Blue Goose', lat:41.8968225, lng:12.4904811, placeId:'ChIJb_B85bFhLxMRslrHQSzhLpo', note:'Designer vintage (Issey Miyake, Gucci) · pair with Hasekura lunch', addr:'Monti', walk:'Taxi'},
+    {id:'v2',  cat:'vintage', tier:1, name:'18mq Vintage Store', lat:41.8877699, lng:12.4704275, placeId:'ChIJRxgjF71hLxMRPDxALmhSFzo', note:'5.0/94 hand-curated · open Sundays', addr:'Trastevere', walk:'Taxi'},
+    {id:'v3',  cat:'vintage', tier:1, name:'Gonne al Vento Vintage', lat:41.8969917, lng:12.47055, placeId:'ChIJj0C-OkVhLxMRSwg9pJZsynM', note:'Best curated 60s–70s in Rome · Closed Sun', addr:"near Campo de' Fiori", walk:'Taxi'},
+    {id:'v4',  cat:'vintage', tier:1, name:'SiTenne Vintage Store', lat:41.8933993, lng:12.5069803, placeId:'ChIJ-Vn-xr1hLxMRDPKceDe99MY', note:'Owner Alberta personally styles you · Closed Mon/Sun', addr:'Esquilino', walk:'Taxi'},
+    {id:'v5',  cat:'vintage', tier:1, name:'Dakota Luxury Vintage', lat:41.9065794, lng:12.4790553, placeId:'ChIJJSHiK_9hLxMREmrB9HmeZPs', note:'Authenticated luxury bags (Gucci, Birkin) · Closed Sun', addr:'Spanish Steps area', walk:'5 min from Imperiale'},
+    {id:'v6',  cat:'vintage', tier:2, name:'Greemour Luxury Second Hand', lat:41.9039358, lng:12.4817735, placeId:'ChIJ-eKXvEhhLxMRgl0k_2gal_Y', note:'Designer bags + watches · open daily', addr:'Spanish Steps area', walk:'Stroll'},
+    {id:'v7',  cat:'vintage', tier:2, name:'Twice Vintage Shop', lat:41.8884209, lng:12.4710595, placeId:'ChIJzdw-3zlgLxMRfuJN3IoEWg4', note:'Big inventory (Versace, Doc Martens)', addr:'Trastevere', walk:'Taxi'},
+    {id:'v8',  cat:'vintage', tier:2, name:'Cinzia Used Clothes', lat:41.8984025, lng:12.4703209, placeId:'ChIJxdqnIkVgLxMRcxtX1g5NnYE', note:'Classic Governo Vecchio vintage strip', addr:'Via del Governo Vecchio', walk:'Taxi'},
+    {id:'v9',  cat:'vintage', tier:2, name:'Pifebo Vintage Shop', lat:41.895758, lng:12.4905391, placeId:'ChIJ-cdiCpthLxMRtVtit_SXBQk', note:'Streetwear · jerseys · leather', addr:'Monti', walk:'Taxi'},
+    {id:'v10', cat:'vintage', tier:3, name:'Humana Vintage Monti', lat:41.8950484, lng:12.4927242, placeId:'ChIJJ5b1PSRhLxMRqCQUD8eBA-0', note:'Larger thrift-style · lower price tier', addr:'Monti', walk:'Taxi'},
+    {id:'v11', cat:'vintage', tier:3, name:'Second Chance', lat:41.9092001, lng:12.4906625, placeId:'ChIJFWU8JAdhLxMRej-VTOD6KS8', note:'Designer pieces · Closed Sat/Sun', addr:'Via Veneto area', walk:'2 min from Imperiale'},
+
+    // SHOPPING & FILM
+    {id:'sh1', cat:'shopping', tier:1, name:'Ars-Imago International', lat:41.9095895, lng:12.4602454, placeId:'ChIJa82YcWFgLxMRHnUqHuGszlk', note:'THE Rome film shop · develops 24–48hr · Closed Mon/Sun', addr:'Via dei Gracchi area', walk:'10 min from First Musica'},
+    {id:'sh2', cat:'shopping', tier:2, name:'Guido Sabatini Photo', lat:41.9088137, lng:12.4613233, placeId:'ChIJE65u2F9gLxMRosUT5bP4Izs', note:'Full pro photo shop · Closed Sun', addr:'Prati district', walk:'5 min from First Musica'},
+    {id:'sh3', cat:'shopping', tier:2, name:'M&S Photo Material', lat:41.9094828, lng:12.4625325, placeId:'ChIJJ4ztgVpgLxMRgN1w_DHPPdg', note:'Vintage cameras specifically · Closed Mon/Sun', addr:'Prati district', walk:'5 min from First Musica'},
+    {id:'sh5', cat:'shopping', tier:2, name:'Antica Erboristeria Romana', lat:41.8967352, lng:12.4765299, placeId:'ChIJp5PPXk5gLxMRicw89IuTz8c', note:'Apothecary since 1752', addr:'Via di Torre Argentina 15', walk:'Taxi'},
+    {id:'sh4', cat:'shopping', tier:3, name:'Il Fuoco della Fotografia', lat:41.8974915, lng:12.497232, placeId:'ChIJzSxYPKVhLxMRMNiCfCN0OzI', note:'Owner Luca repairs onsite · Closed Sun', addr:'Centro Storico', walk:'15 min taxi'},
+
+    // COFFEE / QUICK BITES
+    {id:'c4', cat:'coffee', tier:1, name:'Pastificio Guerra', lat:41.9064463, lng:12.4809389, placeId:'ChIJDTk1plVgLxMRoF1EfNlGIS0', note:'€5 takeaway pasta', addr:'Via della Croce 8', walk:'Stroll'},
+    {id:'c3', cat:'coffee', tier:1, name:"Forno Campo de' Fiori", lat:41.8958558, lng:12.4715634, placeId:'ChIJ3QPB7EVgLxMRlUFXkxie2G8', note:'Pizza bianca legend', addr:"Campo de' Fiori 22", walk:'Taxi'},
+    {id:'c5', cat:'coffee', tier:1, name:'Regoli Pasticceria', lat:41.8948172, lng:12.5009492, placeId:'ChIJC978ZrthLxMRzYBNfksMM4A', note:'Best maritozzo', addr:'Via dello Statuto 60', walk:'Taxi'},
+    {id:'c1', cat:'coffee', tier:2, name:"Sant'Eustachio Il Caffè", lat:41.8982749, lng:12.4754254, placeId:'ChIJF4C_0k9gLxMR2LL_-I4HSWU', note:'Roman espresso institution', addr:"Piazza di S. Eustachio 82", walk:'Taxi'},
+    {id:'c2', cat:'coffee', tier:2, name:'Roscioli Caffè Pasticceria', lat:41.8941457, lng:12.4744403, placeId:'ChIJZ846zUhgLxMRzdyZ615Fc4Q', note:'Maritozzi + espresso', addr:'Piazza Benedetto Cairoli 16', walk:'Taxi'}
+  ];
+
+  function mapsUrl(loc){
+    if(loc.placeId) return 'https://www.google.com/maps/place/?q=place_id:'+loc.placeId;
+    return 'https://www.google.com/maps/search/'+encodeURIComponent(loc.search||loc.name);
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+
+  function distFromH1(l){ var dx=l.lat-H1.lat, dy=l.lng-H1.lng; return dx*dx+dy*dy; }
+
+  function tier1CountForCat(cat){
+    return LOCS.filter(function(l){ return l.cat===cat && l.tier===1; }).length;
+  }
+
+  // --- Build map ---
+  var map = L.map('map',{scrollWheelZoom:false,attributionControl:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
+
+  var grp = L.featureGroup();
+  var markersById = {};
+
+  function pinHtml(l){
+    var isHotel = l.cat === 'hotel';
+    var color = CATS[l.cat].color;
+    var size, border, opacity;
+    if (isHotel)        { size = 18; border = 3;   opacity = 1; }
+    else if (l.tier===1){ size = 16; border = 3;   opacity = 1; }
+    else if (l.tier===3){ size = 12; border = 2;   opacity = 0.85; }
+    else                { size = 14; border = 2.5; opacity = 1; }
+
+    var dot = '<div style="position:relative;width:'+size+'px;height:'+size+'px;">' +
+              '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:'+border+'px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);opacity:'+opacity+';"></div>';
+    if (l.tier === 1 && !isHotel) {
+      dot += '<div style="position:absolute;top:-5px;right:-5px;width:11px;height:11px;border-radius:50%;background:#FCD34D;border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:7px;line-height:1;color:#78350F;font-weight:700;">★</div>';
+    }
+    dot += '</div>';
+    return {html:dot, size:size};
+  }
+
+  LOCS.forEach(function(l){
+    var p = pinHtml(l);
+    var ic = L.divIcon({className:'',html:p.html,iconSize:[p.size,p.size],iconAnchor:[p.size/2,p.size/2],popupAnchor:[0,-p.size/2-3]});
+    var displayName = (l.tier === 1 && l.cat !== 'hotel') ? '⭐ ' + l.name : l.name;
+    var pop = '<div style="font-family:DM Sans,sans-serif;min-width:200px;">'
+      + '<div style="font-family:Syne,sans-serif;font-weight:700;font-size:14px;margin-bottom:4px;">'+escapeHtml(displayName)+'</div>'
+      + '<div style="font-size:12px;color:#6B7280;margin-bottom:8px;">'+escapeHtml(l.note)+(l.walk?' · '+escapeHtml(l.walk):'')+'</div>'
+      + '<a href="'+mapsUrl(l)+'" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#fff;background:#0066CC;padding:6px 14px;border-radius:6px;text-decoration:none;">Open in Google Maps ↗</a>'
+      + '</div>';
+    var m = L.marker([l.lat,l.lng],{icon:ic}).bindPopup(pop);
+    m._loc = l;
+    markersById[l.id] = m;
+    m.addTo(map);
+    grp.addLayer(m);
+  });
+
+  map.fitBounds(grp.getBounds().pad(0.15));
+
+  // --- Filtering ---
+  function filterCategory(cat){
+    LOCS.forEach(function(l){
+      var m = markersById[l.id];
+      var show = (cat === 'all') || (l.cat === cat) || (l.cat === 'hotel');
+      if (show) { if(!map.hasLayer(m)) m.addTo(map); }
+      else      { if(map.hasLayer(m))  map.removeLayer(m); }
+    });
+    var visible = L.featureGroup();
+    LOCS.forEach(function(l){ if(map.hasLayer(markersById[l.id])) visible.addLayer(markersById[l.id]); });
+    if (visible.getLayers().length) map.fitBounds(visible.getBounds().pad(0.2));
+  }
+
+  // --- Legend ---
+  var leg = document.getElementById('map-legend');
+  function makeChip(label, color, onClick){
+    var ch = document.createElement('button');
+    ch.className = 'map-chip';
+    ch.innerHTML = '<span class="chip-dot" style="background:'+color+';"></span>'+label;
+    ch.onclick = function(){
+      leg.querySelectorAll('.map-chip').forEach(function(c){c.classList.remove('active');});
+      ch.classList.add('active');
+      onClick();
+    };
+    return ch;
+  }
+  var allChip = makeChip('All', '#1A1A1A', function(){ filterCategory('all'); });
+  allChip.classList.add('active');
+  leg.appendChild(allChip);
+  Object.keys(CATS).forEach(function(key){
+    var c = CATS[key];
+    var n = tier1CountForCat(key);
+    var label = c.label + (n>0 ? ' ('+n+'⭐)' : '');
+    leg.appendChild(makeChip(label, c.color, function(){ filterCategory(key); }));
+  });
+
+  // --- Focus a specific location (from Show on Map buttons) ---
+  window.focusLoc = function(id){
+    var m = markersById[id];
+    if (!m) return;
+    if (!map.hasLayer(m)) m.addTo(map);
+    var el = document.getElementById('map-section');
+    if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    setTimeout(function(){
+      map.flyTo(m.getLatLng(), 17, {duration:0.8});
+      setTimeout(function(){ m.openPopup(); }, 850);
+    }, 450);
+  };
+
+  // --- Build by-category sections ---
+  var iconSvg = {
+    restaurant:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h2v11h2V2H3zm12 0v9h2V2h-2zm4 0v20h2V2h-2z"/></svg>',
+    bar:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8M12 15v7M5 3l7 9 7-9H5z"/></svg>',
+    sight:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg>',
+    vintage:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>',
+    shopping:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>',
+    coffee:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/></svg>'
+  };
+
+  function sortByTierAndDist(arr){
+    return arr.slice().sort(function(a,b){
+      if (a.tier !== b.tier) return a.tier - b.tier;
+      return distFromH1(a) - distFromH1(b);
+    });
+  }
+
+  function renderPlaceCard(l){
+    var tierClass = 'card-tier-' + l.tier;
+    var topPick = (l.tier === 1) ? '<span class="top-pick-pill">Top Pick</span>' : '';
+    return '<div class="place-card ' + tierClass + '">'
+      + topPick
+      + '<div class="place-top">'
+      +   '<div class="place-name">' + escapeHtml(l.name) + '</div>'
+      + '</div>'
+      + '<div class="place-note">' + escapeHtml(l.note) + '</div>'
+      + (l.walk ? '<span class="pill pill-walk">' + escapeHtml(l.walk) + '</span>' : '')
+      + '<div class="place-meta">'
+      +   '<a class="place-addr" href="' + mapsUrl(l) + '" target="_blank" rel="noopener">' + escapeHtml(l.addr) + ' ↗</a>'
+      +   '<button class="show-on-map" onclick="focusLoc(\'' + l.id + '\')">Show on Map ↗</button>'
+      + '</div>'
+      + '</div>';
+  }
+
+  var container = document.getElementById('category-sections');
+  ['restaurant','bar','sight','vintage','shopping','coffee'].forEach(function(cat){
+    var c = CATS[cat];
+    var places = sortByTierAndDist(LOCS.filter(function(l){ return l.cat === cat; }));
+    if (!places.length) return;
+
+    var section = document.createElement('div');
+    section.className = 'section';
+
+    var header = '<div class="section-header">'
+      + '<div class="section-icon icon-' + c.icon + '">' + iconSvg[cat] + '</div>'
+      + '<div class="section-title">' + escapeHtml(c.label) + '</div>'
+      + '</div>';
+
+    section.innerHTML = header + places.map(renderPlaceCard).join('');
+    container.appendChild(section);
+  });
+})();
+</script>
+
+</body>
+</html>
