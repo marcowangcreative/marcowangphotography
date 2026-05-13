@@ -434,76 +434,6 @@
 
   .back-link:hover { background: #d4e4fc; }
 
-  /* Category tab bar — icon-only buttons, horizontal scroll */
-  .cat-tabs {
-    display: flex;
-    gap: 10px;
-    margin: 0 -24px 8px;
-    padding: 14px 24px 14px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 10;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .cat-tabs::-webkit-scrollbar { display: none; }
-
-  .cat-tab-icon {
-    position: relative;
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: 1px solid #E5E7EB;
-    background: var(--bianco);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
-    color: var(--grigio);
-  }
-
-  .cat-tab-icon:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-
-  .cat-tab-icon.active {
-    background: var(--cat-color);
-    color: var(--bianco);
-    border-color: transparent;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-    transform: translateY(-1px);
-  }
-
-  .cat-tab-icon:not(.active) { color: var(--cat-color); }
-
-  .cat-tab-icon svg { display: block; }
-
-  .cat-tab-stars {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    min-width: 16px;
-    height: 16px;
-    padding: 0 4px;
-    border-radius: 100px;
-    background: var(--gold);
-    color: var(--gold-text);
-    font-family: 'Syne', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid var(--bg);
-    line-height: 1;
-  }
-
   .cat-panel { display: none; }
   .cat-panel.active { display: block; }
 
@@ -622,7 +552,6 @@
     </div>
   </div>
 
-  <div id="cat-tabs" class="cat-tabs"></div>
   <div id="category-sections"></div>
 
   <div class="footer">
@@ -868,22 +797,14 @@
   }
 
   var container = document.getElementById('category-sections');
-  var tabsBar = document.getElementById('cat-tabs');
   var CAT_ORDER = ['restaurant','bar','sight','vintage','shopping','coffee'];
   var panels = {};
-  var tabs = {};
 
   function setActiveCategory(cat){
     CAT_ORDER.forEach(function(k){
       if (panels[k]) panels[k].classList.toggle('active', k === cat);
-      if (tabs[k])   tabs[k].classList.toggle('active', k === cat);
     });
-    if (tabs[cat] && tabs[cat].scrollIntoView) {
-      tabs[cat].scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
-    }
-    // sync the map filter so map matches the visible category
     filterCategory(cat);
-    // also reflect in the map legend chips
     var lg = document.getElementById('map-legend');
     if (lg) {
       lg.querySelectorAll('.map-chip').forEach(function(c){
@@ -899,20 +820,6 @@
 
     var tier1 = places.filter(function(l){return l.tier===1;}).length;
 
-    // --- Tab (icon-only, colored when active) ---
-    var tab = document.createElement('button');
-    tab.className = 'cat-tab-icon';
-    tab.dataset.cat = cat;
-    tab.title = c.label;
-    tab.setAttribute('aria-label', c.label);
-    tab.style.setProperty('--cat-color', c.color);
-    tab.innerHTML = iconSvg[cat]
-      + (tier1 > 0 ? '<span class="cat-tab-stars">'+tier1+'</span>' : '');
-    tab.onclick = function(){ setActiveCategory(cat); };
-    tabsBar.appendChild(tab);
-    tabs[cat] = tab;
-
-    // --- Panel (active tab name shown as subhead) ---
     var panel = document.createElement('div');
     panel.className = 'cat-panel';
     panel.dataset.cat = cat;
@@ -926,7 +833,8 @@
     panels[cat] = panel;
   });
 
-  // Tag map-legend chips with their cat and rewire to switch the active panel too
+  // The map-legend chips ARE the category switcher.
+  // Tag each chip with its cat and wire it to switch the active panel below.
   var legendChips = document.getElementById('map-legend').querySelectorAll('.map-chip');
   legendChips.forEach(function(ch){
     var label = ch.textContent.trim();
@@ -938,7 +846,6 @@
     });
   });
 
-  // Open the first category by default
   setActiveCategory(CAT_ORDER[0]);
 })();
 </script>
