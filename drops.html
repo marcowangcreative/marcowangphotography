@@ -65,8 +65,18 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <a href="contact.html">Check Availability</a>
 </div>
 
+<!-- Purchase confirmation banner (shown after successful checkout) -->
+<div id="dropsSuccess" style="display:none; margin: 24px auto 0; max-width: 640px; padding: 14px 20px; text-align: center; font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.08em; background: #f4f1ec; color: #3a3a34; border: 1px solid #ddd6ca;">
+  Thank you — your purchase is confirmed. A receipt is on its way to your inbox.
+</div>
+
 <!-- Page Header -->
 <section class="drops-header">
+  <!-- SALE ALERT — delete this whole div when the sale ends -->
+  <div class="drops-alert" role="status">
+    <span class="drops-alert-tag">Limited Time</span>
+    <span class="drops-alert-text">$200 off session vouchers &mdash; now $600</span>
+  </div>
   <h1 class="drops-title">Limited Drops</h1>
   <p class="drops-subtitle">Session vouchers &amp; limited offerings</p>
 </section>
@@ -74,16 +84,22 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 <!-- Products Grid -->
 <section class="drops-grid">
   <div class="drops-card rv">
-    <a href="https://buy.stripe.com/00weVe7Br8nUfA8efiebu00" target="_blank" rel="noopener" class="drops-card-link">
+    <a href="/api/checkout?product=voucher" class="drops-card-link">
       <div class="drops-card-image">
         <img src="20251126_0158.webp" alt="MWP Portrait Session Voucher" loading="lazy">
       </div>
       <div class="drops-card-info">
         <h2 class="drops-card-title">MWP Portrait Session Voucher</h2>
         <p class="drops-card-desc">1-hour on-location portrait session. 50+ edited images delivered. Voucher valid for one year from purchase. Travel fee applies for locations beyond 15 miles of 77008.</p>
+        <!-- SALE BLOCK — to end the sale: put $800 back in .drops-price, delete the
+             .drops-price-original and .drops-sale-badge spans, reset SALE_VALUE below,
+             and remove STRIPE_COUPON_VOUCHER from Vercel. -->
         <div class="drops-card-pricing">
-          <span class="drops-price">$800</span>
+          <span class="drops-price">$600</span>
+          <span class="drops-price-original">$800</span>
+          <span class="drops-sale-badge">Save $200</span>
         </div>
+        <p class="drops-tax-note">Texas sales tax applied at checkout</p>
         <span class="drops-card-btn">Purchase</span>
       </div>
     </a>
@@ -126,6 +142,16 @@ document.getElementById('menuClose').addEventListener('click', () => {
 document.querySelectorAll('.menu-overlay a').forEach(a => {
   a.addEventListener('click', () => document.getElementById('menuOverlay').classList.remove('open'));
 });
+
+// Purchase confirmation
+// SALE_VALUE: keep in sync with the price shown above (pre-tax) so Meta ads
+// report accurate ROAS. Set back to 800.00 when the sale ends.
+const SALE_VALUE = 600.00;
+if (new URLSearchParams(location.search).get('status') === 'success') {
+  document.getElementById('dropsSuccess').style.display = 'block';
+  fbq('track', 'Purchase', { currency: 'USD', value: SALE_VALUE });
+  history.replaceState(null, '', location.pathname);
+}
 
 // Scroll reveal
 const rvEls = document.querySelectorAll('.rv');

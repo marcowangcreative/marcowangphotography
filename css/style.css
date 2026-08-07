@@ -2100,6 +2100,65 @@ footer {
   color: var(--grey);
   text-decoration: line-through;
 }
+.drops-alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 13px 26px;
+  margin-bottom: 36px;
+  background: var(--accent);
+  color: var(--white);
+}
+.drops-alert-tag {
+  font-family: var(--sans);
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  padding-right: 18px;
+  border-right: 1px solid rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+.drops-alert-text {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+@media (max-width: 600px) {
+  .drops-alert {
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 22px;
+    margin-bottom: 28px;
+  }
+  .drops-alert-tag {
+    padding-right: 0;
+    padding-bottom: 10px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+  }
+  .drops-alert-text { font-size: 1rem; text-align: center; }
+}
+.drops-sale-badge {
+  font-family: var(--sans);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--ink);
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.drops-tax-note {
+  font-family: var(--sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin: -14px 0 24px;
+}
 .drops-card-btn {
   display: inline-block;
   font-family: var(--sans);
