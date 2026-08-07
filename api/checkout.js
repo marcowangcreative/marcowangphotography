@@ -125,7 +125,13 @@ export default async function handler(req, res) {
     const session = await response.json();
 
     if (!response.ok || !session.url) {
-      console.error('Stripe error:', session.error ? session.error.message : response.status);
+      const detail = session.error ? session.error.message : `HTTP ${response.status}`;
+      console.error('Stripe error:', detail);
+      // Add ?debug=1 to the URL to see the actual Stripe error instead of the
+      // friendly message. Buyers never see this; it just saves a trip to the logs.
+      if (req.query && req.query.debug) {
+        return res.status(502).send(`Stripe error: ${detail}`);
+      }
       return res.status(502).send('Unable to start checkout. Please try again or email info@marcowang.com.');
     }
 
