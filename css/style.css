@@ -2103,7 +2103,7 @@ footer {
 .drops-alert {
   display: inline-flex;
   align-items: center;
-  gap: 18px;
+  gap: 24px;
   padding: 13px 26px;
   margin-bottom: 36px;
   background: var(--accent);
@@ -2115,8 +2115,7 @@ footer {
   font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  padding-right: 18px;
-  border-right: 1px solid rgba(255,255,255,0.4);
+  opacity: 0.75;
   white-space: nowrap;
 }
 .drops-alert-text {
@@ -2133,10 +2132,7 @@ footer {
     margin-bottom: 28px;
   }
   .drops-alert-tag {
-    padding-right: 0;
-    padding-bottom: 10px;
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.4);
+    padding-bottom: 2px;
   }
   .drops-alert-text { font-size: 1rem; text-align: center; }
 }
