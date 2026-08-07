@@ -2167,9 +2167,97 @@ footer {
   color: var(--ink);
   transition: background 0.3s, color 0.3s;
 }
-.drops-card-link:hover .drops-card-btn {
+.drops-card-link:hover .drops-card-btn,
+.drops-card-btn:hover {
   background: var(--ink);
   color: var(--white);
+}
+.drops-card-btn {
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+}
+
+/* ─── DROPS ADD-ON TOGGLE ─── */
+.drops-addon {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  background: var(--cream);
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.drops-addon:hover { border-color: var(--accent); }
+.drops-addon:has(.drops-addon-check:checked) {
+  border-color: var(--accent);
+  background: rgba(176,122,91,0.07);
+}
+.drops-addon-check {
+  flex: none;
+  margin-top: 3px;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.drops-addon-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.drops-addon-title {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+.drops-addon-desc {
+  font-family: var(--body);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.drops-addon-price {
+  flex: none;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* ─── DROPS FLAT (description-only) CARD ─── */
+.drops-card-flat {
+  margin-top: 28px;
+  background: var(--cream);
+}
+.drops-card-flat:hover {
+  transform: none;
+  box-shadow: none;
+}
+.drops-eyebrow {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.drops-card-btn-ghost {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.drops-card-btn-ghost:hover {
+  background: var(--accent);
+  color: var(--white);
+  border-color: var(--accent);
 }
 
 @media (max-width: 1024px) {

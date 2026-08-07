@@ -84,25 +84,45 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 <!-- Products Grid -->
 <section class="drops-grid">
   <div class="drops-card rv">
-    <a href="/api/checkout?product=voucher" class="drops-card-link">
-      <div class="drops-card-image">
-        <img src="20251126_0158.webp" alt="MWP Portrait Session Voucher" loading="lazy">
+    <div class="drops-card-image">
+      <img src="20251126_0158.webp" alt="MWP Portrait Session Voucher" loading="lazy">
+    </div>
+    <div class="drops-card-info">
+      <h2 class="drops-card-title">MWP Portrait Session Voucher</h2>
+      <p class="drops-card-desc">1-hour on-location portrait session. 50+ edited images delivered. Voucher valid for one year from purchase. Travel fee applies for locations beyond 15 miles of 77008.</p>
+      <!-- SALE BLOCK — to end the sale: put $800 back in .drops-price, delete the
+           .drops-price-original and .drops-sale-badge spans, reset BASE_PRICE below,
+           and remove STRIPE_COUPON_VOUCHER from Vercel. -->
+      <div class="drops-card-pricing">
+        <span class="drops-price" id="dropsPrice">$600</span>
+        <span class="drops-price-original">$800</span>
+        <span class="drops-sale-badge">Save $200</span>
       </div>
-      <div class="drops-card-info">
-        <h2 class="drops-card-title">MWP Portrait Session Voucher</h2>
-        <p class="drops-card-desc">1-hour on-location portrait session. 50+ edited images delivered. Voucher valid for one year from purchase. Travel fee applies for locations beyond 15 miles of 77008.</p>
-        <!-- SALE BLOCK — to end the sale: put $800 back in .drops-price, delete the
-             .drops-price-original and .drops-sale-badge spans, reset SALE_VALUE below,
-             and remove STRIPE_COUPON_VOUCHER from Vercel. -->
-        <div class="drops-card-pricing">
-          <span class="drops-price">$600</span>
-          <span class="drops-price-original">$800</span>
-          <span class="drops-sale-badge">Save $200</span>
-        </div>
-        <p class="drops-tax-note">Texas sales tax applied at checkout</p>
-        <span class="drops-card-btn">Purchase</span>
-      </div>
-    </a>
+      <p class="drops-tax-note">Texas sales tax applied at checkout</p>
+
+      <!-- ADD-ON TOGGLE -->
+      <label class="drops-addon" for="addonStyling">
+        <input type="checkbox" id="addonStyling" class="drops-addon-check">
+        <span class="drops-addon-body">
+          <span class="drops-addon-title">Add on-site styling with Jordan</span>
+          <span class="drops-addon-desc">Hair styled on location, with makeup tweaks and refreshes throughout the session.</span>
+        </span>
+        <span class="drops-addon-price">+$150</span>
+      </label>
+
+      <a href="/api/checkout?product=voucher" class="drops-card-btn" id="purchaseBtn">Purchase</a>
+    </div>
+  </div>
+
+  <!-- STYLING ADD-ON — descriptive only; purchased via the toggle above -->
+  <div class="drops-card drops-card-flat rv">
+    <div class="drops-card-info">
+      <span class="drops-eyebrow">Add-On &nbsp;&bull;&nbsp; +$150</span>
+      <h2 class="drops-card-title">On-Site Styling with Jordan</h2>
+      <p class="drops-card-desc">Jordan is a licensed cosmetologist with nearly twenty years behind the chair and the owner of Flowe Collective in Houston. She styles your hair on location and stays through the shoot for makeup tweaks and refreshes, so the last frame looks as considered as the first.</p>
+      <p class="drops-card-desc">No separate booking &mdash; add it to your voucher at checkout.</p>
+      <button type="button" class="drops-card-btn drops-card-btn-ghost" id="addonJump">Add to my session</button>
+    </div>
   </div>
 </section>
 
@@ -143,13 +163,36 @@ document.querySelectorAll('.menu-overlay a').forEach(a => {
   a.addEventListener('click', () => document.getElementById('menuOverlay').classList.remove('open'));
 });
 
+// Pricing — keep in sync with the Stripe prices and the markup above.
+// BASE_PRICE is the current voucher price (set back to 800 when the sale ends).
+const BASE_PRICE  = 600;
+const ADDON_PRICE = 150;
+
+// Add-on toggle: updates the displayed total and the checkout link together.
+const addon     = document.getElementById('addonStyling');
+const priceEl   = document.getElementById('dropsPrice');
+const buyBtn    = document.getElementById('purchaseBtn');
+function syncAddon() {
+  const on = addon.checked;
+  priceEl.textContent = '$' + (BASE_PRICE + (on ? ADDON_PRICE : 0));
+  buyBtn.href = '/api/checkout?product=voucher' + (on ? '&addon=styling' : '');
+}
+addon.addEventListener('change', syncAddon);
+syncAddon();
+
+// "Add to my session" on the description card ticks the box and scrolls to it.
+document.getElementById('addonJump').addEventListener('click', () => {
+  addon.checked = true;
+  syncAddon();
+  addon.closest('.drops-addon').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
 // Purchase confirmation
-// SALE_VALUE: keep in sync with the price shown above (pre-tax) so Meta ads
-// report accurate ROAS. Set back to 800.00 when the sale ends.
-const SALE_VALUE = 600.00;
 if (new URLSearchParams(location.search).get('status') === 'success') {
   document.getElementById('dropsSuccess').style.display = 'block';
-  fbq('track', 'Purchase', { currency: 'USD', value: SALE_VALUE });
+  const params = new URLSearchParams(location.search);
+  const value = BASE_PRICE + (params.get('addon') ? ADDON_PRICE : 0);
+  fbq('track', 'Purchase', { currency: 'USD', value: value });
   history.replaceState(null, '', location.pathname);
 }
 

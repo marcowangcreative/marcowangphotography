@@ -5,6 +5,13 @@
 //   STRIPE_SECRET_KEY    - your Stripe secret key (sk_live_...)
 //   STRIPE_PRICE_VOUCHER - the Price ID (price_...) of the voucher product
 //
+// Optional — add-ons:
+//   STRIPE_PRICE_ADDON_STYLING - Price ID for "On-Site Styling with Jordan".
+//     Reached via /api/checkout?product=voucher&addon=styling. Added as its own
+//     line item, so it shows separately on the receipt. NOTE: give it its own
+//     Stripe tax category — a beauty service is not taxed the same way as
+//     photography in Texas, and leaving it uncategorized repeats the $0-tax bug.
+//
 // Optional — running a sale:
 //   STRIPE_COUPON_VOUCHER - a Coupon ID from Stripe. When set, it is applied
 //     automatically at checkout (no code for the buyer to type). To END the
@@ -22,6 +29,7 @@ const PRODUCTS = {
     name: 'MWP Portrait Session Voucher',
     priceEnv: 'STRIPE_PRICE_VOUCHER',
     couponEnv: 'STRIPE_COUPON_VOUCHER',
+    addons: ['styling'],
   },
   // Add future drops here, e.g.:
   // minis2027: {
@@ -29,6 +37,16 @@ const PRODUCTS = {
   //   priceEnv: 'STRIPE_PRICE_MINIS2027',
   //   couponEnv: 'STRIPE_COUPON_MINIS2027',
   // },
+};
+
+// Optional extras added as their own Stripe line item, so they stay separately
+// stated on the receipt — which also keeps a beauty service distinct from the
+// photography for sales-tax purposes.
+const ADDONS = {
+  styling: {
+    name: 'On-Site Styling with Jordan',
+    priceEnv: 'STRIPE_PRICE_ADDON_STYLING',
+  },
 };
 
 const SITE = 'https://www.marcowang.com';
@@ -50,15 +68,40 @@ export default async function handler(req, res) {
     return res.status(500).send('Missing price configuration');
   }
 
+  // Optional add-on, e.g. /api/checkout?product=voucher&addon=styling
+  const addonSlug = req.query && req.query.addon;
+  let addon = null;
+  if (addonSlug) {
+    const allowed = product.addons || [];
+    if (!allowed.includes(addonSlug) || !ADDONS[addonSlug]) {
+      return res.status(404).send('Unknown add-on');
+    }
+    const addonPriceId = process.env[ADDONS[addonSlug].priceEnv];
+    if (!addonPriceId) {
+      return res.status(500).send('Missing add-on price configuration');
+    }
+    addon = { slug: addonSlug, priceId: addonPriceId, name: ADDONS[addonSlug].name };
+  }
+
+  const description = addon ? `${product.name} + ${addon.name}` : product.name;
+
   const params = new URLSearchParams();
   params.append('mode', 'payment');
   params.append('line_items[0][price]', priceId);
   params.append('line_items[0][quantity]', '1');
+  if (addon) {
+    params.append('line_items[1][price]', addon.priceId);
+    params.append('line_items[1][quantity]', '1');
+  }
   // This is what makes the charge readable in the Stripe payments list:
-  params.append('payment_intent_data[description]', product.name);
+  params.append('payment_intent_data[description]', description);
   params.append('payment_intent_data[metadata][product]', slug);
   params.append('metadata[product]', slug);
-  params.append('success_url', `${SITE}/drops?status=success`);
+  if (addon) {
+    params.append('payment_intent_data[metadata][addon]', addon.slug);
+    params.append('metadata[addon]', addon.slug);
+  }
+  params.append('success_url', `${SITE}/drops?status=success${addon ? `&addon=${addon.slug}` : ''}`);
   params.append('cancel_url', `${SITE}/drops`);
   params.append('automatic_tax[enabled]', 'true');
 
