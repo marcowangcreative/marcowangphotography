@@ -65,11 +65,6 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
   <a href="contact.html">Check Availability</a>
 </div>
 
-<!-- Purchase confirmation banner (shown after successful checkout) -->
-<div id="dropsSuccess" style="display:none; margin: 24px auto 0; max-width: 640px; padding: 14px 20px; text-align: center; font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.08em; background: #f4f1ec; color: #3a3a34; border: 1px solid #ddd6ca;">
-  Thank you — your purchase is confirmed. A receipt is on its way to your inbox.
-</div>
-
 <!-- Page Header -->
 <section class="drops-header">
   <!-- SALE ALERT — delete this whole div when the sale ends -->
@@ -111,6 +106,17 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
       </label>
 
       <a href="/api/checkout?product=voucher" class="drops-card-btn" id="purchaseBtn">Purchase</a>
+    </div>
+  </div>
+
+  <!-- STYLING ADD-ON — descriptive only; purchased via the toggle above -->
+  <div class="drops-card drops-card-flat rv">
+    <div class="drops-card-info">
+      <span class="drops-eyebrow">Add-On &nbsp;&bull;&nbsp; +$150</span>
+      <h2 class="drops-card-title">On-Site Styling with Jordan</h2>
+      <p class="drops-card-desc">Jordan is a licensed cosmetologist with nearly twenty years behind the chair and the owner of Flowe Collective in Houston. She styles your hair on location and stays through the shoot for makeup tweaks and refreshes, so the last frame looks as considered as the first.</p>
+      <p class="drops-card-desc">No separate booking &mdash; add it to your voucher at checkout.</p>
+      <button type="button" class="drops-card-btn drops-card-btn-ghost" id="addonJump">Add to my session</button>
     </div>
   </div>
 </section>
@@ -169,14 +175,14 @@ function syncAddon() {
 addon.addEventListener('change', syncAddon);
 syncAddon();
 
-// Purchase confirmation
-if (new URLSearchParams(location.search).get('status') === 'success') {
-  document.getElementById('dropsSuccess').style.display = 'block';
-  const params = new URLSearchParams(location.search);
-  const value = BASE_PRICE + (params.get('addon') ? ADDON_PRICE : 0);
-  fbq('track', 'Purchase', { currency: 'USD', value: value });
-  history.replaceState(null, '', location.pathname);
-}
+// "Add to my session" on the description card ticks the box and scrolls to it.
+document.getElementById('addonJump').addEventListener('click', () => {
+  addon.checked = true;
+  syncAddon();
+  addon.closest('.drops-addon').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+// Purchase confirmation now lives on /thank-you, which is Stripe's success_url.
 
 // Scroll reveal
 const rvEls = document.querySelectorAll('.rv');

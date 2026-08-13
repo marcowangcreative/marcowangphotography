@@ -51,12 +51,8 @@ const ADDONS = {
 
 const SITE = 'https://www.marcowang.com';
 
-// Env vars pasted into Vercel sometimes carry stray whitespace (a trailing
-// space once broke the styling add-on with "No such price"). Trim everything.
-const env = (name) => (process.env[name] || '').trim() || null;
-
 export default async function handler(req, res) {
-  const STRIPE_KEY = env('STRIPE_SECRET_KEY');
+  const STRIPE_KEY = process.env.STRIPE_SECRET_KEY;
   if (!STRIPE_KEY) {
     return res.status(500).send('Server misconfigured');
   }
@@ -67,7 +63,7 @@ export default async function handler(req, res) {
     return res.status(404).send('Unknown product');
   }
 
-  const priceId = env(product.priceEnv);
+  const priceId = process.env[product.priceEnv];
   if (!priceId) {
     return res.status(500).send('Missing price configuration');
   }
@@ -80,7 +76,7 @@ export default async function handler(req, res) {
     if (!allowed.includes(addonSlug) || !ADDONS[addonSlug]) {
       return res.status(404).send('Unknown add-on');
     }
-    const addonPriceId = env(ADDONS[addonSlug].priceEnv);
+    const addonPriceId = process.env[ADDONS[addonSlug].priceEnv];
     if (!addonPriceId) {
       return res.status(500).send('Missing add-on price configuration');
     }
@@ -105,13 +101,13 @@ export default async function handler(req, res) {
     params.append('payment_intent_data[metadata][addon]', addon.slug);
     params.append('metadata[addon]', addon.slug);
   }
-  params.append('success_url', `${SITE}/drops?status=success${addon ? `&addon=${addon.slug}` : ''}`);
+  params.append('success_url', `${SITE}/thank-you${addon ? `?addon=${addon.slug}` : ''}`);
   params.append('cancel_url', `${SITE}/drops`);
   params.append('automatic_tax[enabled]', 'true');
 
   // Sale: auto-apply the coupon if one is configured. Stripe does not allow
   // discounts[] and allow_promotion_codes together, so this is either/or.
-  const couponId = product.couponEnv ? env(product.couponEnv) : null;
+  const couponId = product.couponEnv ? process.env[product.couponEnv] : null;
   if (couponId) {
     params.append('discounts[0][coupon]', couponId);
   }
