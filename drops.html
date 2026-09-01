@@ -102,17 +102,6 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
       <a href="/api/checkout?product=voucher" class="drops-card-btn" id="purchaseBtn">Purchase</a>
     </div>
   </div>
-
-  <!-- STYLING ADD-ON — descriptive only; purchased via the toggle above -->
-  <div class="drops-card drops-card-flat rv">
-    <div class="drops-card-info">
-      <span class="drops-eyebrow">Add-On &nbsp;&bull;&nbsp; +$150</span>
-      <h2 class="drops-card-title">On-Site Styling with Jordan</h2>
-      <p class="drops-card-desc">Jordan is a licensed cosmetologist with nearly twenty years behind the chair and the owner of Flowe Collective in Houston. She styles your hair on location and stays through the shoot for makeup tweaks and refreshes, so the last frame looks as considered as the first.</p>
-      <p class="drops-card-desc">No separate booking &mdash; add it to your voucher at checkout.</p>
-      <button type="button" class="drops-card-btn drops-card-btn-ghost" id="addonJump">Add to my session</button>
-    </div>
-  </div>
 </section>
 
 <!-- Footer -->
@@ -169,13 +158,6 @@ function syncAddon() {
 }
 addon.addEventListener('change', syncAddon);
 syncAddon();
-
-// "Add to my session" on the description card ticks the box and scrolls to it.
-document.getElementById('addonJump').addEventListener('click', () => {
-  addon.checked = true;
-  syncAddon();
-  addon.closest('.drops-addon').scrollIntoView({ behavior: 'smooth', block: 'center' });
-});
 
 // Purchase confirmation now lives on /thank-you, which is Stripe's success_url.
 
