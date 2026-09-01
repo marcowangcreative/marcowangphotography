@@ -67,11 +67,6 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 
 <!-- Page Header -->
 <section class="drops-header">
-  <!-- SALE ALERT — delete this whole div when the sale ends -->
-  <div class="drops-alert" role="status">
-    <span class="drops-alert-tag">Fall 2026</span>
-    <span class="drops-alert-text">$200 off session vouchers &mdash; now $600</span>
-  </div>
   <h1 class="drops-title">Limited Drops</h1>
   <p class="drops-subtitle">Session vouchers &amp; seasonal offerings</p>
 </section>
@@ -85,13 +80,12 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
     <div class="drops-card-info">
       <h2 class="drops-card-title">MWP Portrait Session Voucher</h2>
       <p class="drops-card-desc">1-hour on-location portrait session. 50+ edited images delivered. Voucher valid for one year from purchase. Travel fee applies for locations beyond 15 miles of 77008.</p>
-      <!-- SALE BLOCK — to end the sale: put $800 back in .drops-price, delete the
-           .drops-price-original and .drops-sale-badge spans, reset BASE_PRICE below,
-           and remove STRIPE_COUPON_VOUCHER from Vercel. -->
+      <!-- TO RUN A SALE: create a promotion code in Stripe and announce it.
+           Buyers enter it at checkout — no changes needed on this page.
+           If you want the sale shown here too, add a .drops-price-original
+           span with the old price and a .drops-sale-badge with the saving. -->
       <div class="drops-card-pricing">
-        <span class="drops-price" id="dropsPrice">$600</span>
-        <span class="drops-price-original">$800</span>
-        <span class="drops-sale-badge">Save $200</span>
+        <span class="drops-price" id="dropsPrice">$800</span>
       </div>
       <p class="drops-tax-note">Texas sales tax applied at checkout</p>
 
@@ -159,8 +153,9 @@ document.querySelectorAll('.menu-overlay a').forEach(a => {
 });
 
 // Pricing — keep in sync with the Stripe prices and the markup above.
-// BASE_PRICE is the current voucher price (set back to 800 when the sale ends).
-const BASE_PRICE  = 600;
+// BASE_PRICE is the list price. Promotion codes are applied at Stripe checkout,
+// so the discounted amount isn't known here.
+const BASE_PRICE  = 800;
 const ADDON_PRICE = 150;
 
 // Add-on toggle: updates the displayed total and the checkout link together.

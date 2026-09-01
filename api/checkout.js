@@ -12,10 +12,12 @@
 //     Stripe tax category — a beauty service is not taxed the same way as
 //     photography in Texas, and leaving it uncategorized repeats the $0-tax bug.
 //
-// Optional — running a sale:
-//   STRIPE_COUPON_VOUCHER - a Coupon ID from Stripe. When set, it is applied
-//     automatically at checkout (no code for the buyer to type). To END the
-//     sale, delete this env var and redeploy — nothing else changes.
+// Running a sale:
+//   Create a Coupon in Stripe, then attach a Promotion Code to it (the short
+//   code buyers type, e.g. FALL200). Nothing to configure here — checkout
+//   always shows the "Add promotion code" field. Ending a sale means
+//   deactivating the promotion code in Stripe; no deploy needed.
+//   STRIPE_COUPON_VOUCHER is no longer read; a leftover env var is harmless.
 //
 // Stripe Tax is always on. Each product must carry its own tax code
 // (the voucher uses txcd_10501000, Digital Photographs/Images) — without
@@ -28,14 +30,12 @@ const PRODUCTS = {
   voucher: {
     name: 'MWP Portrait Session Voucher',
     priceEnv: 'STRIPE_PRICE_VOUCHER',
-    couponEnv: 'STRIPE_COUPON_VOUCHER',
     addons: ['styling'],
   },
   // Add future drops here, e.g.:
   // minis2027: {
   //   name: 'MWP 2027 Mini Sessions',
   //   priceEnv: 'STRIPE_PRICE_MINIS2027',
-  //   couponEnv: 'STRIPE_COUPON_MINIS2027',
   // },
 };
 
@@ -105,12 +105,11 @@ export default async function handler(req, res) {
   params.append('cancel_url', `${SITE}/drops`);
   params.append('automatic_tax[enabled]', 'true');
 
-  // Sale: auto-apply the coupon if one is configured. Stripe does not allow
-  // discounts[] and allow_promotion_codes together, so this is either/or.
-  const couponId = product.couponEnv ? process.env[product.couponEnv] : null;
-  if (couponId) {
-    params.append('discounts[0][coupon]', couponId);
-  }
+  // Discounts are customer-entered promotion codes, not auto-applied coupons.
+  // Stripe shows an "Add promotion code" field at checkout. A code that is
+  // expired, deleted, or mistyped simply doesn't apply — it can never break
+  // checkout the way a missing auto-applied coupon does.
+  params.append('allow_promotion_codes', 'true');
 
   try {
     const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {

@@ -113,7 +113,9 @@ src="https://www.facebook.com/tr?id=786554944176617&ev=PageView&noscript=1"
 
 <script>
 // Pricing — keep in sync with drops.html and the Stripe prices.
-const BASE_PRICE  = 600;
+// Note: this is list price. If the buyer used a promotion code, the Meta
+// conversion will over-report by the discount amount.
+const BASE_PRICE  = 800;
 const ADDON_PRICE = 150;
 
 const params = new URLSearchParams(location.search);
